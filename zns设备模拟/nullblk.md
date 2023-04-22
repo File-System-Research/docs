@@ -1,12 +1,18 @@
 ## Null Block Device
 
-[toc]
-
 [nullblk](https://www.kernel.org/doc/html/latest/block/null_blk.html) 即 Null block device driver，空块设备（`/dev/nullb*`），用于对各种块层实现进行基准测试。它模拟 `X` GB 大小的块设备。**它不执行任何读/写操作**，只是在请求队列中将它们标记为完成，用于对各种 block-layer 实现进行基准测试。
 
 nullblk 已经被合入 Linux Kernel 主线，具体用法可以参考[内核文档](https://www.kernel.org/doc/html/latest/block/null_blk.html)。
 
 TODO: [nullblk 的工作原理分析](https://blog.csdn.net/jasonactions/article/details/109578901)
+
+![img](nullblk.assets/103659_ZRp5_2896894.png)
+
+![img](nullblk.assets/103755_obeF_2896894.png)
+
+![img](nullblk.assets/acf0c709508b33b7fcc6e3787b2cc9845c3.jpg)
+
+https://blog.csdn.net/weixin_34216107/article/details/92562214
 
 <details> <summary>Null block device driver</summary>
 <pre><code>
@@ -87,6 +93,8 @@ zone_nr_conv=[nr_conv]: Default: 0
   zone_nr_conv >= nr_zones, it will be reduced to nr_zones - 1.
 </code></pre>
 </details>
+
+
 可以说，使用 nullblk 并不能在仿真中测量系统的整体性能，它更多的是仿真了 Linux Kernel 中外存的队列执行情况。所以，使用 nullblk 只能用于测试代码能否跑通，并不能测量其具体性能指标等。
 
 ### nullblk 的使用和修改
