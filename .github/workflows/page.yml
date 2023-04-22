@@ -21,6 +21,10 @@ jobs:
 
       - run: mdbook build
 
+      - run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+
       - name: Push to development branch
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: ad-m/github-push-action@master
