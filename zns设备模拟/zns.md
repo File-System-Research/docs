@@ -31,7 +31,7 @@ install Fedora can be found [here](https://docs.fedoraproject.org/en-US/fedora/f
 uname -r
 ```
 
-![image-20230410163339792](.\img\kernel_version.png)
+![image-20230410163339792](./img/kernel_version.png)
 
 #### 2.用以下两条命令来检测是否支持Zoned Block Device:
 
@@ -40,7 +40,7 @@ cat /boot/config-`uname -r` | grep CONFIG_BLK_DEV_ZONED
 cat /lib/modules/`uname -r`/config | grep CONFIG_BLK_DEV_ZONED
 ```
 
-![image-20230410165650341](.\img\CONFIG_BLK_DEV_ZONED.png)
+![image-20230410165650341](./img/CONFIG_BLK_DEV_ZONED.png)
 
 #### 3.检查系统配置
 
@@ -55,7 +55,7 @@ linux内核并不保证命令到达设备的顺序，这意味到达磁盘的写
 [none] mq-deadline kyber bfq
 ```
 
-![image-20230410165650341](.\img\write_ordering_control.png)
+![image-20230410165650341](./img/write_ordering_control.png)
 
 如果不是mq-deadline的调度器，需要切换成mq-deadline的调度器：
 
@@ -121,13 +121,13 @@ modprobe null_blk nr_devices=1 zoned=1
 
 可以用lsblk来查看一下信息：
 
-![image-20230410184623049](.\img\create_null_blk.png)
+![image-20230410184623049](./img/create_null_blk.png)
 
 可以看到我们创建了一个nullb0的设备。
 
 还可以用zbd来查看分区块设备的信息：
 
-![image-20230410184623049](.\img\null_blk_zone_info.png)
+![image-20230410184623049](./img/null_blk_zone_info.png)
 
 删除一个由`modprobe`创建（且不由`configfs`创建）的模拟设备可用以下方法删除：
 
@@ -374,7 +374,7 @@ sudo ./nullblk-zoned.sh 512 128 124 0 32 12 12
 
 这样一个zbd就在建立好了，可以用lsblk命令查看一下，现在应该有了一个叫做/dev/nullb0的设备，不过是空的，再用gzbd-viewer查看一下这个设备：
 
-![image-20230410184623049](.\img\empty_zone_block_device.png)
+![image-20230410184623049](./img/empty_zone_block_device.png)
 
 之后我们可以利用fio向里面写入数据，首先下载fio：
 
@@ -394,7 +394,7 @@ sudo fio --name=test --filename=/dev/nullb0 --zonemode=zbd --direct=1 --runtime=
 
 可以用gzbd-viewer查看zbd的情况：
 
-![image-20230410184623049](.\img\fio_zbd.png)
+![image-20230410184623049](./img/fio_zbd.png)
 
 最后我们利用脚本在nullb0上创建一个zenfs文件系统：
 
@@ -427,11 +427,11 @@ echo deadline > /sys/class/block/$DEV/queue/scheduler
 
 用gzbd-viewer看一下写入数据：
 
-![image-20230410184623049](.\img\zen_fs.png)
+![image-20230410184623049](./img/zen_fs.png)
 
 在db_bench上进行测试：
 
-![image-20230410184623049](.\img\db_bench.png)
+![image-20230410184623049](./img/db_bench.png)
 
 在zenfs的tests目录中可以对文件系统进行测试。
 
