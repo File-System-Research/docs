@@ -1,7 +1,9 @@
 # Table of contents
 
 * [docs](README.md)
-* [ZNS设备模拟](zns设备模拟/zns.md)
+* [ZNS设备模拟](zns设备模拟/README.md)
+  * [ZNS](zns设备模拟/zns.md)
+  * [nullblk](zns设备模拟/nullblk.md)
 * [调研](调研/README.md)
   * [Flash](调研/flash.md)
   * [Flash 嵌入式文件系统](<调研/Flash 嵌入式文件系统.md>)
