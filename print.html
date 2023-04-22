@@ -482,10 +482,13 @@ echo deadline &gt; /sys/class/block/$DEV/queue/scheduler
 <p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/./img/db_bench.png" alt="image-20230410184623049" /></p>
 <p>在zenfs的tests目录中可以对文件系统进行测试。</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="null-block-device"><a class="header" href="#null-block-device">Null Block Device</a></h2>
-<p>[toc]</p>
 <p><a href="https://www.kernel.org/doc/html/latest/block/null_blk.html">nullblk</a> 即 Null block device driver，空块设备（<code>/dev/nullb*</code>），用于对各种块层实现进行基准测试。它模拟 <code>X</code> GB 大小的块设备。<strong>它不执行任何读/写操作</strong>，只是在请求队列中将它们标记为完成，用于对各种 block-layer 实现进行基准测试。</p>
 <p>nullblk 已经被合入 Linux Kernel 主线，具体用法可以参考<a href="https://www.kernel.org/doc/html/latest/block/null_blk.html">内核文档</a>。</p>
 <p>TODO: <a href="https://blog.csdn.net/jasonactions/article/details/109578901">nullblk 的工作原理分析</a></p>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/nullblk.assets/103659_ZRp5_2896894.png" alt="img" /></p>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/nullblk.assets/103755_obeF_2896894.png" alt="img" /></p>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/nullblk.assets/acf0c709508b33b7fcc6e3787b2cc9845c3.jpg" alt="img" /></p>
+<p>https://blog.csdn.net/weixin_34216107/article/details/92562214</p>
 <details> <summary>Null block device driver</summary>
 <pre><code>
 Null block device driver
@@ -565,7 +568,7 @@ zone_nr_conv=[nr_conv]: Default: 0
   zone_nr_conv >= nr_zones, it will be reduced to nr_zones - 1.
 </code></pre>
 </details>
-可以说，使用 nullblk 并不能在仿真中测量系统的整体性能，它更多的是仿真了 Linux Kernel 中外存的队列执行情况。所以，使用 nullblk 只能用于测试代码能否跑通，并不能测量其具体性能指标等。
+<p>可以说，使用 nullblk 并不能在仿真中测量系统的整体性能，它更多的是仿真了 Linux Kernel 中外存的队列执行情况。所以，使用 nullblk 只能用于测试代码能否跑通，并不能测量其具体性能指标等。</p>
 <h3 id="nullblk-的使用和修改"><a class="header" href="#nullblk-的使用和修改">nullblk 的使用和修改</a></h3>
 <p>由于 ZNS 实物申请需要一段时间，或者无法申请到，所以我们需要一个仿真环境来进行我们的开发流程。nullblk 可以仿真块设备，并可以设置为只能顺序写的模式，正好仿真 ZNS 中的硬件 Zones。</p>
 <h4 id="使用-nullblk"><a class="header" href="#使用-nullblk">使用 nullblk</a></h4>
