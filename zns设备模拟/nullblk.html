@@ -1,0 +1,344 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>nullblk - AquaFS Docs</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> docs</a></li><li class="chapter-item expanded "><a href="../zns设备模拟/index.html"><strong aria-hidden="true">2.</strong> ZNS设备模拟</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zns设备模拟/zns.html"><strong aria-hidden="true">2.1.</strong> ZNS</a></li><li class="chapter-item expanded "><a href="../zns设备模拟/nullblk.html" class="active"><strong aria-hidden="true">2.2.</strong> nullblk</a></li></ol></li><li class="chapter-item expanded "><a href="../调研/index.html"><strong aria-hidden="true">3.</strong> 调研</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../调研/flash.html"><strong aria-hidden="true">3.1.</strong> Flash</a></li><li class="chapter-item expanded "><a href="../调研/Flash 嵌入式文件系统.html"><strong aria-hidden="true">3.2.</strong> Flash 嵌入式文件系统</a></li><li class="chapter-item expanded "><a href="../调研/f2fs.html"><strong aria-hidden="true">3.3.</strong> F2FS</a></li><li class="chapter-item expanded "><a href="../调研/zns.html"><strong aria-hidden="true">3.4.</strong> ZNS</a></li><li class="chapter-item expanded "><a href="../调研/zone分配策略.html"><strong aria-hidden="true">3.5.</strong> zone分配策略</a></li></ol></li><li class="chapter-item expanded "><a href="../题目描述与分析/index.html"><strong aria-hidden="true">4.</strong> 题目描述与分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../题目描述与分析/题目分析.html"><strong aria-hidden="true">4.1.</strong> 题目分析</a></li><li class="chapter-item expanded "><a href="../题目描述与分析/往年实现分析.html"><strong aria-hidden="true">4.2.</strong> 往年实现分析</a></li></ol></li><li class="chapter-item expanded "><a href="../问题列表.html"><strong aria-hidden="true">5.</strong> 问题列表</a></li><li class="chapter-item expanded "><a href="../研究方向/index.html"><strong aria-hidden="true">6.</strong> 研究方向</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../研究方向/RAID.html"><strong aria-hidden="true">6.1.</strong> RAID</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AquaFS Docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="null-block-device"><a class="header" href="#null-block-device">Null Block Device</a></h2>
+<p>[toc]</p>
+<p><a href="https://www.kernel.org/doc/html/latest/block/null_blk.html">nullblk</a> 即 Null block device driver，空块设备（<code>/dev/nullb*</code>），用于对各种块层实现进行基准测试。它模拟 <code>X</code> GB 大小的块设备。它不执行任何读/写操作，只是在请求队列中将它们标记为完成。</p>
+<p>nullblk 已经被合入 Linux Kernel 主线，具体用法可以参考<a href="https://www.kernel.org/doc/html/latest/block/null_blk.html">内核文档</a>。</p>
+<p>TODO: <a href="https://blog.csdn.net/jasonactions/article/details/109578901">nullblk 的工作原理分析</a></p>
+<details> <summary>Null block device driver</summary>
+<pre><code>
+Null block device driver
+==================================
+I. Overview
+The null block device (/dev/nullb*) is used for benchmarking the various
+block-layer implementations. It emulates a block device of X gigabytes in size.
+The following instances are possible:
+  Single-queue block-layer
+    - Request-based.
+    - Single submission queue per device.
+    - Implements IO scheduling algorithms (CFQ, Deadline, noop).
+  Multi-queue block-layer
+    - Request-based.
+    - Configurable submission queues per device.
+  No block-layer (Known as bio-based)
+    - Bio-based. IO requests are submitted directly to the device driver.
+    - Directly accepts bio data structure and returns them.
+All of them have a completion queue for each core in the system.
+II. Module parameters applicable for all instances:
+queue_mode=[0-2]: Default: 2-Multi-queue
+  Selects which block-layer the module should instantiate with.
+  0: Bio-based.
+  1: Single-queue.
+  2: Multi-queue.
+home_node=[0--nr_nodes]: Default: NUMA_NO_NODE
+  Selects what CPU node the data structures are allocated from.
+gb=[Size in GB]: Default: 250GB
+  The size of the device reported to the system.
+bs=[Block size (in bytes)]: Default: 512 bytes
+  The block size reported to the system.
+nr_devices=[Number of devices]: Default: 1
+  Number of block devices instantiated. They are instantiated as /dev/nullb0,
+  etc.
+irqmode=[0-2]: Default: 1-Soft-irq
+  The completion mode used for completing IOs to the block-layer.
+  0: None.
+  1: Soft-irq. Uses IPI to complete IOs across CPU nodes. Simulates the overhead
+     when IOs are issued from another CPU node than the home the device is
+     connected to.
+  2: Timer: Waits a specific period (completion_nsec) for each IO before
+     completion.
+completion_nsec=[ns]: Default: 10,000ns
+  Combined with irqmode=2 (timer). The time each completion event must wait.
+submit_queues=[1..nr_cpus]:
+  The number of submission queues attached to the device driver. If unset, it
+  defaults to 1. For multi-queue, it is ignored when use_per_node_hctx module
+  parameter is 1.
+hw_queue_depth=[0..qdepth]: Default: 64
+  The hardware queue depth of the device.
+III: Multi-queue specific parameters
+use_per_node_hctx=[0/1]: Default: 0
+  0: The number of submit queues are set to the value of the submit_queues
+     parameter.
+  1: The multi-queue block layer is instantiated with a hardware dispatch
+     queue for each CPU node in the system.
+no_sched=[0/1]: Default: 0
+  0: nullb* use default blk-mq io scheduler.
+  1: nullb* doesn't use io scheduler.
+blocking=[0/1]: Default: 0
+  0: Register as a non-blocking blk-mq driver device.
+  1: Register as a blocking blk-mq driver device, null_blk will set
+     the BLK_MQ_F_BLOCKING flag, indicating that it sometimes/always
+     needs to block in its ->queue_rq() function.
+shared_tags=[0/1]: Default: 0
+  0: Tag set is not shared.
+  1: Tag set shared between devices for blk-mq. Only makes sense with
+     nr_devices > 1, otherwise there's no tag set to share.
+zoned=[0/1]: Default: 0
+  0: Block device is exposed as a random-access block device.
+  1: Block device is exposed as a host-managed zoned block device. Requires
+     CONFIG_BLK_DEV_ZONED.
+zone_size=[MB]: Default: 256
+  Per zone size when exposed as a zoned block device. Must be a power of two.
+zone_nr_conv=[nr_conv]: Default: 0
+  The number of conventional zones to create when block device is zoned.  If
+  zone_nr_conv >= nr_zones, it will be reduced to nr_zones - 1.
+</code></pre>
+</details>
+<h3 id="nullblk-的使用和修改"><a class="header" href="#nullblk-的使用和修改">nullblk 的使用和修改</a></h3>
+<p>由于 ZNS 实物申请需要一段时间，或者无法申请到，所以我们需要一个仿真环境来进行我们的开发流程。nullblk 可以仿真块设备，并可以设置为只能顺序写的模式，正好仿真 ZNS 中的硬件 Zones。</p>
+<h4 id="使用-nullblk"><a class="header" href="#使用-nullblk">使用 nullblk</a></h4>
+<p>在测试中，可以方便地用脚本调用 Linux Kernel 的系统调用来创建 nullblk。</p>
+<pre><code class="language-shell">#!/bin/bash
+
+if [ $# != 4 ]; then
+        echo &quot;Usage: $0 &lt;sect size (B)&gt; &lt;zone size (MB)&gt; &lt;nr conv zones&gt; &lt;nr seq zones&gt;&quot;
+        exit 1
+fi
+
+scriptdir=$(cd $(dirname &quot;$0&quot;) &amp;&amp; pwd)
+
+modprobe null_blk nr_devices=0 || return $?
+
+function create_zoned_nullb()
+{
+        local nid=0
+        local bs=$1
+        local zs=$2
+        local nr_conv=$3
+        local nr_seq=$4
+
+        cap=$(( zs * (nr_conv + nr_seq) ))
+
+        while [ 1 ]; do
+                if [ ! -b &quot;/dev/nullb$nid&quot; ]; then
+                        break
+                fi
+                nid=$(( nid + 1 ))
+        done
+
+        dev=&quot;/sys/kernel/config/nullb/nullb$nid&quot;
+        mkdir &quot;$dev&quot;
+
+        echo $bs &gt; &quot;$dev&quot;/blocksize
+        echo 0 &gt; &quot;$dev&quot;/completion_nsec
+        echo 0 &gt; &quot;$dev&quot;/irqmode
+        echo 2 &gt; &quot;$dev&quot;/queue_mode
+        echo 1024 &gt; &quot;$dev&quot;/hw_queue_depth
+        echo 1 &gt; &quot;$dev&quot;/memory_backed
+        echo 1 &gt; &quot;$dev&quot;/zoned
+
+        echo $cap &gt; &quot;$dev&quot;/size
+        echo $zs &gt; &quot;$dev&quot;/zone_size
+        echo $nr_conv &gt; &quot;$dev&quot;/zone_nr_conv
+
+        echo 1 &gt; &quot;$dev&quot;/power
+
+        echo mq-deadline &gt; /sys/block/nullb$nid/queue/scheduler
+
+        echo &quot;$nid&quot;
+}
+
+nulldev=$(create_zoned_nullb $1 $2 $3 $4)
+echo &quot;Created /dev/nullb$nulldev&quot;
+</code></pre>
+<p>保存为 <code>nullblk-zoned.sh</code>，执行</p>
+<pre><code class="language-shell">sudo ./nullblk-zoned.sh 4096 128 64 64
+</code></pre>
+<p>则可以创建一个 8GiB 的仿真 ZNS 磁盘。</p>
+<p>在代码中，ZNS </p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../zns设备模拟/zns.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../调研/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../zns设备模拟/zns.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../调研/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
