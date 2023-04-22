@@ -1,0 +1,1025 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>AquaFS Docs</title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> docs</a></li><li class="chapter-item expanded "><a href="zns设备模拟/zns.html"><strong aria-hidden="true">2.</strong> ZNS设备模拟</a></li><li class="chapter-item expanded "><a href="调研/index.html"><strong aria-hidden="true">3.</strong> 调研</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="调研/flash.html"><strong aria-hidden="true">3.1.</strong> Flash</a></li><li class="chapter-item expanded "><a href="调研/Flash 嵌入式文件系统.html"><strong aria-hidden="true">3.2.</strong> Flash 嵌入式文件系统</a></li><li class="chapter-item expanded "><a href="调研/f2fs.html"><strong aria-hidden="true">3.3.</strong> F2FS</a></li><li class="chapter-item expanded "><a href="调研/zns.html"><strong aria-hidden="true">3.4.</strong> ZNS</a></li><li class="chapter-item expanded "><a href="调研/zone分配策略.html"><strong aria-hidden="true">3.5.</strong> zone分配策略</a></li></ol></li><li class="chapter-item expanded "><a href="题目描述与分析/index.html"><strong aria-hidden="true">4.</strong> 题目描述与分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="题目描述与分析/题目分析.html"><strong aria-hidden="true">4.1.</strong> 题目分析</a></li><li class="chapter-item expanded "><a href="题目描述与分析/往年实现分析.html"><strong aria-hidden="true">4.2.</strong> 往年实现分析</a></li></ol></li><li class="chapter-item expanded "><a href="问题列表.html"><strong aria-hidden="true">5.</strong> 问题列表</a></li><li class="chapter-item expanded "><a href="研究方向/index.html"><strong aria-hidden="true">6.</strong> 研究方向</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="研究方向/RAID.html"><strong aria-hidden="true">6.1.</strong> RAID</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AquaFS Docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="docs"><a class="header" href="#docs">docs</a></h1>
+<p><a href="https://www.chiro.work/OS-91d55007e60b46c18ac394c68c99a5b7">chiro的选题调研</a></p>
+<p>分布式文件系统测试方法与测试工具:
+https://zhuanlan.zhihu.com/p/36415684
+https://blog.csdn.net/yanbin125789/article/details/128275524</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="zns设备模拟"><a class="header" href="#zns设备模拟">ZNS设备模拟</a></h1>
+<h2 id="1setting-up-a-zoned-storage-compatible-linux-system"><a class="header" href="#1setting-up-a-zoned-storage-compatible-linux-system">1.Setting-up a Zoned Storage Compatible Linux System</a></h2>
+<h3 id="overview"><a class="header" href="#overview">Overview</a></h3>
+<ol>
+<li><a href="https://zonedstorage.io/docs/getting-started/linux#linux-distribution">A compatible Linux distribution</a> with the right kernel version</li>
+<li><a href="https://zonedstorage.io/docs/getting-started/linux#checking-a-systems-configuration">Support for zoned block devices</a></li>
+<li><a href="https://zonedstorage.io/docs/getting-started/linux#system-utilities">Necessary system utilities</a></li>
+</ol>
+<p>配置ZNS需要正确的内核版本以能够支持相应的版本，首先建立可以和zoned storage相兼容的linux system。</p>
+<h3 id="linux-distribution"><a class="header" href="#linux-distribution">Linux Distribution</a></h3>
+<p>一些linux发行版本提供了zoned storage的支持，这些发行版本的常规安装提供了可以支持SMR硬盘和ZNS SSDs的支持。</p>
+<p>这里采用Ubuntu 20.04跑在VMWare上的虚拟机作为安装的linux system。</p>
+<p>当然也可以用其他的版本,下载的发行版本需要满足两个条件：</p>
+<ol>
+<li>The kernel version <a href="https://zonedstorage.io/docs/getting-started/linux#checking-the-kernel-version">must be 4.10.0 or higher</a>.</li>
+<li>The kernel configuration option <a href="https://zonedstorage.io/docs/getting-started/linux#checking-zoned-block-device-support"><em>CONFIG_BLK_DEV_ZONED</em> must be enabled</a>.</li>
+</ol>
+<p>install Fedora can be found <a href="https://docs.fedoraproject.org/en-US/fedora/f33/install-guide/">here</a>.</p>
+<h4 id="1测试内核版本"><a class="header" href="#1测试内核版本">1.测试内核版本：</a></h4>
+<pre><code class="language-shell">uname -r
+</code></pre>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/./img/kernel_version.png" alt="image-20230410163339792" /></p>
+<h4 id="2用以下两条命令来检测是否支持zoned-block-device"><a class="header" href="#2用以下两条命令来检测是否支持zoned-block-device">2.用以下两条命令来检测是否支持Zoned Block Device:</a></h4>
+<pre><code class="language-shell">cat /boot/config-`uname -r` | grep CONFIG_BLK_DEV_ZONED
+cat /lib/modules/`uname -r`/config | grep CONFIG_BLK_DEV_ZONED
+</code></pre>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/./img/CONFIG_BLK_DEV_ZONED.png" alt="image-20230410165650341" /></p>
+<h4 id="3检查系统配置"><a class="header" href="#3检查系统配置">3.检查系统配置</a></h4>
+<h5 id="write-ordering-control"><a class="header" href="#write-ordering-control">write ordering control</a></h5>
+<p>linux内核并不保证命令到达设备的顺序，这意味到达磁盘的写命令顺序可能会打乱，因此可能造成写错误。为了避免这个错误，&quot;zone write lock mechanism&quot; 用来顺序化这些操作。</p>
+<p>查看block I/O调度器：</p>
+<pre><code class="language-shell"># cat /sys/block/sdb/queue/scheduler
+[none] mq-deadline kyber bfq
+</code></pre>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/./img/write_ordering_control.png" alt="image-20230410165650341" /></p>
+<p>如果不是mq-deadline的调度器，需要切换成mq-deadline的调度器：</p>
+<pre><code class="language-shell"># echo mq-deadline &gt; /sys/block/sdb/queue/scheduler
+
+# cat sys/block/sdb/queue/scheduler
+[mq-deadline] kyber bfq none
+</code></pre>
+<h5 id="system-utilities"><a class="header" href="#system-utilities">System Utilities</a></h5>
+<p>按照说明里边我只找到了lsblk指令，其他的诸如没找到sg3_utils，lsscsi等。</p>
+<p>不过在ubuntu里边可以用zbd这个指令来和blkzone起到类似的效果，这个命令是用来看zone的信息的。</p>
+<p>安装libzbd的过程如下：</p>
+<p>首先libzbd需要下面的package进行编译：</p>
+<pre><code class="language-shell"># 如果想要有图形化界面的gzbd和gzbd-viewer的话 还需要首先安装libgtk-3-dev这个包
+# sudo apt install libgtk-3-dev
+# apt-get install autoconf
+# apt-get install autoconf-archive
+# apt-get install automake
+# apt-get install libtool
+# apt-get install m4
+</code></pre>
+<p>同时系统需要有blkzoned.h，头文件在/usr/include/linux里边可以找一下：</p>
+<pre><code class="language-shell">sudo ls /usr/include/linux/ | grep blkzoned
+</code></pre>
+<p>然后把libzbd的包下下来，在已经下载的文件夹里面编译一遍：</p>
+<pre><code class="language-shell">git clone https://github.com/westerndigitalcorporation/libzbd.git
+sh ./autogen.sh
+./configure
+make
+</code></pre>
+<p>默认下载在/usr.lib或者/usr/lib64下。</p>
+<p>不过这个在Ubuntu22.04里边有个zbd-tools可以直接用apt下载。</p>
+<h2 id="2zoned-block-device模拟方法"><a class="header" href="#2zoned-block-device模拟方法">2.Zoned Block Device模拟方法</a></h2>
+<p>最简单的方法是创建null block的方式来模拟block device</p>
+<h3 id="简单创建方法"><a class="header" href="#简单创建方法">简单创建方法</a></h3>
+<p>创建一个null block块：</p>
+<pre><code class="language-shell">modprobe null_blk nr_devices=1 zoned=1
+</code></pre>
+<p><code>nr_devices=1</code>表示仅创建一个设备；<code>zoned=1</code>表示创建的所有设备都是分区设备。</p>
+<p>可以用lsblk来查看一下信息：</p>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/./img/create_null_blk.png" alt="image-20230410184623049" /></p>
+<p>可以看到我们创建了一个nullb0的设备。</p>
+<p>还可以用zbd来查看分区块设备的信息：</p>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/./img/null_blk_zone_info.png" alt="image-20230410184623049" /></p>
+<p>删除一个由<code>modprobe</code>创建（且不由<code>configfs</code>创建）的模拟设备可用以下方法删除：</p>
+<pre><code class="language-shell">rmmod null_blk
+</code></pre>
+<h3 id="高级创建方法"><a class="header" href="#高级创建方法">高级创建方法</a></h3>
+<pre><code class="language-shell"># modprobe null_blk nr_devices=1 \
+    zoned=1 \
+    zone_nr_conv=4 \
+    zone_size=64 \
+</code></pre>
+<p><code>nr_devices=1</code>表示仅创建一个设备；</p>
+<p><code>zoned=1</code>表示创建的所有设备都是分区设备；</p>
+<p><code>zone_nr_conv=4</code>表示传统的Zone个数为4；</p>
+<p><code>zone_size=64</code>表示每个Zone有64MB。</p>
+<p><code>configfs</code>接口为创建模拟分区块设备提供了强大的手段。<code>configfs</code>可供修改的参数如下：</p>
+<pre><code class="language-shell"># cat /sys/kernel/config/nullb/features
+memory_backed,discard,bandwidth,cache,badblocks,zoned,zone_size,zone_capacity,zone_nr_conv,zone_max_open,zone_max_active,blocksize,max_sectors,virt_boundary
+</code></pre>
+<p>需要注意的是不同内核版本可修改的参数是不一样的：</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">kernel</th><th style="text-align: center">feature</th></tr></thead><tbody>
+<tr><td style="text-align: center">4.10.0</td><td style="text-align: center">zoned</td></tr>
+<tr><td style="text-align: center">4.10.0</td><td style="text-align: center">chunk_sectors</td></tr>
+<tr><td style="text-align: center">4.20.0</td><td style="text-align: center">nr_zones</td></tr>
+<tr><td style="text-align: center">5.8.0</td><td style="text-align: center">zone_append_max_bytes</td></tr>
+<tr><td style="text-align: center">5.9.0</td><td style="text-align: center">max_open_zones</td></tr>
+<tr><td style="text-align: center">5.9.0</td><td style="text-align: center">max_active_zones</td></tr>
+</tbody></table>
+</div>
+<p><code>configfs</code>接口可以用来用脚本创建具有不同zone配置的模拟zone块设备。
+创建内容如下的脚本：</p>
+<pre><code class="language-shell">#!/bin/bash
+
+if [ $# != 4 ]; then
+        echo &quot;Usage: $0 &lt;sect size (B)&gt; &lt;zone size (MB)&gt; &lt;nr conv zones&gt; &lt;nr seq zones&gt;&quot;
+        exit 1
+fi
+
+scriptdir=$(cd $(dirname &quot;$0&quot;) &amp;&amp; pwd)
+
+modprobe null_blk nr_devices=0 || return $?
+
+function create_zoned_nullb()
+{
+        local nid=0
+        local bs=$1
+        local zs=$2
+        local nr_conv=$3
+        local nr_seq=$4
+
+        cap=$(( zs * (nr_conv + nr_seq) ))
+
+        while [ 1 ]; do
+                if [ ! -b &quot;/dev/nullb$nid&quot; ]; then
+                        break
+                fi
+                nid=$(( nid + 1 ))
+        done
+
+        dev=&quot;/sys/kernel/config/nullb/nullb$nid&quot;
+        mkdir &quot;$dev&quot;
+
+        echo $bs &gt; &quot;$dev&quot;/blocksize
+        echo 0 &gt; &quot;$dev&quot;/completion_nsec
+        echo 0 &gt; &quot;$dev&quot;/irqmode
+        echo 2 &gt; &quot;$dev&quot;/queue_mode
+        echo 1024 &gt; &quot;$dev&quot;/hw_queue_depth
+        echo 1 &gt; &quot;$dev&quot;/memory_backed
+        echo 1 &gt; &quot;$dev&quot;/zoned
+
+        echo $cap &gt; &quot;$dev&quot;/size
+        echo $zs &gt; &quot;$dev&quot;/zone_size
+        echo $nr_conv &gt; &quot;$dev&quot;/zone_nr_conv
+
+        echo 1 &gt; &quot;$dev&quot;/power
+
+        echo mq-deadline &gt; /sys/block/nullb$nid/queue/scheduler
+
+        echo &quot;$nid&quot;
+}
+
+nulldev=$(create_zoned_nullb $1 $2 $3 $4)
+echo &quot;Created /dev/nullb$nulldev&quot;
+</code></pre>
+<p>运行脚本，脚本的四个参数分别为：</p>
+<ol>
+<li>模拟设备的扇区大小（bytes）</li>
+<li>模拟设备的zone大小（MiB）</li>
+<li>传统zone个数</li>
+<li>有顺序写限制的zone个数</li>
+</ol>
+<p>运行结果如下：</p>
+<pre><code class="language-shell"># ./nullblk-zoned.sh 4096 64 4 8 
+Created /dev/nullb0
+# zbd report -i /dev/nullb0
+Device /dev/nullb0:
+    Vendor ID: Unknown
+    Zone model: host-managed
+    Capacity: 0.805 GB (1572864 512-bytes sectors)
+    Logical blocks: 196608 blocks of 4096 B
+    Physical blocks: 196608 blocks of 4096 B
+    Zones: 12 zones of 64.0 MB
+    Maximum number of open zones: no limit
+    Maximum number of active zones: no limit
+Zone 00000: cnv, ofst 00000000000000, len 00000067108864, cap 00000067108864
+Zone 00001: cnv, ofst 00000067108864, len 00000067108864, cap 00000067108864
+Zone 00002: cnv, ofst 00000134217728, len 00000067108864, cap 00000067108864
+Zone 00003: cnv, ofst 00000201326592, len 00000067108864, cap 00000067108864
+Zone 00004: swr, ofst 00000268435456, len 00000067108864, cap 00000067108864, wp 00000268435456, em, non_seq 0, reset 0
+Zone 00005: swr, ofst 00000335544320, len 00000067108864, cap 00000067108864, wp 00000335544320, em, non_seq 0, reset 0
+Zone 00006: swr, ofst 00000402653184, len 00000067108864, cap 00000067108864, wp 00000402653184, em, non_seq 0, reset 0
+Zone 00007: swr, ofst 00000469762048, len 00000067108864, cap 00000067108864, wp 00000469762048, em, non_seq 0, reset 0
+Zone 00008: swr, ofst 00000536870912, len 00000067108864, cap 00000067108864, wp 00000536870912, em, non_seq 0, reset 0
+Zone 00009: swr, ofst 00000603979776, len 00000067108864, cap 00000067108864, wp 00000603979776, em, non_seq 0, reset 0
+Zone 00010: swr, ofst 00000671088640, len 00000067108864, cap 00000067108864, wp 00000671088640, em, non_seq 0, reset 0
+Zone 00011: swr, ofst 00000738197504, len 00000067108864, cap 00000067108864, wp 00000738197504, em, non_seq 0, reset 0
+
+
+</code></pre>
+<p>用脚本创建的分区块设备的删除也需要使用脚本：</p>
+<pre><code class="language-shell">#!/bin/bash
+
+if [ $# != 1 ]; then
+    echo &quot;Usage: $0 &lt;nullb ID&gt;&quot;
+    exit 1
+fi
+
+nid=$1
+
+if [ ! -b &quot;/dev/nullb$nid&quot; ]; then
+    echo &quot;/dev/nullb$nid: No such device&quot;
+    exit 1
+fi
+
+echo 0 &gt; /sys/kernel/config/nullb/nullb$nid/power
+rmdir /sys/kernel/config/nullb/nullb$nid
+
+echo &quot;Destroyed /dev/nullb$nid&quot;
+</code></pre>
+<p>运行结果如下：</p>
+<pre><code class="language-shell"># ./nullblk-del.sh 0
+Destroyed /dev/nullb0
+</code></pre>
+<h2 id="3在zoned-block-device上模拟zenfs"><a class="header" href="#3在zoned-block-device上模拟zenfs">3.在ZONED BLOCK DEVICE上模拟ZenFS</a></h2>
+<p>好了，现在我们可以来基于zbd建立zenfs的文件系统。</p>
+<p>记得要把之前的libzbd安装了。</p>
+<p>首先建立一个null_blk的zone device block，利用如下脚本：</p>
+<pre><code class="language-shell">#!/bin/bash
+
+if [ $# != 7 ]; then
+        echo &quot;Usage: $0 &lt;sect size (B)&gt; &lt;zone size (MB)&gt; &lt;zone capacity (MB)&gt; &lt;nr conv zones&gt; &lt;nr seq zones&gt; &lt;max active zones&gt; &lt;max open zones&gt;&quot;
+        exit 1
+fi
+
+scriptdir=&quot;$(cd &quot;$(dirname &quot;$0&quot;)&quot; &amp;&amp; pwd)&quot;
+
+modprobe null_blk nr_devices=0 || return $?
+
+function create_zoned_nullb()
+{
+        local nid=0
+        local bs=$1
+        local zs=$2
+        local zc=$3
+        local nr_conv=$4
+        local nr_seq=$5
+        local max_active_zones=$6
+        local max_open_zones=$7
+
+        cap=$(( zs * (nr_conv + nr_seq) ))
+
+        while [ 1 ]; do
+                if [ ! -b &quot;/dev/nullb$nid&quot; ]; then
+                        break
+                fi
+                nid=$(( nid + 1 ))
+        done
+
+        dev=&quot;/sys/kernel/config/nullb/nullb$nid&quot;
+        mkdir &quot;$dev&quot;
+
+        echo $bs &gt; &quot;$dev&quot;/blocksize
+        echo 0 &gt; &quot;$dev&quot;/completion_nsec
+        echo 0 &gt; &quot;$dev&quot;/irqmode
+        echo 2 &gt; &quot;$dev&quot;/queue_mode
+        echo 1024 &gt; &quot;$dev&quot;/hw_queue_depth
+        echo 1 &gt; &quot;$dev&quot;/memory_backed
+        echo 1 &gt; &quot;$dev&quot;/zoned
+
+        echo $cap &gt; &quot;$dev&quot;/size
+        echo $zs &gt; &quot;$dev&quot;/zone_size
+        echo $zc &gt; &quot;$dev&quot;/zone_capacity
+        echo $nr_conv &gt; &quot;$dev&quot;/zone_nr_conv
+        echo $max_active_zones &gt; &quot;$dev&quot;/zone_max_active
+        echo $max_open_zones &gt; &quot;$dev&quot;/zone_max_open
+
+        echo 1 &gt; &quot;$dev&quot;/power
+
+        echo mq-deadline &gt; /sys/block/nullb$nid/queue/scheduler
+
+        echo &quot;$nid&quot;
+}
+
+nulldev=$(create_zoned_nullb $1 $2 $3 $4 $5 $6 $7)
+echo &quot;Created /dev/nullb$nulldev&quot;
+</code></pre>
+<p>然后设置对应的参数</p>
+<pre><code class="language-Shell">chmod +x nullblk-zoned.sh
+sudo ./nullblk-zoned.sh 512 128 124 0 32 12 12
+</code></pre>
+<p>这样一个zbd就在建立好了，可以用lsblk命令查看一下，现在应该有了一个叫做/dev/nullb0的设备，不过是空的，再用gzbd-viewer查看一下这个设备：</p>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/./img/empty_zone_block_device.png" alt="image-20230410184623049" /></p>
+<p>之后我们可以利用fio向里面写入数据，首先下载fio：</p>
+<pre><code class="language-shell">git clone https://github.com/axboe/fio.git
+cd fio
+./configure
+make -j$(nproc --all)
+sudo make install
+</code></pre>
+<p>再往里面写入数据：</p>
+<pre><code class="language-shell">sudo fio --name=test --filename=/dev/nullb0 --zonemode=zbd --direct=1 --runtime=5 --ioengine=io_uring --hipri --rw=randwrite --iodepth=1 --bs=16K --max_open_zones=12
+</code></pre>
+<p>可以用gzbd-viewer查看zbd的情况：</p>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/./img/fio_zbd.png" alt="image-20230410184623049" /></p>
+<p>最后我们利用脚本在nullb0上创建一个zenfs文件系统：</p>
+<pre><code class="language-shell">#!/bin/sh -ex
+
+DEV=nullb0
+FUZZ=5
+ZONE_SZ_SECS=$(cat /sys/class/block/$DEV/queue/chunk_sectors)
+ZONE_CAP=$((ZONE_SZ_SECS * 512))
+BASE_FZ=$(($ZONE_CAP  * (100 - $FUZZ) / 100))
+WB_SIZE=$(($BASE_FZ * 2))
+
+TARGET_FZ_BASE=$WB_SIZE
+TARGET_FILE_SIZE_MULTIPLIER=2
+MAX_BYTES_FOR_LEVEL_BASE=$((2 * $TARGET_FZ_BASE))
+
+MAX_BACKGROUND_JOBS=8
+MAX_BACKGROUND_COMPACTIONS=8
+OPEN_FILES=16
+
+echo deadline &gt; /sys/class/block/$DEV/queue/scheduler
+./plugin/zenfs/util/zenfs mkfs --zbd=$DEV --aux_path=/tmp/zenfs_$DEV --finish_threshold=0 --force
+./db_bench --fs_uri=zenfs://dev:$DEV --key_size=16 --value_size=800 --target_file_size_base=$TARGET_FZ_BASE \
+ --write_buffer_size=$WB_SIZE --max_bytes_for_level_base=$MAX_BYTES_FOR_LEVEL_BASE \
+ --max_bytes_for_level_multiplier=4 --use_direct_io_for_flush_and_compaction \
+ --num=1500000 --benchmarks=fillrandom,overwrite --max_background_jobs=$MAX_BACKGROUND_JOBS \
+ --max_background_compactions=$MAX_BACKGROUND_COMPACTIONS --open_files=$OPEN_FILES
+</code></pre>
+<p>用gzbd-viewer看一下写入数据：</p>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/./img/zen_fs.png" alt="image-20230410184623049" /></p>
+<p>在db_bench上进行测试：</p>
+<p><img src="zns%E8%AE%BE%E5%A4%87%E6%A8%A1%E6%8B%9F/./img/db_bench.png" alt="image-20230410184623049" /></p>
+<p>在zenfs的tests目录中可以对文件系统进行测试。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="调研"><a class="header" href="#调研">调研</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="flash"><a class="header" href="#flash">Flash</a></h1>
+<h4 id="分类和特点"><a class="header" href="#分类和特点">分类和特点</a></h4>
+<ul>
+<li>eMMC：主要用于嵌入式系统、移动设备等场景，集成了 Flash 存储器和控制器，支持高速读写和可靠性管理，但存储密度较低。（eMMC=控制器+Nand。FTL 在控制器中。）</li>
+<li><img src="%E8%B0%83%E7%A0%94/flash.assets/image%20(6).png" alt="" /></li>
+<li>NorFlash：适用于需要快速读取和低成本的应用，例如嵌入式系统、固件存储、引导程序等，读取速度较快但存储密度较低。</li>
+<li>NandFlash：适用于需要更高存储密度和较低成本的应用，例如移动设备、数码相机、固态硬盘等，存储密度更高，但读取速度较慢且需要进行擦除操作才能写入新的数据，寿命也相对较短，需要采用 wear leveling 和 error correction 等技术来提高寿命和可靠性。（一般厂商的 Nand Flash 不带有 FTL 层）</li>
+<li><img src="%E8%B0%83%E7%A0%94/flash.assets/image%20(7).png" alt="" /></li>
+</ul>
+<p><strong>NAND flash和NOR flash的性能比较</strong></p>
+<p>flash闪存是非易失存储器，可以对称为块的存储器单元块进行擦写和再编程。任何flash器件的写入操作只能在空或已擦除的单元内进行，所以大多数情况下，在进行写入操作之前必须先执行擦除。NAND器件执行擦除操作是十分简单的，而NOR则要求在进行擦除前先要将目标块内所有的位都写为0。由于擦除NOR器件时是以64～128KB的块进行的，执行一个写入/擦除操作的时间为5s，与此相反，擦除NAND器件是以8～32KB的块进行的，执行相同的操作最多只需要4ms。执行擦除时块尺寸的不同进一步拉大了NOR和NADN之间的性能差距，统计表明，对于给定的一套写入操作(尤其是更新小文件时)，更多的擦除操作必须在基于NOR的单元中进行。这样，当选择存储解决方案时，设计师必须权衡以下的各项因素。</p>
+<p>1、NOR的读速度比NAND稍快一些。
+2、NAND的写入速度比NOR快很多。
+3、NAND的4ms擦除速度远比NOR的5s快。
+4、大多数写入操作需要先进行擦除操作。
+5、NAND的擦除单元更小，相应的擦除电路更少。</p>
+<p><strong>NAND flash和NOR flash的接口差别</strong></p>
+<p>NOR flash带有SRAM接口，有足够的地址引脚来寻址，可以很容易地存取其内部的每一个字节。
+NAND器件使用复杂的I/O口来串行地存取数据，各个产品或厂商的方法可能各不相同。8个引脚用来传送控制、地址和数据信息。NAND读和写操作采用512字节的块，这一点有点像硬盘管理此类操作，很自然地，基于NAND的存储器就可以取代硬盘或其他块设备。</p>
+<p><strong>NAND flash和NOR flash的容量和成本</strong></p>
+<p>NAND flash的单元尺寸几乎是NOR器件的一半，由于生产过程更为简单，NAND结构可以在给定的模具尺寸内提供更高的容量，也就相应地降低了价格。
+NOR flash占据了容量为1～16MB闪存市场的大部分，而NAND flash只是用在8～128MB的产品当中，这也说明NOR主要应用在代码存储介质中，NAND适合于数据存储，NAND在CompactFlash、Secure Digital、PC Cards和MMC存储卡市场上所占份额最大。</p>
+<p><strong>NAND flash和NOR flash的寿命(耐用性)</strong></p>
+<p>在NAND闪存中每个块的最大擦写次数是一百万次，而NOR的擦写次数是十万次。NAND存储器除了具有10比1的块擦除周期优势，典型的NAND块尺寸要比NOR器件小8倍，每个NAND存储器块在给定的时间内的删除次数要少一些。</p>
+<p><strong>位交换</strong></p>
+<p>所有flash器件都受位交换现象的困扰。在某些情况下(很少见，NAND发生的次数要比NOR多)，一个比特位会发生反转或被报告反转了。一位的变化可能不很明显，但是如果发生在一个关键文件上，这个小小的故障可能导致系统停机。如果只是报告有问题，多读几次就可能解决了。当然，如果这个位真的改变了，就必须采用错误探测/错误更正(EDC/ECC)算法。位反转的问题更多见于NAND闪存，NAND的供应商建议使用NAND闪存的时候，同时使用0EDC/ECC算法。这个问题对于用NAND存储多媒体信息时倒不是致命的。当然，如果用本地存储设备来存储操作系统、配置文件或其他敏感信息时，必须使用EDC/ECC系统以确保可靠性。</p>
+<p><strong>坏块处理</strong></p>
+<p>NAND器件中的坏块是随机分布的。以前也曾有过消除坏块的努力，但发现成品率太低，代价太高，根本不划算。
+NAND器件需要对介质进行初始化扫描以发现坏块，并将坏块标记为不可用。在已制成的器件中，如果通过可靠的方法不能进行这项处理，将导致高故障率。</p>
+<p><strong>易于使用</strong></p>
+<p>可以非常直接地使用基于NOR的闪存，可以像其他存储器那样连接，并可以在上面直接运行代码。
+由于需要I/O接口，NAND要复杂得多。各种NAND器件的存取方法因厂家而异。在使用NAND器件时，必须先写入驱动程序，才能继续执行其他操作。向NAND器件写入信息需要相当的技巧，因为设计师绝不能向坏块写入，这就意味着在NAND器件上自始至终都必须进行虚拟映射。</p>
+<p><strong>软件支持</strong></p>
+<p>当讨论软件支持的时候，应该区别基本的读/写/擦操作和高一级的用于磁盘仿真和闪存管理算法的软件，包括性能优化。 在NOR器件上运行代码不需要任何的软件支持，在NAND器件上进行同样操作时，通常需要驱动程序，也就是内存技术驱动程序(MTD)，NAND和NOR器件在进行写入和擦除操作时都需要MTD。 使用NOR器件时所需要的MTD要相对少一些，许多厂商都提供用于NOR器件的更高级软件，这其中包括M-System的TrueFFS驱动，该驱动被Wind River System、Microsoft、QNX Software System、Symbian和Intel等厂商所采用。驱动还用于对DiskOnChip产品进行仿真和NAND闪存的管理，包括纠错、坏块处理和损耗平衡。</p>
+<h4 id="ssdemmcufs的区别"><a class="header" href="#ssdemmcufs的区别">SSD，eMMC，UFS的区别</a></h4>
+<p>三者都是基于Nand的块设备。</p>
+<p>SSD 主要作用是取代 PC/服务器 上的 HDD 硬盘，它需要：</p>
+<ul>
+<li>超大容量（百GB~TB级别）</li>
+<li>极高的并行性以提高性能</li>
+<li>对功耗，体积等要求并不敏感</li>
+<li>兼容已有接口技术 （SATA，PCI等）</li>
+</ul>
+<p>而 eMMC 和 UFS主要都是针对移动设备发明的，它们需要：</p>
+<ul>
+<li>适当的容量</li>
+<li>适当的性能</li>
+<li>对功耗 ，体积的要求极其敏感</li>
+<li>仅需遵循一定的接口标准</li>
+</ul>
+<p>一个SSD，为了达到高并行高性能的要求，<strong>有多个Flash 芯片</strong>，这样就可以在每个芯片上进行相互独立的读写操作，以并行性来提高硬盘吞吐量，还可以增加冗余备份。而手机中为了节省空间和功耗，通常只有一片密度较高的 Flash 芯片。</p>
+<p>管理一个 Flash 芯片，和管理多个 Flash 芯片，策略肯定是不一样的，因此它们的控制器 （controller）就完全不同了。而且 PC 上需要兼容 SATA 或 PCIe 或 m2 接口，这样你电脑硬盘坏了的时候，可以拔下来换上另一块同样接口的硬盘能照样用。而手机上的 Flash 芯片大多是直接焊在主板上的，基本上不需要考虑更换的问题，所以只要遵从一个特定标准，能和CPU正常通讯就好了。因此接口的不同也是 SSD 和 eMMC，UFS 的重要区别之一。</p>
+<p>eMMC 和 UFS 都是面向移动端 Flash 的标准，区别在于，二者的接口技术大相径庭。eMMC 和 MMC一样，沿用了 8 bit 的并行接口。在传输速率不高的时代，这个接口够用了。但随着设备对接口的带宽要求越来越高，想把并行接口速率提高也越来越难。eMMC 的最新 5.1标准理论最高值最高可以达到400 MB/s，再往上提高频率也不是不行，但就未必划算了。</p>
+<p>好在这几年接口串行化大潮轰轰烈烈。所谓接口串行化，简单来说就是工程师们发现：与其用一个比较宽的并行接口以较低的速率传输，用一个串行接口用非常高的速率传输似乎更划算一些（带宽，功率，成本各方面综合考虑）。所以这个时候 UFS 应运而生，用高速串行接口取代了并行接口，而且还是全双工的，也就是可以读写同时进行。所以相比 eMMC， UFS的理论性能提高不少，甚至可以达到一些SSD的水准。</p>
+<h4 id="ftl"><a class="header" href="#ftl">FTL</a></h4>
+<p>本职工作：地址映射。原因是闪存只能异地更新，为了对上支持数据块原地更新则需要通过地址转换实现。</p>
+<p>由于闪存先擦后写、擦写有次数限制（寿命）、使用过程中会不断出现坏块（块寿命不同）等特性，FTL还需具备垃圾回收、磨损均衡、坏块管理等十八般武艺。</p>
+<p><strong>映射方式</strong></p>
+<p>闪存内部的基本存储单位是Page（4KB）,N个Page组成一个Block。</p>
+<p><strong>块级映射</strong></p>
+<p>将块映射地址分为两部分：块地址和块内偏移。映射表只保存块的映射关系，块内偏移直接对应。</p>
+<p><strong>页级映射</strong></p>
+<p>映射表维护每个页的映射关系。</p>
+<p><strong>混合映射</strong></p>
+<p>主要思路是针对频繁更新的数据采用页级映射，很少更新的数据采用块级映射。其中采用Log Structed思想的混合映射将存储分为数据块（Data Block）和日志块（Log Block）。数据块用于存储数据，采用块级映射，日志块用于存储对于数据块更新后的数据，采用页级映射。混合映射是低端SSD、eMMC、UFS广泛采用的映射方式。根据日志块和数据块的对应关系又可以分为全相关映射（FAST）、块相关映射（BAST）、组相关映射（SAST）等等。下图是SAST映射的一个示例：2个日志块对应4个数据块，当日志块用完时需要通过搬移有效数据回收日志块。对于顺序写场景，最好情况下日志块对应位置记录了数据块的更新，则可以无需搬移数据，直接将日志块作为新的数据块（？），数据块进行擦除操作作为新的日志块。对于大量随机写场景，则需要将日志块和数据块中的有效数据搬移到空闲块的对应位置作为新的数据块，然后擦除原日志块和数据块。</p>
+<h3 id="xipexecute-in-place"><a class="header" href="#xipexecute-in-place">XIP：eXecute In Place</a></h3>
+<p>XIP（Execute-In-Place）是一种存储器访问模式，允许 CPU 直接从存储器中执行代码，而无需将代码加载到 RAM 中。这种模式可以提高系统性能，减少 RAM 的使用，以及降低系统成本。</p>
+<p><img src="%E8%B0%83%E7%A0%94/flash.assets/image%20(9).png" alt="" /></p>
+<p>XIP 适用于需要快速执行代码的应用，例如嵌入式系统、网络设备、汽车电子等。在这些应用中，启动时间和响应速度非常重要，因此使用 XIP 可以显著提高系统性能和响应速度。</p>
+<p>需要注意的是，XIP 模式并不适用于所有类型的存储器。只有一些特殊的存储器类型，如 NOR Flash，才支持 XIP。这是因为这些存储器类型具有快速的访问速度和随机读取功能，可以满足 XIP 模式的要求。</p>
+<p>那么，NandFlash 是否支持 XIP 呢？当前实际有一些相关研究，不过大部分的结论都是「可以，但是没必要」。</p>
+<p><a href="https://www.cnblogs.com/henjay724/p/14856670.html">痞子衡嵌入式：串行NAND Flash的两大特性导致其在i.MXRT FlexSPI下无法XiP - 痞子衡 - 博客园</a></p>
+<p>主要阻碍 NandFlash 的 XIP 的有几点：</p>
+<ol>
+<li>坏块导致的非线性存储：对于屏蔽坏块造成的非线性地址，程序无法正确处理，即无法自动跳过这些地址。</li>
+<li>NandFlash 上自带的 ECC 校验很大延迟：主机只能主动询问 Nand 是否校验完成</li>
+<li>NandFlash 本身延迟大，一般存储逻辑是按块、页读取而不是串行读取</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="flash-嵌入式文件系统"><a class="header" href="#flash-嵌入式文件系统">Flash 嵌入式文件系统</a></h1>
+<p><strong>嵌入式系统中 Flash 和文件系统的应用</strong></p>
+<p>{% embed url=&quot;https://elinux.org/images/4/44/Squashfs_eng.pdf&quot; %}</p>
+<p><img src="%E8%B0%83%E7%A0%94/Flash%20%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F.assets/image%20(4).png" alt="" /><img src="%E8%B0%83%E7%A0%94/Flash%20%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F.assets/image%20(12).png" alt="" /></p>
+<p><img src="%E8%B0%83%E7%A0%94/Flash%20%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F.assets/image%20(10).png" alt="" /></p>
+<p>多数嵌入式解决方案都是把压缩后的固件存储到 Flash 中，启动时解压到 RAM 中再在 RAM 上启动</p>
+<p>可以改进的点：</p>
+<ol>
+<li>压缩状态下的文件系统无法直接 XIP，需要在内存中先解压。如果可以联系 DDR 的特性，能不能做到直接解压执行，或者边解压边执行？</li>
+<li>Cramfs/Squashfs 都是只读文件系统，不能进行在线修改，在嵌入式场景下只能对整个文件系统做在线升级，不能做部分升级。
+<ol>
+<li>能不能改成可读写的文件系统？</li>
+<li>能不能做部分 OTA？能不能做分区？</li>
+</ol>
+</li>
+</ol>
+<p><strong>wear leveling：磨损均衡</strong></p>
+<p>Linux MTD 设备专门用于 Flash 这种存储介质，提供读、写、擦除方法。</p>
+<p>在 Linux MTD 设备中，没有算法专门做磨损均衡，但是 UBI 有这个算法。<img src="%E8%B0%83%E7%A0%94/Flash%20%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F.assets/image%20(3).png" alt="" /><img src="%E8%B0%83%E7%A0%94/Flash%20%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F.assets/image%20(1).png" alt="" /></p>
+<p>UBIFS 运行在 UBI 之上，所以这个文件系统本身并不需要考虑磨损均衡，这是下一层的 UBI 逻辑。</p>
+<p>yaffs2 等就没有磨损均衡了。</p>
+<p><em><strong>UBI：Unsorted Block Images</strong></em></p>
+<p>{% embed url=&quot;http://www.linux-mtd.infradead.org/doc/ubi.ppt&quot; %}</p>
+<p><img src="%E8%B0%83%E7%A0%94/Flash%20%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F.assets/image.png" alt="" /><img src="%E8%B0%83%E7%A0%94/Flash%20%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F.assets/image%20(5).png" alt="" /></p>
+<p><a href="http://www.linux-mtd.infradead.org/doc/ubi.html">Memory Technology Device (MTD) Subsystem for Linux.</a></p>
+<ul>
+<li>UBI 不是闪存转换层 (FTL)，与 FTL 没有任何关系；</li>
+<li>UBI 与裸 Flash 一起工作，不适用于消费级闪存，例如 MMC、RS-MMC、eMMC、SD、mini-SD、micro-SD、CF、MemoryStick、USB 闪存驱动器等；相反，UBI 适用于原始闪存设备，这些设备主要用于嵌入式设备中，如手机等。</li>
+</ul>
+<p>请不要混淆。请参阅<a href="http://www.linux-mtd.infradead.org/doc/ubifs.html#L_raw_vs_ftl">此处</a>了解有关原始闪存设备与 FTL 设备的更多信息。</p>
+<p>UBI (Latin: &quot;where?&quot;) 代表着 &quot;Unsorted Block Images&quot;。它是一个为裸 Flash 设备管理多个逻辑卷的卷管理系统，并将 I/O 负载（如均衡）分布在整个闪存芯片上。</p>
+<p>在某种程度上，UBI 可以与逻辑卷管理器（LVM）进行比较。虽然 LVM 将逻辑扇区映射到物理扇区，但 UBI 则将逻辑擦除块映射到物理擦除块。但除了映射之外，UBI 还实现了全局均衡和透明的错误处理。</p>
+<p>UBI 卷是一组连续的逻辑擦除块（LEB）。每个逻辑擦除块都会动态地映射到物理擦除块（PEB）。这个映射由 UBI 管理，并且对用户和高级软件来说是隐藏的。UBI 是提供全局均衡、每个物理擦除块擦除计数器以及透明地将数据从更磨损的物理擦除块移动到更不磨损的擦除块的基础机制。</p>
+<p>当创建卷时，指定 UBI 卷大小，但可以稍后更改（可以动态调整卷大小）。有一些用户空间工具可用于操作 UBI 卷。</p>
+<p>有两种类型的 UBI 卷：动态卷和静态卷。静态卷是只读的，并且其内容受到 CRC-32 校验和的保护，而动态卷是可读可写的，上层（例如，文件系统）负责确保数据完整性。</p>
+<p>静态卷通常用于内核、initramfs 和 dtb。打开较大的静态卷可能会产生显著的惩罚，因为此时需要计算 CRC-32。如果您想将静态卷用于内核、initramfs 或 dtb 以外的任何内容，则可能会出现问题，最好改用动态卷。</p>
+<p>UBI 知道坏的擦除块（即随着时间的推移而磨损的闪存部分）并使上层软件无需处理坏的擦除块。UBI 有一组保留的物理擦除块，在物理擦除块变坏时，它会透明地用好的物理擦除块替换它。 UBI 将新发现的坏物理擦除块中的数据移动到好的擦除块中。其结果是，UBI 卷的用户不会注意到 I/O 错误，因为 UBI 会透明地处理它们。</p>
+<p>NAND 闪存也容易出现读写操作上的位翻转错误。通过 ECC 校验和可以纠正位翻转，但它们可能随着时间的推移而累积并导致数据丢失。UBI 通过将具有位翻转的物理擦除块中的数据移动到其他物理擦除块中来解决此问题。此过程称为<strong>scrubbing</strong>。Scrubbing 在后台透明地完成，上层软件不会注意到。</p>
+<p>以下是 UBI 的主要特点：</p>
+<ul>
+<li>UBI 提供可以动态创建、删除或调整大小的卷；➡️类似 LVM 功能</li>
+<li>UBI 在整个闪存设备上实现磨损平衡（即，您可能认为您正在连续写入/擦除 UBI 卷的同一逻辑擦除块，但 UBI 将将其扩展到闪存芯片的所有物理擦除块）；➡️类似 FTL 的软件磨损均衡实现</li>
+<li>UBI 透明地处理坏的物理擦除块；➡️NandFlash 坏块处理</li>
+<li>UBI 通过刷卡来最小化数据丢失的可能性。➡️针对性预防 NandFlash 数据错误</li>
+</ul>
+<p>有一个名为 <code>gluebi</code> 的附加驱动程序，它在 UBI 卷的顶部模拟 MTD 设备。这看起来有点奇怪，因为 UBI 在 MTD 设备的顶部工作，然后 <code>gluebi</code> 在其上模拟其他 MTD 设备，但这实际上是可行的，并使得现有软件（例如 JFFS2）能够在 UBI 卷上运行。但是，新软件可能会从UBI的高级功能中受益，并让UBI解决许多闪存技术带来的问题。➡️可以通过兼容层将上述功能添加到其他 MTD 文件系统而无需修改代码。</p>
+<p>UBI 与 MTD 的比较：<a href="https://www.cnblogs.com/gmpy/p/10874475.html">https://www.cnblogs.com/gmpy/p/10874475.html</a></p>
+<ul>
+<li>Flash驱动直接操作设备，而MTD在Flash驱动之上，向上呈现统一的操作接口。所以MTD的&quot;使命&quot;是 <strong>屏蔽不同 Flash 的操作差异，向上提供统一的操作接口</strong> 。</li>
+<li>UBI基于MTD，那么UBI的目的是什么呢？ <strong>在MTD上实现 Nand 特性的管理逻辑，向上屏蔽 Nand 的特性</strong> 。</li>
+</ul>
+<p><em><strong>OverlayFS</strong></em></p>
+<p>OverlayFS 是一种联合文件系统，可以将多个文件系统层叠在一起，形成一个虚拟文件系统。OverlayFS 的特点包括：</p>
+<ul>
+<li>可写层和只读层：OverlayFS 将多个文件系统层叠在一起，其中一个文件系统为可写层，其他文件系统为只读层。可写层可以包含新文件和修改文件，只读层包含原始文件和只读文件。</li>
+<li>高效存储：OverlayFS 可以将多个文件系统的内容合并到一个虚拟文件系统中，避免重复存储和占用过多的存储空间。此外，OverlayFS 还支持 Copy-on-Write（写时复制）技术，可以减少文件系统的复制和移动操作，提高存储效率。</li>
+<li>高性能：OverlayFS 可以在运行时将多个文件系统层叠在一起，形成一个虚拟文件系统。这可以减少文件系统的访问时间和提高系统性能。此外，OverlayFS 还支持内核级别的缓存和预读技术，可以提高文件系统的访问速度和性能。</li>
+<li>支持多种文件系统格式：OverlayFS 支持多种文件系统格式，包括 ext4、XFS、Btrfs 等。这使得 OverlayFS 可以与不同的文件系统互操作，并提供更多的灵活性和可扩展性。</li>
+</ul>
+<p>总的来说，OverlayFS 是一种高效存储和高性能的联合文件系统，可以将多个文件系统层叠在一起，形成一个虚拟文件系统。它适用于需要处理多个文件系统和提高系统性能的应用，例如容器、虚拟机、分布式存储等。</p>
+<p>OpenWRT 中使用到了 OverlayFS 这一技术：<a href="https://openwrt.org/zh/docs/techref/filesystems">https://openwrt.org/zh/docs/techref/filesystems</a></p>
+<p><img src="%E8%B0%83%E7%A0%94/Flash%20%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F.assets/image%20(8).png" alt="" /></p>
+<p>OverlayFS基本结构：多个文件系统的堆叠和合并</p>
+<p>将 FUSE 和 OverlayFS 结合：<a href="https://github.com/containers/fuse-overlayfs">https://github.com/containers/fuse-overlayfs</a></p>
+<p>利用 OverlayFS 完成文件系统热迁移：<a href="https://github.com/stanford-rc/fuse-migratefs">https://github.com/stanford-rc/fuse-migratefs</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="f2fs"><a class="header" href="#f2fs">F2FS</a></h1>
+<h4 id="lfs"><a class="header" href="#lfs">LFS</a></h4>
+<p>日志中包含索引信息，文件可以被高效的读出。为了快速的写入需要保留大块的空闲区域，可以将日志分成多个固定大小的连续空间——段（segment），在空闲区域不足时通过在碎片化的段中搬移有效数据回收新的连续空间。</p>
+<p>日志结构文件系统如此优秀的写入性能不是没有代价的，如何高效的进行垃圾回收同时保持较高的写入性能，特别是剩余空间较少、碎片化严重后的性能一直是众多日志结构文件系统致力于解决的问题。</p>
+<p><strong>Checkpoint</strong></p>
+<p>文件系统某一时刻的快照。指文件系统某一时点所有文件系统有效数据、索引结构一致完整的记录。</p>
+<p>创建检查点通常分两步：</p>
+<ol>
+<li>落盘所有文件数据、索引、inode表、段使用情况表</li>
+<li>在固定的检查点区记录所有有效的inode表和段使用情况表地址以及时间戳等。为了应对检查点过程中的系统崩溃，实际有两个检查点区交替更新（？）。由于时间戳是检查点最后更新的内容，每次重启后只需选择最新的检查点区即可保证有效性。在恢复到检查点后，还可根据日志记录继续前向恢复（roll-forward）数据。F2FS就针对单个文件的fsync实现了前向恢复能力，fsync时只需落盘文件数据和其直接索引。</li>
+</ol>
+<p>除了超级块和检查点是保存在固定位置的，其他元数据和数据都是异地更新的日志。</p>
+<h4 id="f2fs-1"><a class="header" href="#f2fs-1">F2FS</a></h4>
+<p><strong>NAT</strong></p>
+<p>直接指向数据块的索引节点存的是虚拟地址，实际地址要到NAT表里查找，在更新数据时只需要更新NAT表，不需要递归地更新各级索引节点。（!）</p>
+<p><strong>inline data</strong></p>
+<p>支持数据直接存储在inode中。</p>
+<p><strong>冷热数据分离</strong></p>
+<p>将数据区划分为多个不同冷热程度的Zone。如：目录文件的inode和直接索引更新频繁计入热节点区，多媒体文件数据和回收中被搬移的数据计入冷数据区。冷热分离的目的是使得各个区域数据更新的频率接近。冷数据大多数保持有效因而无需搬移，热数据大多数更新后处于无效状态只需少量搬移。目前F2FS的冷热分离还较为简单，结合应用场景有很大的优化空间。（！）</p>
+<p><strong>垃圾回收</strong></p>
+<p>F2FS的垃圾回收Garbage Collection（GC）分为前台GC和后台GC。当没有足够空闲Section时会触发前台GC，内核线程也会定期执行后台GC尝试清理。另外F2FS也会预留少量空间，保证GC在任何情况下都有足够空间存放搬移数据。GC过程分三步：</p>
+<p>1）搬移目标选择，两个著名的选择算法分别是贪心和成本最优（cost-benefit）。 贪心算法挑选有效块最少的Section，一般用于前台GC以减少对IO的阻塞时间。 Cost-benefit算法主要用于后台GC，综合了有效块数和Section中段的年龄（由SIT中Segment的更新时间计算）。该算法的主要思想是识别出冷数据进行搬移，热数据可能再接下来一段时间被更新无需搬移，这也是进行动态冷热分离的又一次机会。</p>
+<p>2）识别有效块并搬移，从SIT中可以获取所有有效块，然后在SSA中可以检索其父亲节点块信息。对于后台GC，F2FS并不会立即产生迁移块的I/O，而只是将相关数据块读入页缓存并标记为脏页交由后台回写进程处理。这个方式既能减少对其他I/O的影响，也有聚合、消除小的分散写的作用。</p>
+<p>3） 后续处理，迁移后的Section被标记为“预释放”状态，当下一个检查点完成中Section才真正变为空闲可被使用。因为检查点完成之前掉电后会恢复到前一个检查点，在前一个检查点中该Section还包含有效数据。</p>
+<p>当空闲空间不足时，F2FS也不是“一根筋”的继续保持日志写的方式（Normal Logging）。直接向碎片化的Segment中的无效块写入数据是日志结构文件系统的另一个日志策略（Threaded Logging），又被称为SSR（Slack Space Recycling）。SSR虽然变成了随机写，但避免了被前台GC阻塞。同时通过以贪心方式选择做SSR的Section，写入位置仍然有一定的连续性。</p>
+<p><strong><em>*</em>*******F2FS性能对比*********</strong>*</p>
+<p><a href="https://www.phoronix.com/review/clear-linux-f2fs/2">F2FS vs. EXT4 File-System Performance With Intel's Clear Linux</a></p>
+<ol>
+<li>
+<p>SQLite 非常快</p>
+<p><img src="%E8%B0%83%E7%A0%94/f2fs.assets/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F8d689b61-0461-4ab9-bb25-200b7bfc9f76%2FUntitled.png" alt="Untitled" /></p>
+</li>
+<li>
+<p>随机读写比 Ext4 稍微弱</p>
+</li>
+<li>
+<p>文件系统同步（sync）性能比 Ext4 好很多</p>
+</li>
+<li>
+<p>PostgreSQL 测试 F2FS 比 Ext4 性能差了一大截</p>
+</li>
+<li>
+<p>Systemd 启动，F2FS 比 Ext4 慢</p>
+</li>
+</ol>
+<p><strong>已知的问题</strong></p>
+<p>https://wiki.archlinux.org/title/F2FS</p>
+<ol>
+<li>
+<p>版本稳定性问题：</p>
+<p>如果在运行机器上的内核版本旧于用于创建分区的内核版本，则F2FS分区中包含的数据可能无法使用。例如，如果F2FS分区是在由<a href="https://archlinux.org/packages/?name=linux">linux</a>提供的主线内核上创建的，但系统需要降级到由<a href="https://archlinux.org/packages/?name=linux-lts">linux-lts</a>提供的较旧的内核系列，则可能会出现此限制。请参见<a href="https://bugs.archlinux.org/task/69363">FS#69363</a>。</p>
+</li>
+<li>
+<p>磁盘修复问题 fsck failures</p>
+<p>F2FS的fsck弱，如果突然断电可能会导致数据丢失 <strong>[<a href="https://www.usenix.org/system/files/atc19-jaffer.pdf">3]</a>[<a href="https://web.archive.org/web/20200925120546/https://archived.forum.manjaro.org/t/record-fsync-data-failed-on-f2fs-file-system-how-to-fix-foregt-the-help-i-reinstalled-its-just-easier/121051">4]</a></strong>。如果频繁出现断电情况，考虑使用其他 <strong><a href="https://wiki.archlinux.org/title/File_system">文件系统</a></strong>。</p>
+</li>
+<li>
+<p>GRUB 启动问题</p>
+<p>尽管 GRUB 自 2.0.4 版本支持 F2FS，但它无法从启用了 <code>extra_attr</code> 标志的 F2FS 分区正确读取其引导文件（有关更多详细信息，请参见 <strong><a href="https://wiki.archlinux.org/title/GRUB#Unsupported_file_systems">GRUB＃不支持的文件系统</a></strong>）。</p>
+</li>
+<li>
+<p>写入放大问题，造成 SSD 寿命缩短</p>
+</li>
+<li>
+<p>Nand 过度配置问题</p>
+</li>
+<li>
+<p>段清理开销</p>
+</li>
+<li>
+<p>元数据更新开销</p>
+</li>
+<li>
+<p>文件碎片</p>
+</li>
+<li>
+<p>冷热数据识别不够智能</p>
+</li>
+</ol>
+<h3 id="f2fs-优化分析"><a class="header" href="#f2fs-优化分析">F2FS 优化分析</a></h3>
+<p>F2FS 的缺点和可优化点包括：段清理开销、元数据更新开销、文件碎片、顺序读取性能差等。这些优化点与以下论文相关联：</p>
+<ul>
+<li>When F2FS Meets Address Remapping：利用地址重映射技术来弥补 F2FS 中的缺陷，达到原地更新的效果，避免段清理、元数据更新和文件碎片的问题。</li>
+<li>M2H: Optimizing F2FS via Multi-log Delayed Writing and Modified Segment Cleaning based on Dynamically Identified Hotness：基于动态识别热点，利用多日志延迟写入和修改段清理来优化 F2FS 的性能。</li>
+<li>Mitigating Synchronous I/O Overhead in File Systems on Open-Channel SSDs：通过引入内置的持久暂存层来提供对闪存友好的数据布局，以提供平衡的读取、写入和垃圾收集性能。</li>
+<li>Optimizing Fragmentation and Segment Cleaning for CPS based Storage Devices：提出了多级阈值同步写入方案和高检测频率背景段清理方案来减少段清理的开销。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="zns"><a class="header" href="#zns">ZNS</a></h1>
+<h4 id="block-based-flash的问题"><a class="header" href="#block-based-flash的问题">block based flash的问题</a></h4>
+<p>Flash必须先擦除再写，擦除的最小粒度大于写入的最小粒度 =&gt;异地更新 =&gt;使用FTL负责地址映射，垃圾回收、磨损均衡、坏块管理等 =&gt;不同文件的数据杂糅在一起 =&gt;先移动有效数据到OP，才能擦除数据（垃圾回收）=&gt;OP浪费空间，移动有效数据浪费时间=&gt;换一种思路</p>
+<h4 id="zns的效果"><a class="header" href="#zns的效果">ZNS的效果</a></h4>
+<p>ZNS-SSD的吞吐和延时不受GC影响，且不需要额外的OP空间。 zenfs是端到端的数据访问，不会再走内核庞大的I/O调度逻辑。</p>
+<h4 id="zns的细节"><a class="header" href="#zns的细节">ZNS的细节</a></h4>
+<p>将整个SSD内部的存储区域分为多个zone 空间。不同的zone 空间之间的数据可以是独立的。最主要的是，每一个zone 内部的写入 只允许顺序写，可以随机读。为了保证zone 内部的顺序写，在ZNS内部想要覆盖写一段LBA地址的话需要先reset（清理当前地址的数据），才能重新顺序写这一段逻辑地址空间。</p>
+<blockquote>
+<p>不需要垃圾回收，需要上层软件配合，保证一个zone在全部数据失效的时候擦除。</p>
+</blockquote>
+<h4 id="zenfs"><a class="header" href="#zenfs">Zenfs</a></h4>
+<p><strong>Linux内核对ZNS的支持</strong></p>
+<p>ZNS的特性 需要内核支持，所以开发了ZBD(zoned block device) 内核子系统 来提供通用的块层访问接口。除了支持内核通过ZBD 访问ZNS之外，还提供了用户API ioctl进行一些基础数据的访问，包括：当前环境 zone 设备的枚举，展示已有的zone的信息 ，管理某一个具体的zone(比如reset)。</p>
+<p>在近期，为了更友好得评估ZNS-ssd的性能，在ZBD 上支持了暴露 per zone capacity 和 active zones limit。</p>
+<p><strong>Zenfs代码分析</strong></p>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><p>LIZA：通过LSM的层级结构预测每个SSTable的生命周期，把具有相似生命周期的数据放到同一个zone中，以减小GC过程中迁移有效数据的开销。这种预测方式显然不够准确，举个例子，参与compact并合并成一个SSTable的多个SSTable是同时失效的，但是这多个SSTable不一定在同一个level，如果使用LIZA算法，也就不一定在同一个zone。</p>
+<p>CAZA:SSTable的删除时间仅仅由compact过程决定。compact过程把相邻层级的具有重叠key范围的SSTable合并，因此CAZA把新创建的SSTable放在拥有最多和这个SSTable重叠key范围的zone中，在compact触发时，这些SSTable被同时compact，同时失效。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="题目描述与分析"><a class="header" href="#题目描述与分析">题目描述与分析</a></h1>
+<p><strong>项目描述</strong></p>
+<p>Flash介质因本身的擦除特性，给上层文件系统带来与普通磁盘、内存文件系统不同的数据管理模式。同时，Flash的写入放大、寿命以及后期稳定性下降等问题也给文件系统的设计带来的一定的挑战。传统的Flash文件系统并没有很好地解决这些稳定性相关问题。这里希望寻找一种更智能、更合适的Flash文件系统设计，来更好地平衡Flash的性能与稳定性。可以思考的方向包括但不限于：数据压缩算法（可以是自适应的压缩算法），检错、纠错、纠删码（可以是联合信源信道编码），数据块选择、擦除策略，Cache机制。</p>
+<p><strong>项目导师</strong></p>
+<ul>
+<li>郑立铭</li>
+<li>email: <a href="mailto:zhengliming3@huawei.com">zhengliming3@huawei.com</a></li>
+</ul>
+<p><strong>难度</strong></p>
+<p>中等</p>
+<p><strong>特征</strong></p>
+<ul>
+<li>完成基本的文件系统的功能。</li>
+<li>合理地使用数据压缩方案，平衡计算性能与Flash写入性能。</li>
+<li>设计擦除块选择算法、数据块迁移算法，平衡各擦除块寿命、减少写入放大。</li>
+</ul>
+<p><strong>进阶特性</strong></p>
+<ul>
+<li>设计写入Cache，提升写入速率，同时需要考虑数据的一致性与可持久化(可以说是掉电)问题，可以结合类似Trim的机制。</li>
+<li>设计一个自适应的Flash纠错编码。识别Flash的生命周期，在Flash的生命周期前期倾向性能，后期倾向稳定性。</li>
+</ul>
+<p>**概括：**要求设计一个更智能的 Flash 文件系统，包括以下特性：</p>
+<ul>
+<li>完成基本的文件系统的功能。</li>
+<li>合理地使用数据压缩方案，平衡计算性能与 Flash 写入性能。</li>
+<li>设计擦除块选择算法、数据块迁移算法，平衡各擦除块寿命、减少写入放大。</li>
+<li>设计写入 Cache，提升写入速率，同时需要考虑数据的一致性与可持久化问题，可以结合类似 Trim 的机制。</li>
+<li>设计一个自适应的 Flash 纠错编码。识别 Flash 的生命周期，在 Flash 的生命周期前期倾向性能，后期倾向稳定性。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="题目分析"><a class="header" href="#题目分析">题目分析</a></h1>
+<h4 id="题目分析-1"><a class="header" href="#题目分析-1">题目分析</a></h4>
+<p><strong>题目中指定的技术点</strong></p>
+<ol>
+<li>数据压缩算法（可以是自适应的压缩算法）</li>
+<li>检错、纠错、纠删码**（可以是联合信源信道编码）**</li>
+<li><strong>数据块选择、擦除策略（仅裸 Flash）</strong></li>
+<li><strong>Cache 机制</strong></li>
+<li>『智能』如果可以是机器学习，要如何结合</li>
+</ol>
+<p>以上加粗的是上一届项目中没有涉及或者说注重的点。</p>
+<h4 id="特别注意"><a class="header" href="#特别注意">⚠️特别注意</a></h4>
+<ol>
+<li>在往届队伍实现中的『Flash』指的是『裸Flash』，即嵌入式设备中常用的可以指定绝对写入地址的 Flash 环境。如果理解为用于 SSD 等『基于 Flash 的存储设备』，则实现逻辑和题目要求可能南辕北辙。其 UBIFS 和改进是针对裸 Flash 设计的。</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="往年实现分析"><a class="header" href="#往年实现分析">往年实现分析</a></h1>
+<h4 id="往年实现分析-1"><a class="header" href="#往年实现分析-1">往年实现分析</a></h4>
+<p><a href="https://gitlab.eduxiji.net/why/project788067-124640">编译通过求求了 / proj117-基于UBIFS的更智能的文件系统</a></p>
+<p><strong>注重的地方</strong></p>
+<ol>
+<li>
+<p>文档数量庞大。</p>
+<p>文档中需要包含整个开发流程，需要列举并详细说明涉及到的技术要点和原理，以及配有丰富的示意图和代码段。</p>
+<p>在这个队伍的文档实现中，很大部分是分析原版 UBIFS 的实现逻辑和代码理解，另外一部分有基于这些理解对技术进行的调研以及自己的实现逻辑。</p>
+</li>
+<li>
+<p>总代码大。</p>
+<p>去除重复文件后统计文件行数如下：</p>
+<pre><code class="language-python">-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+C                               48           6044          12432          30124
+C/C++ Header                    13            713           4033           4173
+-------------------------------------------------------------------------------
+SUM:                            61           6757          16465          34297
+-------------------------------------------------------------------------------
+</code></pre>
+<p>看起来原版 UBIFS 的代码量就是很大，总大小有 1.5MiB，队伍自己的实现暂未统计。</p>
+</li>
+<li>
+<p>从「智能」这一点出发。</p>
+<p>PPT：</p>
+<ol>
+<li>『智能：针对不同的情况能够进行不同的处理，从而提升整体性能』</li>
+<li>『相较于ai，其只是低级层面的智能』</li>
+</ol>
+<p>项目中「智能」的实现：</p>
+<ol>
+<li>通过判断文件名的方式来判断使用的压缩算法和参数，即压缩算法和等级的自适应</li>
+<li>通过检查压缩效果是否合适来判断是否继续压缩，压缩效果不好可能其数据本身就是压缩文件，则再次不压缩</li>
+<li>利用文件系统中的局部性</li>
+<li>在 Flash 后期容易产生错误的时候转用纠错能力更强的算法</li>
+<li>冷热数据判别</li>
+</ol>
+</li>
+<li>
+<p>UBIFS 部分使用到了 Log-Structured 文件系统，即划分了一部分空间来给 Journal 做直接写入</p>
+</li>
+</ol>
+<p><strong>可以改进的地方</strong></p>
+<ol>
+<li>
+<p>联系题目，有没有没有做的点？</p>
+<ol>
+<li>纠删码（可以是联合信源信道编码）</li>
+<li>数据块选择、擦除策略</li>
+<li>Cache 机制</li>
+</ol>
+</li>
+<li>
+<p><strong>测试、展示不够规范。</strong></p>
+<ol>
+<li>
+<p>演示视频中，不断切换测试脚本和开发环境，并通过切换分支的方式切换功能和版本。</p>
+<p>这样看视频的人很难看懂在做什么，看懂了也很难说明当前的设计有哪些提升。如果演示的时候就能直观地用自动化脚本生成测试报告，如表格、统计图等，会更加有表现力，更能说服评委。</p>
+</li>
+<li>
+<p>没有使用通用的测试脚本或者软件，而是选择自己写脚本测试，难以说明提升。</p>
+<p>测试中大部分测试使用 3~11MiB 大小的连续读写，或者直接使用上百 MiB 的大文件连续读写，这不仅不能说明问题，而且也没有解决实际问题。在复杂的文件读写环境中，大部分读写应该是 4KiB 随机读写，这在其他的文件系统论文中是最重要的指标之一，视频中没有体现。</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>测试环境不对。</strong></p>
+<p>既然是适用于 Flash 的文件系统，就应该统计和 Flash 相关的数据，从而衡量这个文件系统对 Flash 的稳定性、寿命、速度的综合影响，但是测试中只是在本机上进行了速度的测试，这难以说明问题。</p>
+<p>我的提议是建立一个 Flash 仿真程序，真正计算在 Flash 中的读写频率、位置等信息，并模拟 Flash 芯片的具体延迟给出具体读写速度。</p>
+<p>其次，对 Flash 芯片的检错、纠错测试也应该基于 Flash 仿真，而不是在内存中写入值。</p>
+<p>⚠️可能能够仿真的只有裸 Flash 环境。</p>
+</li>
+<li>
+<p><strong>性能并不算非常优秀。</strong></p>
+<p>有些展示出来的功能点，还不如原版 UBIFS，不过优化的点看起来数据都不错。</p>
+</li>
+<li>
+<p><strong>纠错算法和 UBIFS 本身不太兼容。</strong></p>
+</li>
+<li>
+<p>如果实现机器学习层面的『智能』？</p>
+</li>
+<li>
+<p>UBIFS 本身是 2009 年的论文，应该在此基础上也有更多的优化实现。</p>
+</li>
+<li>
+<p>功能拓展</p>
+<ol>
+<li>
+<p>与嵌入式功能结合：如果将内存的一部分放到 Flash 上做 Swap，能不能在文件系统层面做优化</p>
+</li>
+<li>
+<p>与 SSD 主控的功能结合：项目中没有实现 Trim 方案，即自动数据整理，我们可以针对这个功能点做实现。（如果是基于有 FTL 的 Flash，这个可能就做不到）</p>
+</li>
+<li>
+<p>与 SSD 算法结合：Flash 做块擦除更方便，能不能结合硬件信息做块擦除（仅 裸 Flash？）</p>
+</li>
+<li>
+<p>更新的技术：</p>
+<ol>
+<li>有没有更好的纠错码？SSD 内部一般用什么算法？适合软件模拟吗？</li>
+<li>有没有能结合 CPU Cache 和 Flash Cache 的算法？怎么实现？</li>
+</ol>
+</li>
+<li>
+<p>AI 怎么说：结合 SSD 主控原理分析本题的更多突破口</p>
+<ol>
+<li>更好的<strong>垃圾回收</strong>算法：在 SSD 中，垃圾回收算法是一个非常重要的算法，可以考虑将 SSD 中的垃圾回收算法与 Flash 文件系统中的垃圾回收算法相结合，从而提高 Flash 文件系统的性能和稳定性。</li>
+<li>更好的<strong>预测</strong>算法：在 SSD 中，预测算法可以帮助提高读取性能和减少读取延迟，可以考虑将预测算法与 Flash 文件系统中的读取算法相结合，从而提高 Flash 文件系统的读取性能和稳定性。</li>
+<li>更好的写入算法：在 SSD 中，写入算法可以帮助提高写入性能和减少写入延迟，可以考虑将写入算法与 Flash 文件系统中的写入算法相结合，从而提高 Flash 文件系统的写入性能和稳定性。</li>
+<li>更好的数据压缩算法：在 SSD 中，数据压缩算法可以帮助提高存储密度和减少读取和写入延迟，可以考虑将数据压缩算法与 Flash 文件系统中的数据压缩算法相结合，从而提高 Flash 文件系统的存储密度和稳定性。</li>
+<li>更好的<strong>数据分配</strong>算法：在 SSD 中，数据分配算法可以帮助提高存储效率和减少写入延迟，可以考虑将数据分配算法与 Flash 文件系统中的数据分配算法相结合，从而提高 Flash 文件系统的存储效率和稳定性。</li>
+<li>更好的**数据保护（安全性）**算法：在 SSD 中，数据保护算法可以帮助提高数据的安全性和可靠性，可以考虑将数据保护算法与 Flash 文件系统中的数据保护算法相结合，从而提高 Flash 文件系统的安全性和可靠性。</li>
+<li>更好的**块管理（与实际硬件数据结合）**算法：在 SSD 中，块管理算法可以帮助提高存储效率和减少写入延迟，可以考虑将块管理算法与 Flash 文件系统中的块管理算法相结合，从而提高 Flash 文件系统的存储效率和稳定性。</li>
+<li>更好的缓存算法：在 SSD 中，缓存算法可以帮助提高读取性能和减少读取延迟，可以考虑将缓存算法与 Flash 文件系统中的缓存算法相结合，从而提高 Flash 文件系统的读取性能和稳定性。</li>
+<li>更好的<strong>并发</strong>算法：在 SSD 中，并发算法可以帮助提高存储效率和减少写入延迟，可以考虑将并发算法与 Flash 文件系统中的并发算法相结合，从而提高 Flash 文件系统的存储效率和稳定性。</li>
+<li>更好的<strong>数据清理</strong>算法：在 SSD 中，数据清理算法可以帮助提高存储效率和减少写入延迟，可以考虑将数据清理算法与 Flash 文件系统中的数据清理算法相结合，从而提高 Flash 文件系统的存储效率和稳定性。</li>
+</ol>
+<p>嗯……比我想的周全。</p>
+</li>
+</ol>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="问题列表"><a class="header" href="#问题列表">问题列表</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><p>几个相关研究方向的研究过程记录。</p>
+<ul>
+<li><input disabled="" type="checkbox"/>
+RAID on ZNS</li>
+<li><input disabled="" type="checkbox"/>
+提升 ZNS 的扩展性，用于更多应用场景，并保持性能较高</li>
+<li><input disabled="" type="checkbox"/>
+使用 ML 技术等进行调参
+<ul>
+<li><input disabled="" type="checkbox"/>
+ML 训练数据</li>
+<li><input disabled="" type="checkbox"/>
+系统负载调参</li>
+<li><input disabled="" type="checkbox"/>
+健康度调参</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="raid-on-zns"><a class="header" href="#raid-on-zns">RAID on ZNS</a></h2>
+<p>本方向将研究 RAID 技术在 ZNS 上的应用。</p>
+<h3 id="nullblk-的使用和修改"><a class="header" href="#nullblk-的使用和修改">nullblk 的使用和修改</a></h3>
+<p><a href="https://www.kernel.org/doc/html/latest/block/null_blk.html">nullblk</a> 即 Null block device driver，空块设备（<code>/dev/nullb*</code>），用于对各种块层实现进行基准测试。它模拟 <code>X</code> GB 大小的块设备。它不执行任何读/写操作，只是在请求队列中将它们标记为完成。</p>
+<p>nullblk 已经被合入 Linux Kernel 主线，具体用法可以参考<a href="https://www.kernel.org/doc/html/latest/block/null_blk.html">内核文档</a>。</p>
+<p>由于 ZNS 实物申请需要一段时间，或者无法申请到，所以我们需要一个仿真环境来进行我们的开发流程。nullblk 可以仿真块设备，并可以设置为只能顺序写的模式，正好仿真 ZNS 中的硬件 Zones。</p>
+<h4 id="使用-nullblk"><a class="header" href="#使用-nullblk">使用 nullblk</a></h4>
+<p>在测试中，可以方便地用脚本调用 Linux Kernel 的系统调用来创建 nullblk。</p>
+<pre><code class="language-shell">#!/bin/bash
+
+if [ $# != 4 ]; then
+        echo &quot;Usage: $0 &lt;sect size (B)&gt; &lt;zone size (MB)&gt; &lt;nr conv zones&gt; &lt;nr seq zones&gt;&quot;
+        exit 1
+fi
+
+scriptdir=$(cd $(dirname &quot;$0&quot;) &amp;&amp; pwd)
+
+modprobe null_blk nr_devices=0 || return $?
+
+function create_zoned_nullb()
+{
+        local nid=0
+        local bs=$1
+        local zs=$2
+        local nr_conv=$3
+        local nr_seq=$4
+
+        cap=$(( zs * (nr_conv + nr_seq) ))
+
+        while [ 1 ]; do
+                if [ ! -b &quot;/dev/nullb$nid&quot; ]; then
+                        break
+                fi
+                nid=$(( nid + 1 ))
+        done
+
+        dev=&quot;/sys/kernel/config/nullb/nullb$nid&quot;
+        mkdir &quot;$dev&quot;
+
+        echo $bs &gt; &quot;$dev&quot;/blocksize
+        echo 0 &gt; &quot;$dev&quot;/completion_nsec
+        echo 0 &gt; &quot;$dev&quot;/irqmode
+        echo 2 &gt; &quot;$dev&quot;/queue_mode
+        echo 1024 &gt; &quot;$dev&quot;/hw_queue_depth
+        echo 1 &gt; &quot;$dev&quot;/memory_backed
+        echo 1 &gt; &quot;$dev&quot;/zoned
+
+        echo $cap &gt; &quot;$dev&quot;/size
+        echo $zs &gt; &quot;$dev&quot;/zone_size
+        echo $nr_conv &gt; &quot;$dev&quot;/zone_nr_conv
+
+        echo 1 &gt; &quot;$dev&quot;/power
+
+        echo mq-deadline &gt; /sys/block/nullb$nid/queue/scheduler
+
+        echo &quot;$nid&quot;
+}
+
+nulldev=$(create_zoned_nullb $1 $2 $3 $4)
+echo &quot;Created /dev/nullb$nulldev&quot;
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Flash - AquaFS Docs</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> docs</a></li><li class="chapter-item expanded "><a href="../zns设备模拟/zns.html"><strong aria-hidden="true">2.</strong> ZNS设备模拟</a></li><li class="chapter-item expanded "><a href="../调研/index.html"><strong aria-hidden="true">3.</strong> 调研</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../调研/flash.html" class="active"><strong aria-hidden="true">3.1.</strong> Flash</a></li><li class="chapter-item expanded "><a href="../调研/Flash 嵌入式文件系统.html"><strong aria-hidden="true">3.2.</strong> Flash 嵌入式文件系统</a></li><li class="chapter-item expanded "><a href="../调研/f2fs.html"><strong aria-hidden="true">3.3.</strong> F2FS</a></li><li class="chapter-item expanded "><a href="../调研/zns.html"><strong aria-hidden="true">3.4.</strong> ZNS</a></li><li class="chapter-item expanded "><a href="../调研/zone分配策略.html"><strong aria-hidden="true">3.5.</strong> zone分配策略</a></li></ol></li><li class="chapter-item expanded "><a href="../题目描述与分析/index.html"><strong aria-hidden="true">4.</strong> 题目描述与分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../题目描述与分析/题目分析.html"><strong aria-hidden="true">4.1.</strong> 题目分析</a></li><li class="chapter-item expanded "><a href="../题目描述与分析/往年实现分析.html"><strong aria-hidden="true">4.2.</strong> 往年实现分析</a></li></ol></li><li class="chapter-item expanded "><a href="../问题列表.html"><strong aria-hidden="true">5.</strong> 问题列表</a></li><li class="chapter-item expanded "><a href="../研究方向/index.html"><strong aria-hidden="true">6.</strong> 研究方向</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../研究方向/RAID.html"><strong aria-hidden="true">6.1.</strong> RAID</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AquaFS Docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="flash"><a class="header" href="#flash">Flash</a></h1>
+<h4 id="分类和特点"><a class="header" href="#分类和特点">分类和特点</a></h4>
+<ul>
+<li>eMMC：主要用于嵌入式系统、移动设备等场景，集成了 Flash 存储器和控制器，支持高速读写和可靠性管理，但存储密度较低。（eMMC=控制器+Nand。FTL 在控制器中。）</li>
+<li><img src="flash.assets/image%20(6).png" alt="" /></li>
+<li>NorFlash：适用于需要快速读取和低成本的应用，例如嵌入式系统、固件存储、引导程序等，读取速度较快但存储密度较低。</li>
+<li>NandFlash：适用于需要更高存储密度和较低成本的应用，例如移动设备、数码相机、固态硬盘等，存储密度更高，但读取速度较慢且需要进行擦除操作才能写入新的数据，寿命也相对较短，需要采用 wear leveling 和 error correction 等技术来提高寿命和可靠性。（一般厂商的 Nand Flash 不带有 FTL 层）</li>
+<li><img src="flash.assets/image%20(7).png" alt="" /></li>
+</ul>
+<p><strong>NAND flash和NOR flash的性能比较</strong></p>
+<p>flash闪存是非易失存储器，可以对称为块的存储器单元块进行擦写和再编程。任何flash器件的写入操作只能在空或已擦除的单元内进行，所以大多数情况下，在进行写入操作之前必须先执行擦除。NAND器件执行擦除操作是十分简单的，而NOR则要求在进行擦除前先要将目标块内所有的位都写为0。由于擦除NOR器件时是以64～128KB的块进行的，执行一个写入/擦除操作的时间为5s，与此相反，擦除NAND器件是以8～32KB的块进行的，执行相同的操作最多只需要4ms。执行擦除时块尺寸的不同进一步拉大了NOR和NADN之间的性能差距，统计表明，对于给定的一套写入操作(尤其是更新小文件时)，更多的擦除操作必须在基于NOR的单元中进行。这样，当选择存储解决方案时，设计师必须权衡以下的各项因素。</p>
+<p>1、NOR的读速度比NAND稍快一些。
+2、NAND的写入速度比NOR快很多。
+3、NAND的4ms擦除速度远比NOR的5s快。
+4、大多数写入操作需要先进行擦除操作。
+5、NAND的擦除单元更小，相应的擦除电路更少。</p>
+<p><strong>NAND flash和NOR flash的接口差别</strong></p>
+<p>NOR flash带有SRAM接口，有足够的地址引脚来寻址，可以很容易地存取其内部的每一个字节。
+NAND器件使用复杂的I/O口来串行地存取数据，各个产品或厂商的方法可能各不相同。8个引脚用来传送控制、地址和数据信息。NAND读和写操作采用512字节的块，这一点有点像硬盘管理此类操作，很自然地，基于NAND的存储器就可以取代硬盘或其他块设备。</p>
+<p><strong>NAND flash和NOR flash的容量和成本</strong></p>
+<p>NAND flash的单元尺寸几乎是NOR器件的一半，由于生产过程更为简单，NAND结构可以在给定的模具尺寸内提供更高的容量，也就相应地降低了价格。
+NOR flash占据了容量为1～16MB闪存市场的大部分，而NAND flash只是用在8～128MB的产品当中，这也说明NOR主要应用在代码存储介质中，NAND适合于数据存储，NAND在CompactFlash、Secure Digital、PC Cards和MMC存储卡市场上所占份额最大。</p>
+<p><strong>NAND flash和NOR flash的寿命(耐用性)</strong></p>
+<p>在NAND闪存中每个块的最大擦写次数是一百万次，而NOR的擦写次数是十万次。NAND存储器除了具有10比1的块擦除周期优势，典型的NAND块尺寸要比NOR器件小8倍，每个NAND存储器块在给定的时间内的删除次数要少一些。</p>
+<p><strong>位交换</strong></p>
+<p>所有flash器件都受位交换现象的困扰。在某些情况下(很少见，NAND发生的次数要比NOR多)，一个比特位会发生反转或被报告反转了。一位的变化可能不很明显，但是如果发生在一个关键文件上，这个小小的故障可能导致系统停机。如果只是报告有问题，多读几次就可能解决了。当然，如果这个位真的改变了，就必须采用错误探测/错误更正(EDC/ECC)算法。位反转的问题更多见于NAND闪存，NAND的供应商建议使用NAND闪存的时候，同时使用0EDC/ECC算法。这个问题对于用NAND存储多媒体信息时倒不是致命的。当然，如果用本地存储设备来存储操作系统、配置文件或其他敏感信息时，必须使用EDC/ECC系统以确保可靠性。</p>
+<p><strong>坏块处理</strong></p>
+<p>NAND器件中的坏块是随机分布的。以前也曾有过消除坏块的努力，但发现成品率太低，代价太高，根本不划算。
+NAND器件需要对介质进行初始化扫描以发现坏块，并将坏块标记为不可用。在已制成的器件中，如果通过可靠的方法不能进行这项处理，将导致高故障率。</p>
+<p><strong>易于使用</strong></p>
+<p>可以非常直接地使用基于NOR的闪存，可以像其他存储器那样连接，并可以在上面直接运行代码。
+由于需要I/O接口，NAND要复杂得多。各种NAND器件的存取方法因厂家而异。在使用NAND器件时，必须先写入驱动程序，才能继续执行其他操作。向NAND器件写入信息需要相当的技巧，因为设计师绝不能向坏块写入，这就意味着在NAND器件上自始至终都必须进行虚拟映射。</p>
+<p><strong>软件支持</strong></p>
+<p>当讨论软件支持的时候，应该区别基本的读/写/擦操作和高一级的用于磁盘仿真和闪存管理算法的软件，包括性能优化。 在NOR器件上运行代码不需要任何的软件支持，在NAND器件上进行同样操作时，通常需要驱动程序，也就是内存技术驱动程序(MTD)，NAND和NOR器件在进行写入和擦除操作时都需要MTD。 使用NOR器件时所需要的MTD要相对少一些，许多厂商都提供用于NOR器件的更高级软件，这其中包括M-System的TrueFFS驱动，该驱动被Wind River System、Microsoft、QNX Software System、Symbian和Intel等厂商所采用。驱动还用于对DiskOnChip产品进行仿真和NAND闪存的管理，包括纠错、坏块处理和损耗平衡。</p>
+<h4 id="ssdemmcufs的区别"><a class="header" href="#ssdemmcufs的区别">SSD，eMMC，UFS的区别</a></h4>
+<p>三者都是基于Nand的块设备。</p>
+<p>SSD 主要作用是取代 PC/服务器 上的 HDD 硬盘，它需要：</p>
+<ul>
+<li>超大容量（百GB~TB级别）</li>
+<li>极高的并行性以提高性能</li>
+<li>对功耗，体积等要求并不敏感</li>
+<li>兼容已有接口技术 （SATA，PCI等）</li>
+</ul>
+<p>而 eMMC 和 UFS主要都是针对移动设备发明的，它们需要：</p>
+<ul>
+<li>适当的容量</li>
+<li>适当的性能</li>
+<li>对功耗 ，体积的要求极其敏感</li>
+<li>仅需遵循一定的接口标准</li>
+</ul>
+<p>一个SSD，为了达到高并行高性能的要求，<strong>有多个Flash 芯片</strong>，这样就可以在每个芯片上进行相互独立的读写操作，以并行性来提高硬盘吞吐量，还可以增加冗余备份。而手机中为了节省空间和功耗，通常只有一片密度较高的 Flash 芯片。</p>
+<p>管理一个 Flash 芯片，和管理多个 Flash 芯片，策略肯定是不一样的，因此它们的控制器 （controller）就完全不同了。而且 PC 上需要兼容 SATA 或 PCIe 或 m2 接口，这样你电脑硬盘坏了的时候，可以拔下来换上另一块同样接口的硬盘能照样用。而手机上的 Flash 芯片大多是直接焊在主板上的，基本上不需要考虑更换的问题，所以只要遵从一个特定标准，能和CPU正常通讯就好了。因此接口的不同也是 SSD 和 eMMC，UFS 的重要区别之一。</p>
+<p>eMMC 和 UFS 都是面向移动端 Flash 的标准，区别在于，二者的接口技术大相径庭。eMMC 和 MMC一样，沿用了 8 bit 的并行接口。在传输速率不高的时代，这个接口够用了。但随着设备对接口的带宽要求越来越高，想把并行接口速率提高也越来越难。eMMC 的最新 5.1标准理论最高值最高可以达到400 MB/s，再往上提高频率也不是不行，但就未必划算了。</p>
+<p>好在这几年接口串行化大潮轰轰烈烈。所谓接口串行化，简单来说就是工程师们发现：与其用一个比较宽的并行接口以较低的速率传输，用一个串行接口用非常高的速率传输似乎更划算一些（带宽，功率，成本各方面综合考虑）。所以这个时候 UFS 应运而生，用高速串行接口取代了并行接口，而且还是全双工的，也就是可以读写同时进行。所以相比 eMMC， UFS的理论性能提高不少，甚至可以达到一些SSD的水准。</p>
+<h4 id="ftl"><a class="header" href="#ftl">FTL</a></h4>
+<p>本职工作：地址映射。原因是闪存只能异地更新，为了对上支持数据块原地更新则需要通过地址转换实现。</p>
+<p>由于闪存先擦后写、擦写有次数限制（寿命）、使用过程中会不断出现坏块（块寿命不同）等特性，FTL还需具备垃圾回收、磨损均衡、坏块管理等十八般武艺。</p>
+<p><strong>映射方式</strong></p>
+<p>闪存内部的基本存储单位是Page（4KB）,N个Page组成一个Block。</p>
+<p><strong>块级映射</strong></p>
+<p>将块映射地址分为两部分：块地址和块内偏移。映射表只保存块的映射关系，块内偏移直接对应。</p>
+<p><strong>页级映射</strong></p>
+<p>映射表维护每个页的映射关系。</p>
+<p><strong>混合映射</strong></p>
+<p>主要思路是针对频繁更新的数据采用页级映射，很少更新的数据采用块级映射。其中采用Log Structed思想的混合映射将存储分为数据块（Data Block）和日志块（Log Block）。数据块用于存储数据，采用块级映射，日志块用于存储对于数据块更新后的数据，采用页级映射。混合映射是低端SSD、eMMC、UFS广泛采用的映射方式。根据日志块和数据块的对应关系又可以分为全相关映射（FAST）、块相关映射（BAST）、组相关映射（SAST）等等。下图是SAST映射的一个示例：2个日志块对应4个数据块，当日志块用完时需要通过搬移有效数据回收日志块。对于顺序写场景，最好情况下日志块对应位置记录了数据块的更新，则可以无需搬移数据，直接将日志块作为新的数据块（？），数据块进行擦除操作作为新的日志块。对于大量随机写场景，则需要将日志块和数据块中的有效数据搬移到空闲块的对应位置作为新的数据块，然后擦除原日志块和数据块。</p>
+<h3 id="xipexecute-in-place"><a class="header" href="#xipexecute-in-place">XIP：eXecute In Place</a></h3>
+<p>XIP（Execute-In-Place）是一种存储器访问模式，允许 CPU 直接从存储器中执行代码，而无需将代码加载到 RAM 中。这种模式可以提高系统性能，减少 RAM 的使用，以及降低系统成本。</p>
+<p><img src="flash.assets/image%20(9).png" alt="" /></p>
+<p>XIP 适用于需要快速执行代码的应用，例如嵌入式系统、网络设备、汽车电子等。在这些应用中，启动时间和响应速度非常重要，因此使用 XIP 可以显著提高系统性能和响应速度。</p>
+<p>需要注意的是，XIP 模式并不适用于所有类型的存储器。只有一些特殊的存储器类型，如 NOR Flash，才支持 XIP。这是因为这些存储器类型具有快速的访问速度和随机读取功能，可以满足 XIP 模式的要求。</p>
+<p>那么，NandFlash 是否支持 XIP 呢？当前实际有一些相关研究，不过大部分的结论都是「可以，但是没必要」。</p>
+<p><a href="https://www.cnblogs.com/henjay724/p/14856670.html">痞子衡嵌入式：串行NAND Flash的两大特性导致其在i.MXRT FlexSPI下无法XiP - 痞子衡 - 博客园</a></p>
+<p>主要阻碍 NandFlash 的 XIP 的有几点：</p>
+<ol>
+<li>坏块导致的非线性存储：对于屏蔽坏块造成的非线性地址，程序无法正确处理，即无法自动跳过这些地址。</li>
+<li>NandFlash 上自带的 ECC 校验很大延迟：主机只能主动询问 Nand 是否校验完成</li>
+<li>NandFlash 本身延迟大，一般存储逻辑是按块、页读取而不是串行读取</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../调研/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../调研/Flash 嵌入式文件系统.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../调研/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../调研/Flash 嵌入式文件系统.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

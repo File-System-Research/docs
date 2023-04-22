@@ -1,0 +1,528 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>ZNS设备模拟 - AquaFS Docs</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> docs</a></li><li class="chapter-item expanded "><a href="../zns设备模拟/zns.html" class="active"><strong aria-hidden="true">2.</strong> ZNS设备模拟</a></li><li class="chapter-item expanded "><a href="../调研/index.html"><strong aria-hidden="true">3.</strong> 调研</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../调研/flash.html"><strong aria-hidden="true">3.1.</strong> Flash</a></li><li class="chapter-item expanded "><a href="../调研/Flash 嵌入式文件系统.html"><strong aria-hidden="true">3.2.</strong> Flash 嵌入式文件系统</a></li><li class="chapter-item expanded "><a href="../调研/f2fs.html"><strong aria-hidden="true">3.3.</strong> F2FS</a></li><li class="chapter-item expanded "><a href="../调研/zns.html"><strong aria-hidden="true">3.4.</strong> ZNS</a></li><li class="chapter-item expanded "><a href="../调研/zone分配策略.html"><strong aria-hidden="true">3.5.</strong> zone分配策略</a></li></ol></li><li class="chapter-item expanded "><a href="../题目描述与分析/index.html"><strong aria-hidden="true">4.</strong> 题目描述与分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../题目描述与分析/题目分析.html"><strong aria-hidden="true">4.1.</strong> 题目分析</a></li><li class="chapter-item expanded "><a href="../题目描述与分析/往年实现分析.html"><strong aria-hidden="true">4.2.</strong> 往年实现分析</a></li></ol></li><li class="chapter-item expanded "><a href="../问题列表.html"><strong aria-hidden="true">5.</strong> 问题列表</a></li><li class="chapter-item expanded "><a href="../研究方向/index.html"><strong aria-hidden="true">6.</strong> 研究方向</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../研究方向/RAID.html"><strong aria-hidden="true">6.1.</strong> RAID</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AquaFS Docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="zns设备模拟"><a class="header" href="#zns设备模拟">ZNS设备模拟</a></h1>
+<h2 id="1setting-up-a-zoned-storage-compatible-linux-system"><a class="header" href="#1setting-up-a-zoned-storage-compatible-linux-system">1.Setting-up a Zoned Storage Compatible Linux System</a></h2>
+<h3 id="overview"><a class="header" href="#overview">Overview</a></h3>
+<ol>
+<li><a href="https://zonedstorage.io/docs/getting-started/linux#linux-distribution">A compatible Linux distribution</a> with the right kernel version</li>
+<li><a href="https://zonedstorage.io/docs/getting-started/linux#checking-a-systems-configuration">Support for zoned block devices</a></li>
+<li><a href="https://zonedstorage.io/docs/getting-started/linux#system-utilities">Necessary system utilities</a></li>
+</ol>
+<p>配置ZNS需要正确的内核版本以能够支持相应的版本，首先建立可以和zoned storage相兼容的linux system。</p>
+<h3 id="linux-distribution"><a class="header" href="#linux-distribution">Linux Distribution</a></h3>
+<p>一些linux发行版本提供了zoned storage的支持，这些发行版本的常规安装提供了可以支持SMR硬盘和ZNS SSDs的支持。</p>
+<p>这里采用Ubuntu 20.04跑在VMWare上的虚拟机作为安装的linux system。</p>
+<p>当然也可以用其他的版本,下载的发行版本需要满足两个条件：</p>
+<ol>
+<li>The kernel version <a href="https://zonedstorage.io/docs/getting-started/linux#checking-the-kernel-version">must be 4.10.0 or higher</a>.</li>
+<li>The kernel configuration option <a href="https://zonedstorage.io/docs/getting-started/linux#checking-zoned-block-device-support"><em>CONFIG_BLK_DEV_ZONED</em> must be enabled</a>.</li>
+</ol>
+<p>install Fedora can be found <a href="https://docs.fedoraproject.org/en-US/fedora/f33/install-guide/">here</a>.</p>
+<h4 id="1测试内核版本"><a class="header" href="#1测试内核版本">1.测试内核版本：</a></h4>
+<pre><code class="language-shell">uname -r
+</code></pre>
+<p><img src="./img/kernel_version.png" alt="image-20230410163339792" /></p>
+<h4 id="2用以下两条命令来检测是否支持zoned-block-device"><a class="header" href="#2用以下两条命令来检测是否支持zoned-block-device">2.用以下两条命令来检测是否支持Zoned Block Device:</a></h4>
+<pre><code class="language-shell">cat /boot/config-`uname -r` | grep CONFIG_BLK_DEV_ZONED
+cat /lib/modules/`uname -r`/config | grep CONFIG_BLK_DEV_ZONED
+</code></pre>
+<p><img src="./img/CONFIG_BLK_DEV_ZONED.png" alt="image-20230410165650341" /></p>
+<h4 id="3检查系统配置"><a class="header" href="#3检查系统配置">3.检查系统配置</a></h4>
+<h5 id="write-ordering-control"><a class="header" href="#write-ordering-control">write ordering control</a></h5>
+<p>linux内核并不保证命令到达设备的顺序，这意味到达磁盘的写命令顺序可能会打乱，因此可能造成写错误。为了避免这个错误，&quot;zone write lock mechanism&quot; 用来顺序化这些操作。</p>
+<p>查看block I/O调度器：</p>
+<pre><code class="language-shell"># cat /sys/block/sdb/queue/scheduler
+[none] mq-deadline kyber bfq
+</code></pre>
+<p><img src="./img/write_ordering_control.png" alt="image-20230410165650341" /></p>
+<p>如果不是mq-deadline的调度器，需要切换成mq-deadline的调度器：</p>
+<pre><code class="language-shell"># echo mq-deadline &gt; /sys/block/sdb/queue/scheduler
+
+# cat sys/block/sdb/queue/scheduler
+[mq-deadline] kyber bfq none
+</code></pre>
+<h5 id="system-utilities"><a class="header" href="#system-utilities">System Utilities</a></h5>
+<p>按照说明里边我只找到了lsblk指令，其他的诸如没找到sg3_utils，lsscsi等。</p>
+<p>不过在ubuntu里边可以用zbd这个指令来和blkzone起到类似的效果，这个命令是用来看zone的信息的。</p>
+<p>安装libzbd的过程如下：</p>
+<p>首先libzbd需要下面的package进行编译：</p>
+<pre><code class="language-shell"># 如果想要有图形化界面的gzbd和gzbd-viewer的话 还需要首先安装libgtk-3-dev这个包
+# sudo apt install libgtk-3-dev
+# apt-get install autoconf
+# apt-get install autoconf-archive
+# apt-get install automake
+# apt-get install libtool
+# apt-get install m4
+</code></pre>
+<p>同时系统需要有blkzoned.h，头文件在/usr/include/linux里边可以找一下：</p>
+<pre><code class="language-shell">sudo ls /usr/include/linux/ | grep blkzoned
+</code></pre>
+<p>然后把libzbd的包下下来，在已经下载的文件夹里面编译一遍：</p>
+<pre><code class="language-shell">git clone https://github.com/westerndigitalcorporation/libzbd.git
+sh ./autogen.sh
+./configure
+make
+</code></pre>
+<p>默认下载在/usr.lib或者/usr/lib64下。</p>
+<p>不过这个在Ubuntu22.04里边有个zbd-tools可以直接用apt下载。</p>
+<h2 id="2zoned-block-device模拟方法"><a class="header" href="#2zoned-block-device模拟方法">2.Zoned Block Device模拟方法</a></h2>
+<p>最简单的方法是创建null block的方式来模拟block device</p>
+<h3 id="简单创建方法"><a class="header" href="#简单创建方法">简单创建方法</a></h3>
+<p>创建一个null block块：</p>
+<pre><code class="language-shell">modprobe null_blk nr_devices=1 zoned=1
+</code></pre>
+<p><code>nr_devices=1</code>表示仅创建一个设备；<code>zoned=1</code>表示创建的所有设备都是分区设备。</p>
+<p>可以用lsblk来查看一下信息：</p>
+<p><img src="./img/create_null_blk.png" alt="image-20230410184623049" /></p>
+<p>可以看到我们创建了一个nullb0的设备。</p>
+<p>还可以用zbd来查看分区块设备的信息：</p>
+<p><img src="./img/null_blk_zone_info.png" alt="image-20230410184623049" /></p>
+<p>删除一个由<code>modprobe</code>创建（且不由<code>configfs</code>创建）的模拟设备可用以下方法删除：</p>
+<pre><code class="language-shell">rmmod null_blk
+</code></pre>
+<h3 id="高级创建方法"><a class="header" href="#高级创建方法">高级创建方法</a></h3>
+<pre><code class="language-shell"># modprobe null_blk nr_devices=1 \
+    zoned=1 \
+    zone_nr_conv=4 \
+    zone_size=64 \
+</code></pre>
+<p><code>nr_devices=1</code>表示仅创建一个设备；</p>
+<p><code>zoned=1</code>表示创建的所有设备都是分区设备；</p>
+<p><code>zone_nr_conv=4</code>表示传统的Zone个数为4；</p>
+<p><code>zone_size=64</code>表示每个Zone有64MB。</p>
+<p><code>configfs</code>接口为创建模拟分区块设备提供了强大的手段。<code>configfs</code>可供修改的参数如下：</p>
+<pre><code class="language-shell"># cat /sys/kernel/config/nullb/features
+memory_backed,discard,bandwidth,cache,badblocks,zoned,zone_size,zone_capacity,zone_nr_conv,zone_max_open,zone_max_active,blocksize,max_sectors,virt_boundary
+</code></pre>
+<p>需要注意的是不同内核版本可修改的参数是不一样的：</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">kernel</th><th style="text-align: center">feature</th></tr></thead><tbody>
+<tr><td style="text-align: center">4.10.0</td><td style="text-align: center">zoned</td></tr>
+<tr><td style="text-align: center">4.10.0</td><td style="text-align: center">chunk_sectors</td></tr>
+<tr><td style="text-align: center">4.20.0</td><td style="text-align: center">nr_zones</td></tr>
+<tr><td style="text-align: center">5.8.0</td><td style="text-align: center">zone_append_max_bytes</td></tr>
+<tr><td style="text-align: center">5.9.0</td><td style="text-align: center">max_open_zones</td></tr>
+<tr><td style="text-align: center">5.9.0</td><td style="text-align: center">max_active_zones</td></tr>
+</tbody></table>
+</div>
+<p><code>configfs</code>接口可以用来用脚本创建具有不同zone配置的模拟zone块设备。
+创建内容如下的脚本：</p>
+<pre><code class="language-shell">#!/bin/bash
+
+if [ $# != 4 ]; then
+        echo &quot;Usage: $0 &lt;sect size (B)&gt; &lt;zone size (MB)&gt; &lt;nr conv zones&gt; &lt;nr seq zones&gt;&quot;
+        exit 1
+fi
+
+scriptdir=$(cd $(dirname &quot;$0&quot;) &amp;&amp; pwd)
+
+modprobe null_blk nr_devices=0 || return $?
+
+function create_zoned_nullb()
+{
+        local nid=0
+        local bs=$1
+        local zs=$2
+        local nr_conv=$3
+        local nr_seq=$4
+
+        cap=$(( zs * (nr_conv + nr_seq) ))
+
+        while [ 1 ]; do
+                if [ ! -b &quot;/dev/nullb$nid&quot; ]; then
+                        break
+                fi
+                nid=$(( nid + 1 ))
+        done
+
+        dev=&quot;/sys/kernel/config/nullb/nullb$nid&quot;
+        mkdir &quot;$dev&quot;
+
+        echo $bs &gt; &quot;$dev&quot;/blocksize
+        echo 0 &gt; &quot;$dev&quot;/completion_nsec
+        echo 0 &gt; &quot;$dev&quot;/irqmode
+        echo 2 &gt; &quot;$dev&quot;/queue_mode
+        echo 1024 &gt; &quot;$dev&quot;/hw_queue_depth
+        echo 1 &gt; &quot;$dev&quot;/memory_backed
+        echo 1 &gt; &quot;$dev&quot;/zoned
+
+        echo $cap &gt; &quot;$dev&quot;/size
+        echo $zs &gt; &quot;$dev&quot;/zone_size
+        echo $nr_conv &gt; &quot;$dev&quot;/zone_nr_conv
+
+        echo 1 &gt; &quot;$dev&quot;/power
+
+        echo mq-deadline &gt; /sys/block/nullb$nid/queue/scheduler
+
+        echo &quot;$nid&quot;
+}
+
+nulldev=$(create_zoned_nullb $1 $2 $3 $4)
+echo &quot;Created /dev/nullb$nulldev&quot;
+</code></pre>
+<p>运行脚本，脚本的四个参数分别为：</p>
+<ol>
+<li>模拟设备的扇区大小（bytes）</li>
+<li>模拟设备的zone大小（MiB）</li>
+<li>传统zone个数</li>
+<li>有顺序写限制的zone个数</li>
+</ol>
+<p>运行结果如下：</p>
+<pre><code class="language-shell"># ./nullblk-zoned.sh 4096 64 4 8 
+Created /dev/nullb0
+# zbd report -i /dev/nullb0
+Device /dev/nullb0:
+    Vendor ID: Unknown
+    Zone model: host-managed
+    Capacity: 0.805 GB (1572864 512-bytes sectors)
+    Logical blocks: 196608 blocks of 4096 B
+    Physical blocks: 196608 blocks of 4096 B
+    Zones: 12 zones of 64.0 MB
+    Maximum number of open zones: no limit
+    Maximum number of active zones: no limit
+Zone 00000: cnv, ofst 00000000000000, len 00000067108864, cap 00000067108864
+Zone 00001: cnv, ofst 00000067108864, len 00000067108864, cap 00000067108864
+Zone 00002: cnv, ofst 00000134217728, len 00000067108864, cap 00000067108864
+Zone 00003: cnv, ofst 00000201326592, len 00000067108864, cap 00000067108864
+Zone 00004: swr, ofst 00000268435456, len 00000067108864, cap 00000067108864, wp 00000268435456, em, non_seq 0, reset 0
+Zone 00005: swr, ofst 00000335544320, len 00000067108864, cap 00000067108864, wp 00000335544320, em, non_seq 0, reset 0
+Zone 00006: swr, ofst 00000402653184, len 00000067108864, cap 00000067108864, wp 00000402653184, em, non_seq 0, reset 0
+Zone 00007: swr, ofst 00000469762048, len 00000067108864, cap 00000067108864, wp 00000469762048, em, non_seq 0, reset 0
+Zone 00008: swr, ofst 00000536870912, len 00000067108864, cap 00000067108864, wp 00000536870912, em, non_seq 0, reset 0
+Zone 00009: swr, ofst 00000603979776, len 00000067108864, cap 00000067108864, wp 00000603979776, em, non_seq 0, reset 0
+Zone 00010: swr, ofst 00000671088640, len 00000067108864, cap 00000067108864, wp 00000671088640, em, non_seq 0, reset 0
+Zone 00011: swr, ofst 00000738197504, len 00000067108864, cap 00000067108864, wp 00000738197504, em, non_seq 0, reset 0
+
+
+</code></pre>
+<p>用脚本创建的分区块设备的删除也需要使用脚本：</p>
+<pre><code class="language-shell">#!/bin/bash
+
+if [ $# != 1 ]; then
+    echo &quot;Usage: $0 &lt;nullb ID&gt;&quot;
+    exit 1
+fi
+
+nid=$1
+
+if [ ! -b &quot;/dev/nullb$nid&quot; ]; then
+    echo &quot;/dev/nullb$nid: No such device&quot;
+    exit 1
+fi
+
+echo 0 &gt; /sys/kernel/config/nullb/nullb$nid/power
+rmdir /sys/kernel/config/nullb/nullb$nid
+
+echo &quot;Destroyed /dev/nullb$nid&quot;
+</code></pre>
+<p>运行结果如下：</p>
+<pre><code class="language-shell"># ./nullblk-del.sh 0
+Destroyed /dev/nullb0
+</code></pre>
+<h2 id="3在zoned-block-device上模拟zenfs"><a class="header" href="#3在zoned-block-device上模拟zenfs">3.在ZONED BLOCK DEVICE上模拟ZenFS</a></h2>
+<p>好了，现在我们可以来基于zbd建立zenfs的文件系统。</p>
+<p>记得要把之前的libzbd安装了。</p>
+<p>首先建立一个null_blk的zone device block，利用如下脚本：</p>
+<pre><code class="language-shell">#!/bin/bash
+
+if [ $# != 7 ]; then
+        echo &quot;Usage: $0 &lt;sect size (B)&gt; &lt;zone size (MB)&gt; &lt;zone capacity (MB)&gt; &lt;nr conv zones&gt; &lt;nr seq zones&gt; &lt;max active zones&gt; &lt;max open zones&gt;&quot;
+        exit 1
+fi
+
+scriptdir=&quot;$(cd &quot;$(dirname &quot;$0&quot;)&quot; &amp;&amp; pwd)&quot;
+
+modprobe null_blk nr_devices=0 || return $?
+
+function create_zoned_nullb()
+{
+        local nid=0
+        local bs=$1
+        local zs=$2
+        local zc=$3
+        local nr_conv=$4
+        local nr_seq=$5
+        local max_active_zones=$6
+        local max_open_zones=$7
+
+        cap=$(( zs * (nr_conv + nr_seq) ))
+
+        while [ 1 ]; do
+                if [ ! -b &quot;/dev/nullb$nid&quot; ]; then
+                        break
+                fi
+                nid=$(( nid + 1 ))
+        done
+
+        dev=&quot;/sys/kernel/config/nullb/nullb$nid&quot;
+        mkdir &quot;$dev&quot;
+
+        echo $bs &gt; &quot;$dev&quot;/blocksize
+        echo 0 &gt; &quot;$dev&quot;/completion_nsec
+        echo 0 &gt; &quot;$dev&quot;/irqmode
+        echo 2 &gt; &quot;$dev&quot;/queue_mode
+        echo 1024 &gt; &quot;$dev&quot;/hw_queue_depth
+        echo 1 &gt; &quot;$dev&quot;/memory_backed
+        echo 1 &gt; &quot;$dev&quot;/zoned
+
+        echo $cap &gt; &quot;$dev&quot;/size
+        echo $zs &gt; &quot;$dev&quot;/zone_size
+        echo $zc &gt; &quot;$dev&quot;/zone_capacity
+        echo $nr_conv &gt; &quot;$dev&quot;/zone_nr_conv
+        echo $max_active_zones &gt; &quot;$dev&quot;/zone_max_active
+        echo $max_open_zones &gt; &quot;$dev&quot;/zone_max_open
+
+        echo 1 &gt; &quot;$dev&quot;/power
+
+        echo mq-deadline &gt; /sys/block/nullb$nid/queue/scheduler
+
+        echo &quot;$nid&quot;
+}
+
+nulldev=$(create_zoned_nullb $1 $2 $3 $4 $5 $6 $7)
+echo &quot;Created /dev/nullb$nulldev&quot;
+</code></pre>
+<p>然后设置对应的参数</p>
+<pre><code class="language-Shell">chmod +x nullblk-zoned.sh
+sudo ./nullblk-zoned.sh 512 128 124 0 32 12 12
+</code></pre>
+<p>这样一个zbd就在建立好了，可以用lsblk命令查看一下，现在应该有了一个叫做/dev/nullb0的设备，不过是空的，再用gzbd-viewer查看一下这个设备：</p>
+<p><img src="./img/empty_zone_block_device.png" alt="image-20230410184623049" /></p>
+<p>之后我们可以利用fio向里面写入数据，首先下载fio：</p>
+<pre><code class="language-shell">git clone https://github.com/axboe/fio.git
+cd fio
+./configure
+make -j$(nproc --all)
+sudo make install
+</code></pre>
+<p>再往里面写入数据：</p>
+<pre><code class="language-shell">sudo fio --name=test --filename=/dev/nullb0 --zonemode=zbd --direct=1 --runtime=5 --ioengine=io_uring --hipri --rw=randwrite --iodepth=1 --bs=16K --max_open_zones=12
+</code></pre>
+<p>可以用gzbd-viewer查看zbd的情况：</p>
+<p><img src="./img/fio_zbd.png" alt="image-20230410184623049" /></p>
+<p>最后我们利用脚本在nullb0上创建一个zenfs文件系统：</p>
+<pre><code class="language-shell">#!/bin/sh -ex
+
+DEV=nullb0
+FUZZ=5
+ZONE_SZ_SECS=$(cat /sys/class/block/$DEV/queue/chunk_sectors)
+ZONE_CAP=$((ZONE_SZ_SECS * 512))
+BASE_FZ=$(($ZONE_CAP  * (100 - $FUZZ) / 100))
+WB_SIZE=$(($BASE_FZ * 2))
+
+TARGET_FZ_BASE=$WB_SIZE
+TARGET_FILE_SIZE_MULTIPLIER=2
+MAX_BYTES_FOR_LEVEL_BASE=$((2 * $TARGET_FZ_BASE))
+
+MAX_BACKGROUND_JOBS=8
+MAX_BACKGROUND_COMPACTIONS=8
+OPEN_FILES=16
+
+echo deadline &gt; /sys/class/block/$DEV/queue/scheduler
+./plugin/zenfs/util/zenfs mkfs --zbd=$DEV --aux_path=/tmp/zenfs_$DEV --finish_threshold=0 --force
+./db_bench --fs_uri=zenfs://dev:$DEV --key_size=16 --value_size=800 --target_file_size_base=$TARGET_FZ_BASE \
+ --write_buffer_size=$WB_SIZE --max_bytes_for_level_base=$MAX_BYTES_FOR_LEVEL_BASE \
+ --max_bytes_for_level_multiplier=4 --use_direct_io_for_flush_and_compaction \
+ --num=1500000 --benchmarks=fillrandom,overwrite --max_background_jobs=$MAX_BACKGROUND_JOBS \
+ --max_background_compactions=$MAX_BACKGROUND_COMPACTIONS --open_files=$OPEN_FILES
+</code></pre>
+<p>用gzbd-viewer看一下写入数据：</p>
+<p><img src="./img/zen_fs.png" alt="image-20230410184623049" /></p>
+<p>在db_bench上进行测试：</p>
+<p><img src="./img/db_bench.png" alt="image-20230410184623049" /></p>
+<p>在zenfs的tests目录中可以对文件系统进行测试。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../调研/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../调研/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
