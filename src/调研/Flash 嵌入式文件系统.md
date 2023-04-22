@@ -4,9 +4,9 @@
 
 {% embed url="https://elinux.org/images/4/44/Squashfs_eng.pdf" %}
 
-![](<../../.gitbook/assets/image (4).png>)![](<../../.gitbook/assets/image (12).png>)
+![](<Flash 嵌入式文件系统.assets/image (4).png>)![](<Flash 嵌入式文件系统.assets/image (12).png>)
 
-![](<../../.gitbook/assets/image (10).png>)
+![](<Flash 嵌入式文件系统.assets/image (10).png>)
 
 多数嵌入式解决方案都是把压缩后的固件存储到 Flash 中，启动时解压到 RAM 中再在 RAM 上启动
 
@@ -21,7 +21,7 @@
 
 Linux MTD 设备专门用于 Flash 这种存储介质，提供读、写、擦除方法。
 
-在 Linux MTD 设备中，没有算法专门做磨损均衡，但是 UBI 有这个算法。![](<../../.gitbook/assets/image (3).png>)![](<../../.gitbook/assets/image (1).png>)
+在 Linux MTD 设备中，没有算法专门做磨损均衡，但是 UBI 有这个算法。![](<Flash 嵌入式文件系统.assets/image (3).png>)![](<Flash 嵌入式文件系统.assets/image (1).png>)
 
 UBIFS 运行在 UBI 之上，所以这个文件系统本身并不需要考虑磨损均衡，这是下一层的 UBI 逻辑。
 
@@ -31,7 +31,7 @@ _**UBI：Unsorted Block Images**_
 
 {% embed url="http://www.linux-mtd.infradead.org/doc/ubi.ppt" %}
 
-![](../../.gitbook/assets/image.png)![](<../../.gitbook/assets/image (5).png>)
+![](<Flash 嵌入式文件系统.assets/image.png>)![](<Flash 嵌入式文件系统.assets/image (5).png>)
 
 [Memory Technology Device (MTD) Subsystem for Linux.](http://www.linux-mtd.infradead.org/doc/ubi.html)
 
@@ -83,7 +83,7 @@ OverlayFS 是一种联合文件系统，可以将多个文件系统层叠在一�
 
 OpenWRT 中使用到了 OverlayFS 这一技术：[https://openwrt.org/zh/docs/techref/filesystems](https://openwrt.org/zh/docs/techref/filesystems)
 
-![](<../../.gitbook/assets/image (8).png>)
+![](<Flash 嵌入式文件系统.assets/image (8).png>)
 
 OverlayFS基本结构：多个文件系统的堆叠和合并
 
