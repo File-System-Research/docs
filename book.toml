@@ -2,5 +2,5 @@
 authors = ["Chiro Liang", "lty", "Sky"]
 language = "zh-CN"
 multilingual = false
-src = "src"
+src = "."
 title = "AquaFS Docs"
