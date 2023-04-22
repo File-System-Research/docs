@@ -42,3 +42,56 @@ F2FS的垃圾回收Garbage Collection（GC）分为前台GC和后台GC。当没�
 3） 后续处理，迁移后的Section被标记为“预释放”状态，当下一个检查点完成中Section才真正变为空闲可被使用。因为检查点完成之前掉电后会恢复到前一个检查点，在前一个检查点中该Section还包含有效数据。
 
 当空闲空间不足时，F2FS也不是“一根筋”的继续保持日志写的方式（Normal Logging）。直接向碎片化的Segment中的无效块写入数据是日志结构文件系统的另一个日志策略（Threaded Logging），又被称为SSR（Slack Space Recycling）。SSR虽然变成了随机写，但避免了被前台GC阻塞。同时通过以贪心方式选择做SSR的Section，写入位置仍然有一定的连续性。
+
+***\**\*\*\*\*\*\*\*F2FS性能对比\*\*\*\*\*\*\*\*\****
+
+[F2FS vs. EXT4 File-System Performance With Intel's Clear Linux](https://www.phoronix.com/review/clear-linux-f2fs/2)
+
+1. SQLite 非常快
+
+   ![Untitled](f2fs.assets/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F8d689b61-0461-4ab9-bb25-200b7bfc9f76%2FUntitled.png)
+
+2. 随机读写比 Ext4 稍微弱
+
+3. 文件系统同步（sync）性能比 Ext4 好很多
+
+4. PostgreSQL 测试 F2FS 比 Ext4 性能差了一大截
+
+5. Systemd 启动，F2FS 比 Ext4 慢
+
+**已知的问题**
+
+https://wiki.archlinux.org/title/F2FS
+
+1. 版本稳定性问题：
+
+   如果在运行机器上的内核版本旧于用于创建分区的内核版本，则F2FS分区中包含的数据可能无法使用。例如，如果F2FS分区是在由[linux](https://archlinux.org/packages/?name=linux)提供的主线内核上创建的，但系统需要降级到由[linux-lts](https://archlinux.org/packages/?name=linux-lts)提供的较旧的内核系列，则可能会出现此限制。请参见[FS#69363](https://bugs.archlinux.org/task/69363)。
+
+2. 磁盘修复问题 fsck failures
+
+   F2FS的fsck弱，如果突然断电可能会导致数据丢失 **[[3\]](https://www.usenix.org/system/files/atc19-jaffer.pdf)[[4\]](https://web.archive.org/web/20200925120546/https://archived.forum.manjaro.org/t/record-fsync-data-failed-on-f2fs-file-system-how-to-fix-foregt-the-help-i-reinstalled-its-just-easier/121051)**。如果频繁出现断电情况，考虑使用其他 **[文件系统](https://wiki.archlinux.org/title/File_system)**。
+
+3. GRUB 启动问题
+
+   尽管 GRUB 自 2.0.4 版本支持 F2FS，但它无法从启用了 `extra_attr` 标志的 F2FS 分区正确读取其引导文件（有关更多详细信息，请参见 **[GRUB＃不支持的文件系统](https://wiki.archlinux.org/title/GRUB#Unsupported_file_systems)**）。
+
+4. 写入放大问题，造成 SSD 寿命缩短
+
+5. Nand 过度配置问题
+
+6. 段清理开销
+
+7. 元数据更新开销
+
+8. 文件碎片
+
+9. 冷热数据识别不够智能
+
+### F2FS 优化分析
+
+F2FS 的缺点和可优化点包括：段清理开销、元数据更新开销、文件碎片、顺序读取性能差等。这些优化点与以下论文相关联：
+
+- When F2FS Meets Address Remapping：利用地址重映射技术来弥补 F2FS 中的缺陷，达到原地更新的效果，避免段清理、元数据更新和文件碎片的问题。
+- M2H: Optimizing F2FS via Multi-log Delayed Writing and Modified Segment Cleaning based on Dynamically Identified Hotness：基于动态识别热点，利用多日志延迟写入和修改段清理来优化 F2FS 的性能。
+- Mitigating Synchronous I/O Overhead in File Systems on Open-Channel SSDs：通过引入内置的持久暂存层来提供对闪存友好的数据布局，以提供平衡的读取、写入和垃圾收集性能。
+- Optimizing Fragmentation and Segment Cleaning for CPS based Storage Devices：提出了多级阈值同步写入方案和高检测频率背景段清理方案来减少段清理的开销。
