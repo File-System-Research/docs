@@ -3,10 +3,10 @@
 #### 分类和特点
 
 * eMMC：主要用于嵌入式系统、移动设备等场景，集成了 Flash 存储器和控制器，支持高速读写和可靠性管理，但存储密度较低。（eMMC=控制器+Nand。FTL 在控制器中。）
-* ![](<../.gitbook/assets/image (6).png>)
+* ![](<../../.gitbook/assets/image (6).png>)
 * NorFlash：适用于需要快速读取和低成本的应用，例如嵌入式系统、固件存储、引导程序等，读取速度较快但存储密度较低。
 * NandFlash：适用于需要更高存储密度和较低成本的应用，例如移动设备、数码相机、固态硬盘等，存储密度更高，但读取速度较慢且需要进行擦除操作才能写入新的数据，寿命也相对较短，需要采用 wear leveling 和 error correction 等技术来提高寿命和可靠性。（一般厂商的 Nand Flash 不带有 FTL 层）
-* ![](<../.gitbook/assets/image (7).png>)
+* ![](<../../.gitbook/assets/image (7).png>)
 
 **NAND flash和NOR flash的性能比较**
 
@@ -102,7 +102,7 @@ eMMC 和 UFS 都是面向移动端 Flash 的标准，区别在于，二者的接
 
 XIP（Execute-In-Place）是一种存储器访问模式，允许 CPU 直接从存储器中执行代码，而无需将代码加载到 RAM 中。这种模式可以提高系统性能，减少 RAM 的使用，以及降低系统成本。
 
-![](<../.gitbook/assets/image (9).png>)
+![](<../../.gitbook/assets/image (9).png>)
 
 XIP 适用于需要快速执行代码的应用，例如嵌入式系统、网络设备、汽车电子等。在这些应用中，启动时间和响应速度非常重要，因此使用 XIP 可以显著提高系统性能和响应速度。
 

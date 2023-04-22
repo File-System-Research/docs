@@ -1,0 +1,6 @@
+[book]
+authors = ["Chiro Liang"]
+language = "en"
+multilingual = false
+src = "src"
+title = "AquaFS Docs"
