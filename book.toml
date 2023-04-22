@@ -1,6 +1,6 @@
 [book]
-authors = ["Chiro Liang"]
-language = "en"
+authors = ["Chiro Liang", "lty", "Sky"]
+language = "zh-CN"
 multilingual = false
 src = "src"
 title = "AquaFS Docs"
