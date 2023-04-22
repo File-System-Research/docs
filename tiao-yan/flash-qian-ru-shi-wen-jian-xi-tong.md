@@ -4,7 +4,9 @@
 
 {% embed url="https://elinux.org/images/4/44/Squashfs_eng.pdf" %}
 
-![多数嵌入式解决方案都是把压缩后的固件存储到 Flash 中，启动时解压到 RAM 中再在 RAM 上启动](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/99c6063a-ccbe-4ced-954a-080246f6cd52/Untitled.png)
+![](<../.gitbook/assets/image (4).png>)![](<../.gitbook/assets/image (12).png>)
+
+![](<../.gitbook/assets/image (10).png>)
 
 多数嵌入式解决方案都是把压缩后的固件存储到 Flash 中，启动时解压到 RAM 中再在 RAM 上启动
 
@@ -19,11 +21,7 @@
 
 Linux MTD 设备专门用于 Flash 这种存储介质，提供读、写、擦除方法。
 
-在 Linux MTD 设备中，没有算法专门做磨损均衡，但是 UBI 有这个算法。
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7ae8d81f-e554-4a0c-8b0e-50641da7c221/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/02bd0881-6320-4523-a507-1ef371ee361c/Untitled.png)
+在 Linux MTD 设备中，没有算法专门做磨损均衡，但是 UBI 有这个算法。![](<../.gitbook/assets/image (3).png>)![](<../.gitbook/assets/image (1).png>)
 
 UBIFS 运行在 UBI 之上，所以这个文件系统本身并不需要考虑磨损均衡，这是下一层的 UBI 逻辑。
 
@@ -31,11 +29,9 @@ yaffs2 等就没有磨损均衡了。
 
 _**UBI：Unsorted Block Images**_
 
-[http://www.linux-mtd.infradead.org/doc/ubi.ppt](http://www.linux-mtd.infradead.org/doc/ubi.ppt)
+{% embed url="http://www.linux-mtd.infradead.org/doc/ubi.ppt" %}
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6359f9f0-ff2f-4a47-971c-24b0226c71f3/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/dbb2c1f3-5797-4cb4-bbbb-dee9c7d2f1a4/Untitled.png)
+![](../.gitbook/assets/image.png)![](<../.gitbook/assets/image (5).png>)
 
 [Memory Technology Device (MTD) Subsystem for Linux.](http://www.linux-mtd.infradead.org/doc/ubi.html)
 
@@ -87,7 +83,7 @@ OverlayFS 是一种联合文件系统，可以将多个文件系统层叠在一�
 
 OpenWRT 中使用到了 OverlayFS 这一技术：[https://openwrt.org/zh/docs/techref/filesystems](https://openwrt.org/zh/docs/techref/filesystems)
 
-![OverlayFS基本结构：多个文件系统的堆叠和合并](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a6ba1aab-03e8-4ef6-a2f5-7817ce15d236/Untitled.png)
+![](<../.gitbook/assets/image (8).png>)
 
 OverlayFS基本结构：多个文件系统的堆叠和合并
 
