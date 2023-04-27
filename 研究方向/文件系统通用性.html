@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>研究方向 - AquaFS Docs</title>
+        <title>文件系统通用性 - AquaFS Docs</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> docs</a></li><li class="chapter-item expanded "><a href="../zns设备模拟/index.html"><strong aria-hidden="true">2.</strong> ZNS设备模拟</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zns设备模拟/zns.html"><strong aria-hidden="true">2.1.</strong> ZNS</a></li><li class="chapter-item expanded "><a href="../zns设备模拟/nullblk.html"><strong aria-hidden="true">2.2.</strong> nullblk</a></li></ol></li><li class="chapter-item expanded "><a href="../调研/index.html"><strong aria-hidden="true">3.</strong> 调研</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../调研/flash.html"><strong aria-hidden="true">3.1.</strong> Flash</a></li><li class="chapter-item expanded "><a href="../调研/Flash 嵌入式文件系统.html"><strong aria-hidden="true">3.2.</strong> Flash 嵌入式文件系统</a></li><li class="chapter-item expanded "><a href="../调研/f2fs.html"><strong aria-hidden="true">3.3.</strong> F2FS</a></li><li class="chapter-item expanded "><a href="../调研/zns.html"><strong aria-hidden="true">3.4.</strong> ZNS</a></li><li class="chapter-item expanded "><a href="../调研/zone分配策略.html"><strong aria-hidden="true">3.5.</strong> zone分配策略</a></li></ol></li><li class="chapter-item expanded "><a href="../题目描述与分析/index.html"><strong aria-hidden="true">4.</strong> 题目描述与分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../题目描述与分析/题目分析.html"><strong aria-hidden="true">4.1.</strong> 题目分析</a></li><li class="chapter-item expanded "><a href="../题目描述与分析/往年实现分析.html"><strong aria-hidden="true">4.2.</strong> 往年实现分析</a></li></ol></li><li class="chapter-item expanded "><a href="../问题列表.html"><strong aria-hidden="true">5.</strong> 问题列表</a></li><li class="chapter-item expanded "><a href="../研究方向/index.html" class="active"><strong aria-hidden="true">6.</strong> 研究方向</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../研究方向/RAID.html"><strong aria-hidden="true">6.1.</strong> RAID</a></li><li class="chapter-item expanded "><a href="../研究方向/文件系统通用性.html"><strong aria-hidden="true">6.2.</strong> 文件系统通用性</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> docs</a></li><li class="chapter-item expanded "><a href="../zns设备模拟/index.html"><strong aria-hidden="true">2.</strong> ZNS设备模拟</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../zns设备模拟/zns.html"><strong aria-hidden="true">2.1.</strong> ZNS</a></li><li class="chapter-item expanded "><a href="../zns设备模拟/nullblk.html"><strong aria-hidden="true">2.2.</strong> nullblk</a></li></ol></li><li class="chapter-item expanded "><a href="../调研/index.html"><strong aria-hidden="true">3.</strong> 调研</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../调研/flash.html"><strong aria-hidden="true">3.1.</strong> Flash</a></li><li class="chapter-item expanded "><a href="../调研/Flash 嵌入式文件系统.html"><strong aria-hidden="true">3.2.</strong> Flash 嵌入式文件系统</a></li><li class="chapter-item expanded "><a href="../调研/f2fs.html"><strong aria-hidden="true">3.3.</strong> F2FS</a></li><li class="chapter-item expanded "><a href="../调研/zns.html"><strong aria-hidden="true">3.4.</strong> ZNS</a></li><li class="chapter-item expanded "><a href="../调研/zone分配策略.html"><strong aria-hidden="true">3.5.</strong> zone分配策略</a></li></ol></li><li class="chapter-item expanded "><a href="../题目描述与分析/index.html"><strong aria-hidden="true">4.</strong> 题目描述与分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../题目描述与分析/题目分析.html"><strong aria-hidden="true">4.1.</strong> 题目分析</a></li><li class="chapter-item expanded "><a href="../题目描述与分析/往年实现分析.html"><strong aria-hidden="true">4.2.</strong> 往年实现分析</a></li></ol></li><li class="chapter-item expanded "><a href="../问题列表.html"><strong aria-hidden="true">5.</strong> 问题列表</a></li><li class="chapter-item expanded "><a href="../研究方向/index.html"><strong aria-hidden="true">6.</strong> 研究方向</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../研究方向/RAID.html"><strong aria-hidden="true">6.1.</strong> RAID</a></li><li class="chapter-item expanded "><a href="../研究方向/文件系统通用性.html" class="active"><strong aria-hidden="true">6.2.</strong> 文件系统通用性</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -144,36 +144,45 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>几个相关研究方向的研究过程记录。</p>
-<ul>
-<li><input disabled="" type="checkbox"/>
-RAID on ZNS</li>
-<li><input disabled="" type="checkbox"/>
-提升 ZNS 的扩展性，用于更多应用场景，并保持性能较高</li>
-<li><input disabled="" type="checkbox"/>
-使用 ML 技术等进行调参
-<ul>
-<li><input disabled="" type="checkbox"/>
-ML 训练数据</li>
-<li><input disabled="" type="checkbox"/>
-系统负载调参</li>
-<li><input disabled="" type="checkbox"/>
-健康度调参</li>
-</ul>
-</li>
-</ul>
-
+                        <h2 id="文件系统通用性"><a class="header" href="#文件系统通用性">文件系统通用性</a></h2>
+<p>本方向将研究 ZenFS 以及其他通用的文件系统 在 ZNS 上的应用。</p>
+<h3 id="让-zenfs-更加通用"><a class="header" href="#让-zenfs-更加通用">让 ZenFS 更加通用</a></h3>
+<h4 id="文件通用性"><a class="header" href="#文件通用性">文件通用性</a></h4>
+<p>当前 ZenFS 的文件存储逻辑为..... TODO</p>
+<p>Record 在磁盘上的结构可以总结如下：</p>
+<div class="table-wrapper"><table><thead><tr><th>种类</th><th>长度</th><th>可能的作用</th></tr></thead><tbody>
+<tr><td>header</td><td><code>zMetaHeaderSize==(sizeof(uint32_t) * 2)</code></td><td>记录数据块大小和校验和的信息</td></tr>
+<tr><td>data</td><td>record_sz</td><td>存储实际的记录数据</td></tr>
+<tr><td>校验和</td><td>sizeof(uint32_t)</td><td>用于校验数据完整性的校验和</td></tr>
+</tbody></table>
+</div>
+<p>以下是 <code>header</code> 的结构总结：</p>
+<div class="table-wrapper"><table><thead><tr><th>字段名称</th><th>字段类型</th><th>描述</th></tr></thead><tbody>
+<tr><td>record_crc</td><td>uint32_t</td><td>记录的 CRC 校验和</td></tr>
+<tr><td>record_sz</td><td>uint32_t</td><td>记录的大小（字节数）</td></tr>
+</tbody></table>
+</div>
+<p>其中，header 保存了 record_sz 和 record_crc，record_sz 是 data 的长度，record_crc 是 data 的校验和。data 中存储了实际的记录数据。actual_crc 是根据 data 和 record_sz 计算出的校验和，与 record_crc 进行比较以确认数据完整性。</p>
+<p>一个 <code>ZoneFile</code> 在存储介质上的结构：</p>
+<div class="table-wrapper"><table><thead><tr><th>种类</th><th>长度</th><th>作用</th></tr></thead><tbody>
+<tr><td>文件 ID (File ID)</td><td>4 字节</td><td>用于唯一标识文件</td></tr>
+<tr><td>文件大小 (File Size)</td><td>8 字节</td><td>记录文件大小</td></tr>
+<tr><td>寿命提示 (Write Lifetime Hint)</td><td>4 字节</td><td>用于提示写入寿命</td></tr>
+<tr><td>区间 (Extent)</td><td>可变长度</td><td>记录文件的一个区间</td></tr>
+<tr><td>修改时间 (Modification Time)</td><td>8 字节</td><td>记录文件最近一次修改的时间戳</td></tr>
+<tr><td>活动区间的开始 (Active Extent Start)</td><td>8 字节</td><td>记录当前活动区间的开始位置</td></tr>
+<tr><td>是否稀疏 (Is Sparse)</td><td>1 字节</td><td>标记文件是否为稀疏文件</td></tr>
+<tr><td>关联文件名 (Linked Filename)</td><td>可变长度</td><td>记录与该文件有关联的其他文件名</td></tr>
+</tbody></table>
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../问题列表.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../研究方向/RAID.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../研究方向/RAID.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -181,13 +190,10 @@ ML 训练数据</li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../问题列表.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../研究方向/RAID.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../研究方向/RAID.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>
