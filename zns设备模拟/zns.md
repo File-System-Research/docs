@@ -103,7 +103,7 @@ make
 
 默认下载在/usr.lib或者/usr/lib64下。
 
-不过这个在Ubuntu22.04里边有个zbd-tools可以直接用apt下载。
+不过这个在Ubuntu22.04里边有个zbd-utils可以直接用apt下载。
 
 ## 2.Zoned Block Device模拟方法
 
