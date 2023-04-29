@@ -1119,6 +1119,11 @@ ML 训练数据</li>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="文件系统通用性"><a class="header" href="#文件系统通用性">文件系统通用性</a></h2>
 <p>本方向将研究 ZenFS 以及其他通用的文件系统 在 ZNS 上的应用。</p>
 <h3 id="让-zenfs-更加通用"><a class="header" href="#让-zenfs-更加通用">让 ZenFS 更加通用</a></h3>
+<h4 id="减少对-rocksdb-的依赖"><a class="header" href="#减少对-rocksdb-的依赖">减少对 RocksDB 的依赖</a></h4>
+<p>当前 ZenFS 对 RocksDB 有许多依赖，这与 ZenFS 设计时的目的有关。ZenFS 被设计为 RocksDB 的对 Zoned Block Device 上的文件管理系统，数据读写完全由 RocksDB 管理，数据结构、程序日志、文件系统接口、测试方法等都在 RocksDB 代码当中，并不是 ZenFS 的逻辑。ZenFS 完全作为 RocksDB 的一个插件存在，无法独立编译也无法直接运用在其他程序中，既不方便开发也不方便使用。</p>
+<p>当前，为了减少对 RocksDB 的依赖，我们的解决方案是将 RocksDB 首先编译为静态代码库 <code>librocksdb.a</code>，然后将这个静态库和所有的头文件安装到系统的搜索路径中，从而让一个独立的 ZenFS 能够使用其中的头文件定义和静态代码。</p>
+<p>这其中是有许多问题的，例如 RocksDB 利用 <code>Configurable</code> 的基类完成了基于字符串到对象的对象工厂，但是如果将其编译为 <code>librocksdb.a</code>，就无法对其他使用到这个 <code>.a</code> 文件的程序完成这个工厂的查找过程。</p>
+<p>TODO: 解决方案。</p>
 <h4 id="文件通用性"><a class="header" href="#文件通用性">文件通用性</a></h4>
 <p>当前 ZenFS 的文件存储逻辑为..... TODO</p>
 <p>Record 在磁盘上的结构可以总结如下：</p>
