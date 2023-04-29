@@ -841,6 +841,55 @@ NAND器件需要对介质进行初始化扫描以发现坏块，并将坏块标�
 <blockquote>
 <p>不需要垃圾回收，需要上层软件配合，保证一个zone在全部数据失效的时候擦除。</p>
 </blockquote>
+<p><strong>ZNS 的结构：Zone</strong></p>
+<p>摘自 <code>/usr/include/linux/blkzoned.h</code>：</p>
+<pre><code class="language-c">/**
+ * enum blk_zone_type - Types of zones allowed in a zoned device.
+ *
+ * @BLK_ZONE_TYPE_CONVENTIONAL: The zone has no write pointer and can be writen
+ *                              randomly. Zone reset has no effect on the zone.
+ * @BLK_ZONE_TYPE_SEQWRITE_REQ: The zone must be written sequentially
+ * @BLK_ZONE_TYPE_SEQWRITE_PREF: The zone can be written non-sequentially
+ *
+ * Any other value not defined is reserved and must be considered as invalid.
+ */
+enum blk_zone_type {
+	BLK_ZONE_TYPE_CONVENTIONAL	= 0x1,
+	BLK_ZONE_TYPE_SEQWRITE_REQ	= 0x2,
+	BLK_ZONE_TYPE_SEQWRITE_PREF	= 0x3,
+};
+</code></pre>
+<p>摘自 <code>libzbd/zdb.h</code>：</p>
+<pre><code class="language-c">/**
+ * @brief Zone types
+ *
+ * @ZBD_ZONE_TYPE_CNV: The zone has no write pointer and can be writen
+ *		       randomly. Zone reset has no effect on the zone.
+ * @ZBD_ZONE_TYPE_SWR: The zone must be written sequentially
+ * @ZBD_ZONE_TYPE_SWP: The zone can be written randomly
+ */
+enum zbd_zone_type {
+	ZBD_ZONE_TYPE_CNV	= BLK_ZONE_TYPE_CONVENTIONAL,
+	ZBD_ZONE_TYPE_SWR	= BLK_ZONE_TYPE_SEQWRITE_REQ,
+	ZBD_ZONE_TYPE_SWP	= BLK_ZONE_TYPE_SEQWRITE_PREF,
+};
+</code></pre>
+<p>Zone 的分类：</p>
+<ol>
+<li>Conventional Zone
+<ol>
+<li>块内地址能够随机写</li>
+<li>没有写指针机制（与普通 SSD 一致）</li>
+<li>Reset 对这种 Zone 无效</li>
+</ol>
+</li>
+<li>Sequentially Write Required Zone
+<ol>
+<li>不能随机写，必须从当前 Zone 的写指针开始顺序写</li>
+<li>可以 Reset 来清除指针值</li>
+</ol>
+</li>
+</ol>
 <h4 id="zenfs"><a class="header" href="#zenfs">Zenfs</a></h4>
 <p><strong>Linux内核对ZNS的支持</strong></p>
 <p>ZNS的特性 需要内核支持，所以开发了ZBD(zoned block device) 内核子系统 来提供通用的块层访问接口。除了支持内核通过ZBD 访问ZNS之外，还提供了用户API ioctl进行一些基础数据的访问，包括：当前环境 zone 设备的枚举，展示已有的zone的信息 ，管理某一个具体的zone(比如reset)。</p>
