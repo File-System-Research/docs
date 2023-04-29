@@ -152,12 +152,31 @@
 <p>Chiro：如果一次就会使得一整个盘坏掉，那 Zones 级别的 RAID 意义可能不大。</p>
 <p>老师：其实商用 SSD 的损坏情况和消费级的是不一样的，消费级的一般一次坏掉一整个盘，但是商用的话需要尽可能完全使用 SSD 的每个颗粒，如果颗粒寿命耗尽会屏蔽掉这个颗粒然后继续使用。我可以给你们一篇谷歌在这方面数据的论文。（Flash Reliability in Production: The Expected and the Unexpected）</p>
 </li>
+<li>
+<p><strong>基于 Zones 的 RAID 和普通的 RAID，区别和改进是什么？</strong></p>
+<ol>
+<li>
+<p>提高区域利用性：当一个商用 ZNS 只坏掉了一个区域，可以用 RAID 的冗余特性将数据恢复并屏蔽相关区域，就可以继续运行，完全压榨所有颗粒的寿命。</p>
+</li>
+<li>
+<p>提高读写带宽：</p>
+<p>当使用多个设备的时候，均衡分配块的读写。</p>
+<ol>
+<li><strong>如何分配不同的 <code>devices</code> 的 Open Zones？</strong></li>
+<li><strong>如何使 Read / Write 尽量应用不同设备的更多的 Open Zones 来提高整体带宽？</strong></li>
+</ol>
+</li>
+</ol>
+</li>
 </ol>
 <h2 id="调参相关"><a class="header" href="#调参相关">调参相关</a></h2>
 <ol>
 <li>
 <p><strong>ZenFS 相关的参数可能比较少，如果进行调参工作的话工作空间有限</strong></p>
 <p>老师：其实不需要将视野局限于 ZenFS 这一个文件系统，如果能够在 ZNS 上做多种文件系统的调参，工作层次就能打开了。例如，做在 ZNS 上实现的 F2FS、btrfs 的调参等。</p>
+</li>
+<li>
+<p><strong>对训练数据还没收集积累，收集数据时间可能不够</strong></p>
 </li>
 </ol>
 <h2 id="应用相关"><a class="header" href="#应用相关">应用相关</a></h2>

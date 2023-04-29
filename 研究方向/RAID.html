@@ -146,6 +146,41 @@
                     <main>
                         <h2 id="raid-on-zns"><a class="header" href="#raid-on-zns">RAID on ZNS</a></h2>
 <p>本方向将研究 RAID 技术在 ZNS 上的应用。</p>
+<h3 id="问题"><a class="header" href="#问题">问题</a></h3>
+<ol>
+<li>
+<p>RAID 种类和性能？<a href="https://www.liujason.com/article/679.html">ZFS在不同 RAID 策略下的性能评测</a></p>
+<div class="table-wrapper"><table><thead><tr><th>阵列等级</th><th>磁盘数量</th><th>总容量</th><th>写速度</th><th>随机写速度</th><th>读速度</th></tr></thead><tbody>
+<tr><td>single drive</td><td>1x 4TB</td><td>3.7 TB</td><td>108MB/s</td><td>50MB/s</td><td>204MB/s</td></tr>
+<tr><td>mirror (raid1)</td><td>2x 4TB</td><td>3.7 TB</td><td>106MB/s</td><td>50MB/s</td><td>488MB/s</td></tr>
+<tr><td>stripe (raid0)</td><td>2x 4TB</td><td>7.5 TB</td><td>237MB/s</td><td>73MB/s</td><td>434MB/s</td></tr>
+<tr><td>mirror (raid1)</td><td>3x 4TB</td><td>3.7 TB</td><td>106MB/s</td><td>49MB/s</td><td>589MB/s</td></tr>
+<tr><td>stripe (raid0)</td><td>3x 4TB</td><td>11.3 TB</td><td>392MB/s</td><td>86MB/s</td><td>474MB/s</td></tr>
+<tr><td>raidz1 (raid5)</td><td>3x 4TB</td><td>7.5 TB</td><td>225MB/s</td><td>56MB/s</td><td>619MB/s</td></tr>
+<tr><td>2 striped mirrors</td><td>4x 4TB</td><td>7.5 TB</td><td>226MB/s</td><td>53MB/s</td><td>644MB/s</td></tr>
+<tr><td>raidz2 (raid6)</td><td>4x 4TB</td><td>7.5 TB</td><td>204MB/s</td><td>54MB/s</td><td>183MB/s</td></tr>
+<tr><td>raidz1 (raid5)</td><td>5x 4TB</td><td>15.0 TB</td><td>469MB/s</td><td>79MB/s</td><td>598MB/s</td></tr>
+<tr><td>raidz3 (raid7)</td><td>5x 4TB</td><td>7.5 TB</td><td>116MB/s</td><td>45MB/s</td><td>493MB/s</td></tr>
+<tr><td>3 striped mirrors</td><td>6x 4TB</td><td>11.3 TB</td><td>389MB/s</td><td>60MB/s</td><td>655MB/s</td></tr>
+<tr><td>raidz2 (raid6)</td><td>6x 4TB</td><td>15.0 TB</td><td>429MB/s</td><td>71MB/s</td><td>488MB/s</td></tr>
+<tr><td>2 striped 5x raidz</td><td>10x 4TB</td><td>30.1 TB</td><td>675MB/s</td><td>109MB/s</td><td>1012MB/s</td></tr>
+<tr><td>raidz3 (raid7)</td><td>11x 4TB</td><td>30.2 TB</td><td>552MB/s</td><td>103MB/s</td><td>963MB/s</td></tr>
+<tr><td>6 striped mirrors</td><td>12x 4TB</td><td>22.6 TB</td><td>643MB/s</td><td>83MB/s</td><td>962MB/s</td></tr>
+<tr><td>2 striped 6x raidz2</td><td>12x 4TB</td><td>30.1 TB</td><td>638MB/s</td><td>105MB/s</td><td>990MB/s</td></tr>
+<tr><td>raidz (raid5)</td><td>12x 4TB</td><td>41.3 TB</td><td>689MB/s</td><td>118MB/s</td><td>993MB/s</td></tr>
+<tr><td>raidz2 (raid6)</td><td>12x 4TB</td><td>37.4 TB</td><td>317MB/s</td><td>98MB/s</td><td>1065MB/s</td></tr>
+<tr><td>raidz3 (raid7)</td><td>12x 4TB</td><td>33.6 TB</td><td>452MB/s</td><td>105MB/s</td><td>840MB/s</td></tr>
+<tr><td>2 striped 11x raidz3</td><td>22x 4TB</td><td>60.4 TB</td><td>567MB/s</td><td>162MB/s</td><td>1139MB/s</td></tr>
+<tr><td>22x 4TB</td><td>2 striped 11x raidz3</td><td>60.4 TB</td><td>567MB/s</td><td>162MB/s</td><td>1139MB/s</td></tr>
+<tr><td>23x 4TB</td><td>raidz3 (raid7)</td><td>74.9 TB</td><td>440MB/s</td><td>157MB/s</td><td>1146MB/s</td></tr>
+<tr><td>24x 4TB</td><td>12 striped mirrors</td><td>45.2 TB</td><td>696MB/s</td><td>144MB/s</td><td>898MB/s</td></tr>
+<tr><td>24x 4TB</td><td>raidz (raid5)</td><td>86.4 TB</td><td>567MB/s</td><td>198MB/s</td><td>1304MB/s</td></tr>
+<tr><td>24x 4TB</td><td>raidz2 (raid6)</td><td>82.0 TB</td><td>434MB/s</td><td>189MB/s</td><td>1063MB/s</td></tr>
+<tr><td>24x 4TB</td><td>raidz3 (raid7)</td><td>78.1 TB</td><td>405MB/s</td><td>180MB/s</td><td>1117MB/s</td></tr>
+<tr><td>24x 4TB</td><td>striped raid0</td><td>90.4 TB</td><td>692MB/s</td><td>260MB/s</td><td>1377MB/s</td></tr>
+</tbody></table>
+</div></li>
+</ol>
 
                     </main>
 
