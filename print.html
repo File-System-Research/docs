@@ -1091,6 +1091,9 @@ SUM:                            61           6757          16465          34297
 </li>
 </ol>
 </li>
+<li>
+<p><strong>RAID5 为什么要错开校验存储？</strong></p>
+</li>
 </ol>
 <h2 id="调参相关"><a class="header" href="#调参相关">调参相关</a></h2>
 <ol>
@@ -1127,44 +1130,80 @@ ML 训练数据</li>
 健康度调参</li>
 </ul>
 </li>
+<li><input disabled="" type="checkbox"/>
+TODO
+<ul>
+<li><input disabled="" type="checkbox"/>
+多个文件系统的融合</li>
+<li><input disabled="" type="checkbox"/>
+压缩</li>
+</ul>
+</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="raid-on-zns"><a class="header" href="#raid-on-zns">RAID on ZNS</a></h2>
 <p>本方向将研究 RAID 技术在 ZNS 上的应用。</p>
+<p>处于简化问题考虑，我们只研究相同型号 SSD 下的 RAID。</p>
 <h3 id="问题"><a class="header" href="#问题">问题</a></h3>
 <ol>
 <li>
 <p>RAID 种类和性能？<a href="https://www.liujason.com/article/679.html">ZFS在不同 RAID 策略下的性能评测</a></p>
-<div class="table-wrapper"><table><thead><tr><th>阵列等级</th><th>磁盘数量</th><th>总容量</th><th>写速度</th><th>随机写速度</th><th>读速度</th></tr></thead><tbody>
-<tr><td>single drive</td><td>1x 4TB</td><td>3.7 TB</td><td>108MB/s</td><td>50MB/s</td><td>204MB/s</td></tr>
-<tr><td>mirror (raid1)</td><td>2x 4TB</td><td>3.7 TB</td><td>106MB/s</td><td>50MB/s</td><td>488MB/s</td></tr>
-<tr><td>stripe (raid0)</td><td>2x 4TB</td><td>7.5 TB</td><td>237MB/s</td><td>73MB/s</td><td>434MB/s</td></tr>
-<tr><td>mirror (raid1)</td><td>3x 4TB</td><td>3.7 TB</td><td>106MB/s</td><td>49MB/s</td><td>589MB/s</td></tr>
-<tr><td>stripe (raid0)</td><td>3x 4TB</td><td>11.3 TB</td><td>392MB/s</td><td>86MB/s</td><td>474MB/s</td></tr>
-<tr><td>raidz1 (raid5)</td><td>3x 4TB</td><td>7.5 TB</td><td>225MB/s</td><td>56MB/s</td><td>619MB/s</td></tr>
-<tr><td>2 striped mirrors</td><td>4x 4TB</td><td>7.5 TB</td><td>226MB/s</td><td>53MB/s</td><td>644MB/s</td></tr>
-<tr><td>raidz2 (raid6)</td><td>4x 4TB</td><td>7.5 TB</td><td>204MB/s</td><td>54MB/s</td><td>183MB/s</td></tr>
-<tr><td>raidz1 (raid5)</td><td>5x 4TB</td><td>15.0 TB</td><td>469MB/s</td><td>79MB/s</td><td>598MB/s</td></tr>
-<tr><td>raidz3 (raid7)</td><td>5x 4TB</td><td>7.5 TB</td><td>116MB/s</td><td>45MB/s</td><td>493MB/s</td></tr>
-<tr><td>3 striped mirrors</td><td>6x 4TB</td><td>11.3 TB</td><td>389MB/s</td><td>60MB/s</td><td>655MB/s</td></tr>
-<tr><td>raidz2 (raid6)</td><td>6x 4TB</td><td>15.0 TB</td><td>429MB/s</td><td>71MB/s</td><td>488MB/s</td></tr>
-<tr><td>2 striped 5x raidz</td><td>10x 4TB</td><td>30.1 TB</td><td>675MB/s</td><td>109MB/s</td><td>1012MB/s</td></tr>
-<tr><td>raidz3 (raid7)</td><td>11x 4TB</td><td>30.2 TB</td><td>552MB/s</td><td>103MB/s</td><td>963MB/s</td></tr>
-<tr><td>6 striped mirrors</td><td>12x 4TB</td><td>22.6 TB</td><td>643MB/s</td><td>83MB/s</td><td>962MB/s</td></tr>
-<tr><td>2 striped 6x raidz2</td><td>12x 4TB</td><td>30.1 TB</td><td>638MB/s</td><td>105MB/s</td><td>990MB/s</td></tr>
-<tr><td>raidz (raid5)</td><td>12x 4TB</td><td>41.3 TB</td><td>689MB/s</td><td>118MB/s</td><td>993MB/s</td></tr>
-<tr><td>raidz2 (raid6)</td><td>12x 4TB</td><td>37.4 TB</td><td>317MB/s</td><td>98MB/s</td><td>1065MB/s</td></tr>
-<tr><td>raidz3 (raid7)</td><td>12x 4TB</td><td>33.6 TB</td><td>452MB/s</td><td>105MB/s</td><td>840MB/s</td></tr>
-<tr><td>2 striped 11x raidz3</td><td>22x 4TB</td><td>60.4 TB</td><td>567MB/s</td><td>162MB/s</td><td>1139MB/s</td></tr>
-<tr><td>22x 4TB</td><td>2 striped 11x raidz3</td><td>60.4 TB</td><td>567MB/s</td><td>162MB/s</td><td>1139MB/s</td></tr>
-<tr><td>23x 4TB</td><td>raidz3 (raid7)</td><td>74.9 TB</td><td>440MB/s</td><td>157MB/s</td><td>1146MB/s</td></tr>
-<tr><td>24x 4TB</td><td>12 striped mirrors</td><td>45.2 TB</td><td>696MB/s</td><td>144MB/s</td><td>898MB/s</td></tr>
-<tr><td>24x 4TB</td><td>raidz (raid5)</td><td>86.4 TB</td><td>567MB/s</td><td>198MB/s</td><td>1304MB/s</td></tr>
-<tr><td>24x 4TB</td><td>raidz2 (raid6)</td><td>82.0 TB</td><td>434MB/s</td><td>189MB/s</td><td>1063MB/s</td></tr>
-<tr><td>24x 4TB</td><td>raidz3 (raid7)</td><td>78.1 TB</td><td>405MB/s</td><td>180MB/s</td><td>1117MB/s</td></tr>
-<tr><td>24x 4TB</td><td>striped raid0</td><td>90.4 TB</td><td>692MB/s</td><td>260MB/s</td><td>1377MB/s</td></tr>
-</tbody></table>
-</div></li>
+</li>
+<li>
+<p>RAID 在 SSD 上如何实现比较好？</p>
+<p>Parity-Stream Separation and SLC/MLC Convertible Programming for Lifespan and Performance Improvement of SSD RAIDs</p>
+</li>
+<li>
+<p>ZNS 的 Zones 有两种：<code>seq</code> / <code>cnv</code>。前者不能随机写入，只能顺序写入；后者可以随机写入，就像普通的硬盘一样。<strong>如何利用这两种 Zones 的特点在 ZNS 上运行 RAID 的算法？</strong></p>
+<ol>
+<li>两种 Zone 的兼容问题
+<ol>
+<li>Cnv Zones 兼容 Seq Zones，不过兼容会造成 FTL Map 空间的浪费</li>
 </ol>
+</li>
+<li>SSD 块大小兼容问题
+<ol>
+<li>不同的 Seq 可以看作最小长度的多个 Seq Zones</li>
+<li>不同的 Cnv Zones 可以划分为更小的小块来尽可能抹平</li>
+</ol>
+</li>
+<li>Seq Zones 上如何实现各种 RAID 算法</li>
+</ol>
+</li>
+<li>
+<p>RAID 的性能参数选择评估？<a href="https://blog.csdn.net/TV8MbnO2Y2RfU/article/details/78103790">如何设置 RAID 组的 Strip Size</a></p>
+</li>
+</ol>
+<p>RAID 是指独立冗余磁盘阵列（Redundant Array of Independent Disks），它是一种数据存储技术，通过将多个硬盘组合起来，实现数据的备份、容错和性能优化。</p>
+<h3 id="实现原理"><a class="header" href="#实现原理">实现原理</a></h3>
+<p>经过一些讨论，我们认为基于 Zones 的混合 RAID 是可以实现的。</p>
+<h4 id="raid0-逻辑"><a class="header" href="#raid0-逻辑">RAID0 逻辑</a></h4>
+<p>RAID0（磁盘条带化）是一种基本的RAID级别，它将两个或多个磁盘驱动器组合成一个逻辑卷。在RAID0中，数据被分割成固定大小的块，并沿着所有磁盘驱动器进行交错写入，从而提高了读写性能。</p>
+<p>RAID0的工作原理如下：</p>
+<ol>
+<li>数据被分割成固定大小的块。</li>
+<li>这些块按照一定的规则，如轮流或按块交替，分配到不同的物理磁盘驱动器上。</li>
+<li>每个磁盘驱动器只存储一部分数据，因此所有磁盘驱动器都可以同时读写数据，从而提高了读写速度。</li>
+<li>当需要读取数据时，RAID控制器会从所有驱动器中读取数据块，然后将它们组合成完整的数据块，并将其发送给请求数据的主机。</li>
+</ol>
+<p>需要注意的是，RAID0没有冗余性，因此如果其中一个磁盘驱动器故障，整个系统将无法访问存储在该磁盘驱动器上的所有数据。因此，在使用RAID0时，应该备份重要的数据以防止数据丢失。</p>
+<p>基于 Zones 的 RAID0，实际上就是将不同 Device 上的多个 Zones 当作一个 Device 上的来处理，并且尽量均衡分配读写负载。具体到两种 Zone 类型 <code>seq</code>/<code>conv</code>，要分别把设备上的两种 Zone 作为两类处理。</p>
+<p>对 <code>conv</code> 类型，可以按照传统的 RAID0 逻辑处理，按相同大小的小块（条带）平均写入到不同设备上的 Zones 上即可。</p>
+<p>对 <code>seq</code> 类型，则不能按照传统形式的 RAID0 逻辑来处理。如果分配了相同大小的条带，那么这些 Zones 的写指针就并不能抽象为逐个逐步写满的，而是同时写的，造成不能单独地对这些 Zones 进行 Reset 操作，并且需要特殊考虑这些 Zones 的占用大小。</p>
+<p>要解决这问题，一种方案是修改 ZenFS 的 Zone Management 逻辑：</p>
+<ol>
+<li>对一个 RAID 组内的 Zones，不能单独设置其中单独一个 Zone 的 Reset，只能对整个 RAID 组内所有 Zones 进行 Reset；</li>
+<li>考虑 Zones 的已用容量的时候，只能考虑整个 RAID 的已用容量。</li>
+</ol>
+<p>另一种方案是将一个 RAID 区域抽象为一个 Zone：</p>
+<ol>
+<li>结构上，这个抽象的 RAID Zone 包含来自多个 Devices 的多个 Zones；</li>
+<li>逻辑上，屏蔽了对实际 Zone 的 Reset 和求写指针操作，抽象为一个统一的 RAID Zone 的 Reset 和写指针操作；</li>
+<li>会造成一些限制，例如显著增大了 Zone Size，再一次降低了 Zones 管理能力。</li>
+</ol>
+<p>实现上可以先采用抽象为 RAID Zone 来实现 RAID0 的方案，之后再修改 ZenFS 的逻辑。</p>
+<h4 id="raid1-逻辑"><a class="header" href="#raid1-逻辑">RAID1 逻辑</a></h4>
+<p>上文中谈论的 <code>seq</code> Zones 的限制，对其他大部分 RAID 类型同样成立，不过 RAID1 由于其 1:1 镜像的特殊性，可以做到更简单直接的抽象。具体而言，将 N 个 Device 上所有的 <code>seq</code> 同时映射到一个 RAID Zone，写的时候直接写 N 份，读的时候做一下读负载均衡。如此实现的话则不需要考虑 RAID 条带分割的问题。</p>
+<h4 id="raid5-逻辑"><a class="header" href="#raid5-逻辑">RAID5 逻辑</a></h4>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="文件系统通用性"><a class="header" href="#文件系统通用性">文件系统通用性</a></h2>
 <p>本方向将研究 ZenFS 以及其他通用的文件系统 在 ZNS 上的应用。</p>
 <h3 id="让-zenfs-更加通用"><a class="header" href="#让-zenfs-更加通用">让 ZenFS 更加通用</a></h3>
@@ -1217,7 +1256,7 @@ ML 训练数据</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="研究目标"><a class="header" href="#研究目标">研究目标</a></h2>
 <h3 id="初赛目标"><a class="header" href="#初赛目标">初赛目标</a></h3>
-<p>总体：在几个方向有比较完善的可以以数值衡量的工作，并有一个可以通过 POSIX 接口调用的主要文件系统。</p>
+<p>总体：在几个方向有比较完善的可以以数值衡量的工作，<del>并有一个可以通过 POSIX 接口调用的主要文件系统。</del></p>
 <h4 id="raid-1"><a class="header" href="#raid-1">RAID</a></h4>
 <p>基于 Zones 的 RAID：</p>
 <ol>
