@@ -59,6 +59,8 @@ RAID0的工作原理如下：
 2. 逻辑上，屏蔽了对实际 Zone 的 Reset 和求写指针操作，抽象为一个统一的 RAID Zone 的 Reset 和写指针操作；
 3. 会造成一些限制，例如显著增大了 Zone Size，再一次降低了 Zones 管理能力。
 
+还有一种方案是让 ZenFS 支持不同大小的 Zones。
+
 实现上可以先采用抽象为 RAID Zone 来实现 RAID0 的方案，之后再修改 ZenFS 的逻辑。
 
 #### RAID1 逻辑
@@ -67,3 +69,10 @@ RAID0的工作原理如下：
 
 #### RAID5 逻辑
 
+#### 动态 RAID 逻辑
+
+为了实现动态的分块 RAID 逻辑分配，需要让 ZenFS 支持文件系统的动态扩容和缩容，同时需要找到存储 Zone - RAID 分配策略这一 `map` 数据的位置。
+
+ZenFS 目前应该是不支持动态缩小容量的，当数据后端的 Zone 数量小于 Superblocks 中记录的值的时候，会拒绝挂载。但是如果 Zone 数量大于 Superblocks 中的记录，目前暂时没有找到类似的处理策略，可能能够用运行中修改 `ZenFS::superblock_.nr_zones_` 的方法来扩容，但是结果未知，可能需要测试。如果需要动态缩小容量，可能需要使用 GC 逻辑。
+
+存储额外的 RAID Zone 映射，可能需要使用 `aux_path`……
