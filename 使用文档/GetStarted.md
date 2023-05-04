@@ -13,15 +13,15 @@
 原 ZenFS 项目构建方式。
 
 ```shell
-# 从我们 Fork 的项目 Clone，并且同时同步子项目 ZenFS
-git clone https://github.com/RethinkFS/rocksdb -b zenfs --recursive
+# 从我们 Fork 的项目 Clone，并且同时同步子项目
+git clone https://github.com/RethinkFS/rocksdb -b aquafs --recursive
 ```
 
 从命令行构建：
 
 ```shell
 # 需要额外设置参数 ZENFS_STANDALONE=0
-cmake -B build -S . -DROCKSDB_PLUGINS=zenfs -DZENFS_STANDALONE=0
+cmake -B build -S . -DROCKSDB_PLUGINS="aquafs zenfs" -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1
 # 构建
 cmake --build build
 ```
@@ -34,11 +34,11 @@ cmake --build build
 
 ```shell
 # 命令行构建，需要额外设置参数 DEBUG_LEVEL=0
-cmake -B build -S . -DROCKSDB_PLUGINS=zenfs -DZENFS_STANDALONE=0 -DDEBUG_LEVEL=0
+cmake -B build -S . -DROCKSDB_PLUGINS="aquafs zenfs" -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1 -DDEBUG_LEVEL=0
 # 构建
 cmake --build build
 # 执行
-cd build && ./db_bench --fs_uri=zenfs://dev:nullb0 --benchmarks=fillrandom --use_direct_io_for_flush_and_compaction
+cd build && ./db_bench --fs_uri=aquafs://dev:nullb0 --benchmarks=fillrandom --use_direct_io_for_flush_and_compaction
 ```
 
 或者在 IDEA 中添加 `-DDEBUG_LEVEL=0` 然后选择 `db_bench` 目标进行构建。
