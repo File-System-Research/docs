@@ -31,6 +31,8 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     </head>
     <body>
     <div id="body-container">
@@ -1378,7 +1380,9 @@ cd build &amp;&amp; ./db_bench --fs_uri=aquafs://dev:nullb0 --benchmarks=fillran
 
         <script>
         window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
         });
         </script>
 
