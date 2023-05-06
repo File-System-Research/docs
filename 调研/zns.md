@@ -14,6 +14,56 @@ ZNS-SSD的吞吐和延时不受GC影响，且不需要额外的OP空间。 zenfs
 
 > 不需要垃圾回收，需要上层软件配合，保证一个zone在全部数据失效的时候擦除。
 
+**ZNS 的结构：Zone**
+
+摘自 `/usr/include/linux/blkzoned.h`：
+
+```c
+/**
+ * enum blk_zone_type - Types of zones allowed in a zoned device.
+ *
+ * @BLK_ZONE_TYPE_CONVENTIONAL: The zone has no write pointer and can be writen
+ *                              randomly. Zone reset has no effect on the zone.
+ * @BLK_ZONE_TYPE_SEQWRITE_REQ: The zone must be written sequentially
+ * @BLK_ZONE_TYPE_SEQWRITE_PREF: The zone can be written non-sequentially
+ *
+ * Any other value not defined is reserved and must be considered as invalid.
+ */
+enum blk_zone_type {
+	BLK_ZONE_TYPE_CONVENTIONAL	= 0x1,
+	BLK_ZONE_TYPE_SEQWRITE_REQ	= 0x2,
+	BLK_ZONE_TYPE_SEQWRITE_PREF	= 0x3,
+};
+```
+
+摘自 `libzbd/zdb.h`：
+
+```c
+/**
+ * @brief Zone types
+ *
+ * @ZBD_ZONE_TYPE_CNV: The zone has no write pointer and can be writen
+ *		       randomly. Zone reset has no effect on the zone.
+ * @ZBD_ZONE_TYPE_SWR: The zone must be written sequentially
+ * @ZBD_ZONE_TYPE_SWP: The zone can be written randomly
+ */
+enum zbd_zone_type {
+	ZBD_ZONE_TYPE_CNV	= BLK_ZONE_TYPE_CONVENTIONAL,
+	ZBD_ZONE_TYPE_SWR	= BLK_ZONE_TYPE_SEQWRITE_REQ,
+	ZBD_ZONE_TYPE_SWP	= BLK_ZONE_TYPE_SEQWRITE_PREF,
+};
+```
+
+Zone 的分类：
+
+1. Conventional Zone
+   1. 块内地址能够随机写
+   2. 没有写指针机制（与普通 SSD 一致）
+   3. Reset 对这种 Zone 无效
+2. Sequentially Write Required Zone
+   1. 不能随机写，必须从当前 Zone 的写指针开始顺序写
+   2. 可以 Reset 来清除指针值
+
 #### Zenfs
 
 **Linux内核对ZNS的支持**
