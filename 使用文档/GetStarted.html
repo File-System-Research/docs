@@ -151,12 +151,12 @@
 <p><em>目前暂时不可用于读写性能测试</em>。</p>
 <h4 id="plugin-mode"><a class="header" href="#plugin-mode">Plugin Mode</a></h4>
 <p>原 ZenFS 项目构建方式。</p>
-<pre><code class="language-shell"># 从我们 Fork 的项目 Clone，并且同时同步子项目 ZenFS
-git clone https://github.com/RethinkFS/rocksdb -b zenfs --recursive
+<pre><code class="language-shell"># 从我们 Fork 的项目 Clone，并且同时同步子项目
+git clone https://github.com/RethinkFS/rocksdb -b aquafs --recursive
 </code></pre>
 <p>从命令行构建：</p>
 <pre><code class="language-shell"># 需要额外设置参数 ZENFS_STANDALONE=0
-cmake -B build -S . -DROCKSDB_PLUGINS=zenfs -DZENFS_STANDALONE=0
+cmake -B build -S . -DROCKSDB_PLUGINS=&quot;aquafs zenfs&quot; -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1
 # 构建
 cmake --build build
 </code></pre>
@@ -164,11 +164,11 @@ cmake --build build
 <p><img src="GetStarted.assets/image-20230430213101803.png" alt="image-20230430213101803" /></p>
 <p>构建 <code>db_bench</code> 用于性能测试：</p>
 <pre><code class="language-shell"># 命令行构建，需要额外设置参数 DEBUG_LEVEL=0
-cmake -B build -S . -DROCKSDB_PLUGINS=zenfs -DZENFS_STANDALONE=0 -DDEBUG_LEVEL=0
+cmake -B build -S . -DROCKSDB_PLUGINS=&quot;aquafs zenfs&quot; -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1 -DDEBUG_LEVEL=0
 # 构建
 cmake --build build
 # 执行
-cd build &amp;&amp; ./db_bench --fs_uri=zenfs://dev:nullb0 --benchmarks=fillrandom --use_direct_io_for_flush_and_compaction
+cd build &amp;&amp; ./db_bench --fs_uri=aquafs://dev:nullb0 --benchmarks=fillrandom --use_direct_io_for_flush_and_compaction
 </code></pre>
 <p>或者在 IDEA 中添加 <code>-DDEBUG_LEVEL=0</code> 然后选择 <code>db_bench</code> 目标进行构建。</p>
 
