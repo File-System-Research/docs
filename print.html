@@ -1625,8 +1625,9 @@ $$
 <pre><code class="language-shell"># 从我们 Fork 的项目 Clone，并且同时同步子项目
 git clone https://github.com/RethinkFS/rocksdb -b aquafs --recursive
 </code></pre>
+<p>此时 <code>plugin/zenfs</code> 和 <code>plugin/aquafs</code> 被作为子项目的形式 checkout 到对应路径，二者是地位等同的 RocksDB 插件，通过 <code>fs_uri</code> 指定。</p>
 <p>从命令行构建：</p>
-<pre><code class="language-shell"># 需要额外设置参数 ZENFS_STANDALONE=0
+<pre><code class="language-shell"># 需要额外设置参数 ZENFS_STANDALONE=0；需要额外加载 libsnappy 作为压缩库
 cmake -B build -S . -DROCKSDB_PLUGINS=&quot;aquafs zenfs&quot; -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1
 # 构建
 cmake --build build
@@ -1642,6 +1643,78 @@ cmake --build build
 cd build &amp;&amp; ./db_bench --fs_uri=aquafs://dev:nullb0 --benchmarks=fillrandom --use_direct_io_for_flush_and_compaction
 </code></pre>
 <p>或者在 IDEA 中添加 <code>-DDEBUG_LEVEL=0</code> 然后选择 <code>db_bench</code> 目标进行构建。</p>
+<blockquote>
+<p><code>db_bench</code> 的一些有用的参数：</p>
+<ol>
+<li>
+<p><code>--fs_uri=aquafs://raida:dev:nullb0,dev:nullb1</code></p>
+<p>用于指定测试中的存储文件系统。<code>aquafs://</code> 则为使用我们修改后的文件系统，<code>zenfs://</code> 则为原文件系统。</p>
+</li>
+<li>
+<p><code>--benchmarks=fillrandom</code></p>
+<p>选择需要运行的测试。可用的测试：</p>
+<pre><code>	&quot;fillseq,&quot;
+    &quot;fillseqdeterministic,&quot;
+    &quot;fillsync,&quot;
+    &quot;fillrandom,&quot;
+    &quot;filluniquerandomdeterministic,&quot;
+    &quot;overwrite,&quot;
+    &quot;readrandom,&quot;
+    &quot;newiterator,&quot;
+    &quot;newiteratorwhilewriting,&quot;
+    &quot;seekrandom,&quot;
+    &quot;seekrandomwhilewriting,&quot;
+    &quot;seekrandomwhilemerging,&quot;
+    &quot;readseq,&quot;
+    &quot;readreverse,&quot;
+    &quot;compact,&quot;
+    &quot;compactall,&quot;
+    &quot;flush,&quot;
+    &quot;compact0,&quot;
+    &quot;compact1,&quot;
+    &quot;waitforcompaction,&quot;
+    &quot;multireadrandom,&quot;
+    &quot;mixgraph,&quot;
+    &quot;readseq,&quot;
+    &quot;readtorowcache,&quot;
+    &quot;readtocache,&quot;
+    &quot;readreverse,&quot;
+    &quot;readwhilewriting,&quot;
+    &quot;readwhilemerging,&quot;
+    &quot;readwhilescanning,&quot;
+    &quot;readrandomwriterandom,&quot;
+    &quot;updaterandom,&quot;
+    &quot;xorupdaterandom,&quot;
+    &quot;approximatesizerandom,&quot;
+    &quot;randomwithverify,&quot;
+    &quot;fill100K,&quot;
+    &quot;crc32c,&quot;
+    &quot;xxhash,&quot;
+    &quot;xxhash64,&quot;
+    &quot;xxh3,&quot;
+    &quot;compress,&quot;
+    &quot;uncompress,&quot;
+    &quot;acquireload,&quot;
+    &quot;fillseekseq,&quot;
+    &quot;randomtransaction,&quot;
+    &quot;randomreplacekeys,&quot;
+    &quot;timeseries,&quot;
+    &quot;getmergeoperands,&quot;,
+    &quot;readrandomoperands,&quot;
+    &quot;backup,&quot;
+    &quot;restore&quot;
+</code></pre>
+</li>
+<li>
+<p><code>--use_direct_io_for_flush_and_compaction</code></p>
+<p>当使用 DirectIO 的时候，数据请求将不会经过 Kernel，而是直接访问设备，能够有效降低访问延迟，提高带宽。</p>
+</li>
+<li>
+<p><code>--use_stderr_info_logger</code></p>
+<p>将 <code>stderr</code> 作为 <code>logger</code> 的输出。</p>
+</li>
+</ol>
+</blockquote>
 
                     </main>
 
