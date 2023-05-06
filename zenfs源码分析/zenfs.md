@@ -379,9 +379,11 @@ class ZenFS : public FileSystemWrapper {
 1. 选择一个metazone作为log记录的zone。
 2. 写入superblock和各个zonfile编码到metazone中。
 
+## ZenFs整体框架
 
+基于理解，绘制出ZenFs框架图如下：
 
-
+![meta_form](./img/zenfs.png)
 
 
 
