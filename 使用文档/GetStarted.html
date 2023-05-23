@@ -166,8 +166,9 @@ cmake --build build
 <p>在 IDEA 中构建：</p>
 <p><img src="GetStarted.assets/image-20230430213101803.png" alt="image-20230430213101803" /></p>
 <p>构建 <code>db_bench</code> 用于性能测试：</p>
-<pre><code class="language-shell"># 命令行构建，需要额外设置参数 DEBUG_LEVEL=0
-cmake -B build -S . -DROCKSDB_PLUGINS=&quot;aquafs zenfs&quot; -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1 -DDEBUG_LEVEL=0
+<pre><code class="language-shell"># 命令行构建，需要额外设置参数 DEBUG_LEVEL=0 以及 数据收集用 prometheus
+cmake -B build -S . \
+    -DROCKSDB_PLUGINS=&quot;aquafs zenfs&quot; -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1 -DDEBUG_LEVEL=0 -DAQUAFS_EXPORT_PROMETHEUS=1
 # 构建
 cmake --build build
 # 创建两个 nullblk 设备：nullb0 nullb1
