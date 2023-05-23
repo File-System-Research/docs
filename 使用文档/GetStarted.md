@@ -35,8 +35,9 @@ cmake --build build
 构建 `db_bench` 用于性能测试：
 
 ```shell
-# 命令行构建，需要额外设置参数 DEBUG_LEVEL=0
-cmake -B build -S . -DROCKSDB_PLUGINS="aquafs zenfs" -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1 -DDEBUG_LEVEL=0
+# 命令行构建，需要额外设置参数 DEBUG_LEVEL=0 以及 数据收集用 prometheus
+cmake -B build -S . \
+    -DROCKSDB_PLUGINS="aquafs zenfs" -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1 -DDEBUG_LEVEL=0 -DAQUAFS_EXPORT_PROMETHEUS=1
 # 构建
 cmake --build build
 # 创建两个 nullblk 设备：nullb0 nullb1
