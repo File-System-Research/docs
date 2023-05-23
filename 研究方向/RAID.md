@@ -76,3 +76,7 @@ RAID0的工作原理如下：
 ZenFS 目前应该是不支持动态缩小容量的，当数据后端的 Zone 数量小于 Superblocks 中记录的值的时候，会拒绝挂载。但是如果 Zone 数量大于 Superblocks 中的记录，目前暂时没有找到类似的处理策略，可能能够用运行中修改 `ZenFS::superblock_.nr_zones_` 的方法来扩容，但是结果未知，可能需要测试。如果需要动态缩小容量，可能需要使用 GC 逻辑。
 
 存储额外的 RAID Zone 映射，可能需要使用 `aux_path`……
+#### 异步读写
+目前使用`io_uring`异步读写多个device，以达到提高读写性能的目的。
+
+`liburing`的使用：https://arthurchiao.art/blog/intro-to-io-uring-zh/#27-%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E5%BA%93-liburing
