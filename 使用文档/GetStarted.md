@@ -39,8 +39,24 @@ cmake --build build
 cmake -B build -S . -DROCKSDB_PLUGINS="aquafs zenfs" -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1 -DDEBUG_LEVEL=0
 # 构建
 cmake --build build
-# 执行
-cd build && ./db_bench --fs_uri=aquafs://dev:nullb0 --benchmarks=fillrandom --use_direct_io_for_flush_and_compaction
+# 创建两个 nullblk 设备：nullb0 nullb1
+sudo ./plugin/aquafs/tests/nullblk/nullblk-zoned.sh 4096 32 0 64
+sudo ./plugin/aquafs/tests/nullblk/nullblk-zoned.sh 4096 32 0 64
+cd build
+# 对单个设备测试
+## 创建文件系统
+mkdir -p /tmp/aquafs
+sudo ./plugin/aquafs/aquafs mkfs --zbd nullb0 --aux-path /tmp/aquafs
+## 跑分
+sudo ./db_bench --fs_uri=aquafs://dev:nullb0 \
+    --benchmarks=fillrandom --use_direct_io_for_flush_and_compaction --use_stderr_info_logger
+# 对两个设备的 RAID 测试
+## 创建文件系统
+mkdir -p /tmp/aquafs
+sudo ./plugin/aquafs/aquafs mkfs --raids=raida:dev:nullb0,dev:nullb1 --aux-path /tmp/aquafs
+## 跑分
+sudo ./db_bench --fs_uri=aquafs://raida:dev:nullb0,dev:nullb1 \
+    --benchmarks=fillrandom --use_direct_io_for_flush_and_compaction --use_stderr_info_logger
 ```
 
 或者在 IDEA 中添加 `-DDEBUG_LEVEL=0` 然后选择 `db_bench` 目标进行构建。
