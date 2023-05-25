@@ -9,3 +9,4 @@
 - [ ] TODO
   - [ ] 多个文件系统的融合
   - [ ] 基于 ZenFS 内的 Extent 或者 Record 的压缩
+- [ ] 整体架构
