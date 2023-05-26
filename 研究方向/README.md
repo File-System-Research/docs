@@ -9,4 +9,6 @@
 - [ ] TODO
   - [ ] 多个文件系统的融合
   - [ ] 基于 ZenFS 内的 Extent 或者 Record 的压缩
+  - [ ] io_uring 支持
+  - [ ] SPDK/NVME 支持
 - [ ] 整体架构
