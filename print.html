@@ -1139,6 +1139,10 @@ TODO
 多个文件系统的融合</li>
 <li><input disabled="" type="checkbox"/>
 基于 ZenFS 内的 Extent 或者 Record 的压缩</li>
+<li><input disabled="" type="checkbox"/>
+io_uring 支持</li>
+<li><input disabled="" type="checkbox"/>
+SPDK/NVME 支持</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"/>
@@ -1630,11 +1634,13 @@ $$
 │ ┌──────┴───┐ inode ┌──┴───────┐ │
 │ │ AquaZFS  │◄──────┤  ExtFS   │ │
 │ └──┬───────┘       └───┬──────┘ │
-│    │RAID    Extent     │        │
+│    │RAID         Extent│        │
 │    │   ┌───────────────┤Data    │
 │ ┌──┼───┼───────────────┼──────┐ │
 │ │  │   │Zones Allocator│      │ │
-│ ├──▼───▼───────┬───────▼──────┤ │
+│ ├──▼───▼───────────────▼──────┤ │
+│ │       io_uring/SPDK         │ │
+│ ├──────────────┬──────────────┤ │
 │ │ Seq Zones    │ Conv Zones   │ │
 └─┴──────────────┴──────────────┴─┘
 </code></pre>
