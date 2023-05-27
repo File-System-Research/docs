@@ -1683,6 +1683,36 @@ $$
 <p>AquaFS 中调参模块主要有两个部分：Configurator、Turner。</p>
 <p>Configurator 在文件系统创建前评估当前系统更适合的固定参数，并结合需求给出合适的参数选择和预估的性能区间。</p>
 <p>Turner 在文件系统使用过程中保持运行，根据系统当前状态动态调整可改变的参数，以获得更加灵活良好的整体表现。</p>
+<p><strong>可调参数</strong></p>
+<ol>
+<li>固定参数
+<ol>
+<li>块大小</li>
+<li>固定 RAID 参数</li>
+<li>数据后端类型</li>
+</ol>
+</li>
+<li>GC
+<ol>
+<li>GC 容量阈值</li>
+<li>GC 间隔时间</li>
+</ol>
+</li>
+<li>动态 RAID
+<ol>
+<li>分配时间（GC）</li>
+<li>分配参数（0/1/5...）</li>
+</ol>
+</li>
+<li>文件请求分类
+<ol>
+<li>分类为 SST、普通数据</li>
+<li>分类冷热文件/数据</li>
+</ol>
+</li>
+<li>IO 加速方式：io_uring/xNVME</li>
+<li></li>
+</ol>
 <h3 id="aquazfs-和-extfs"><a class="header" href="#aquazfs-和-extfs">AquaZFS 和 ExtFS</a></h3>
 <p>ExtFS 是主要运行于 Conv Zones 上的针对 ZNS 优化的文件系统。主要特性：</p>
 <ol>
@@ -1695,6 +1725,7 @@ $$
 <h3 id="raid"><a class="header" href="#raid">RAID</a></h3>
 <p>在 AquaZFS 从写盘前到实际写盘之间，存在一层 RAID 逻辑。</p>
 <ol>
+<li>可灵活配置为：静态固定参数 RAID、动态分区 RAID</li>
 <li>可以在用户态驱动 NVME，或者内核态使用 liburing 进行 IO 加速，充分利用多盘优势提升性能</li>
 <li>利用 Turner 提供的建议，在 AquaZFS 垃圾回收时或合并 Extent 时调整 RAID 逻辑，使文件系统在安全性、性能上有更好的权衡点</li>
 </ol>
@@ -1702,12 +1733,33 @@ $$
 <p>为 AquaZFS 和 ExtFS 提供统一的 Zones 分配服务。</p>
 <ol>
 <li>让整盘空间得到更加充分的利用，减少由于分开两种子系统造成的空间碎片</li>
-<li>根据历史数据，测算不同 Zones 的寿命和速度，来控制 Zones 的分配逻辑，延长磁盘寿命，提供磁盘吞吐</li>
+<li>根据历史数据，测算不同 Zones 的寿命和速度，来控制 Zones 的分配逻辑，延长磁盘寿命，提高磁盘吞吐</li>
 </ol>
 <h3 id="io-加速"><a class="header" href="#io-加速">IO 加速</a></h3>
 <p>在 AquaFS 向上提供 <code>FileSystem</code> 接口时，由于负载程序对 <code>FileSystem</code> 接口做了适配，所以可以让负载程序和整个 AquaFS 都跑在用户态。</p>
 <p>当 AquaFS 整个运行在用户态，可以使用 xNVME 用户态 NVME 协议驱动，降低内核态用户态切换的性能损失，同时也可用 io_uring 加速。</p>
 <p>若 AquaFS 使用 POSIX 接口，可以使用 VFS 或者 FUSE 接口，此时也可以用 xNVME 或者 io_uring 进行 IO 加速。</p>
+<h3 id="智能化"><a class="header" href="#智能化">智能化</a></h3>
+<p>这个架构的「智能」体现在哪？</p>
+<ol>
+<li>相比与 ZenFS，灵活性更强
+<ol>
+<li>适配没有针对优化的工作负载，智能识别适合 WAL 的数据，用更合适的方式处理</li>
+<li>可调整的静态、动态参数更多</li>
+<li>提供 RAID 功能，并可以动态分配</li>
+</ol>
+</li>
+<li>数据安全性更强：RAID 功能</li>
+<li>智能分配请求
+<ol>
+<li>在 Data Router 层合理分配 SST、普通数据请求</li>
+<li>在当前请求不适合 AquaZFS 的时候将 ExtFS 作为后备</li>
+<li>进行读写请求分离</li>
+</ol>
+</li>
+</ol>
+<h3 id="初赛目标"><a class="header" href="#初赛目标">初赛目标</a></h3>
+<p>RocksDB + <code>FileSystem</code> + Turner + AquaZFS + RAID</p>
 <div style="break-before: page; page-break-before: always;"></div><p>存储着进度报告的文件夹，你不知道它什么时候会更新。 </p>
 <div style="break-before: page; page-break-before: always;"></div><h3 id="raid-1"><a class="header" href="#raid-1">RAID</a></h3>
 <ol>
@@ -1777,7 +1829,7 @@ RAID 分配逻辑与 GC</li>
 Zones Allocator</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="研究目标"><a class="header" href="#研究目标">研究目标</a></h2>
-<h3 id="初赛目标"><a class="header" href="#初赛目标">初赛目标</a></h3>
+<h3 id="初赛目标-1"><a class="header" href="#初赛目标-1">初赛目标</a></h3>
 <p>总体：在几个方向有比较完善的可以以数值衡量的工作，<del>并有一个可以通过 POSIX 接口调用的主要文件系统。</del></p>
 <h4 id="raid-2"><a class="header" href="#raid-2">RAID</a></h4>
 <p>基于 Zones 的 RAID：</p>
