@@ -188,6 +188,8 @@
 <li><input disabled="" type="checkbox" checked=""/>
 使用 C++20 的协程使 <code>io_uring</code> 请求更加并行化</li>
 </ul>
+<p>协程和 <code>io_uring</code> 运行中的效果：</p>
+<p><img src="2023-06.assets/image-20230605234109945.png" alt="image-20230605234109945" /></p>
 </li>
 <li><input disabled="" type="checkbox"/>
 <p>测试</p>
@@ -195,7 +197,13 @@
 <li><input disabled="" type="checkbox" checked=""/>
 <p>可量化的 RAID 效果测试：</p>
 <p><img src="2023-06.assets/Screenshot_20230605_211448.png" alt="img" /></p>
-<p>通过在读写函数中加上高精度延时模拟磁盘读写延迟。</p>
+<p>通过在读写函数中加上高精度延时模拟磁盘读写延迟，按照访问延迟和数据传输延迟延时，然后计量函数运行时间。</p>
+<p>仍无法使用 <code>nvmevirt</code> 等更合理的软件仿真方式。</p>
+</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>程序性能测试</p>
+<p>利用 perf 分析性能热点，效果为大都几种在 Kernel 内部的 IO 路径上</p>
+<p><img src="2023-06.assets/image-20230605234141905.png" alt="image-20230605234141905" /></p>
 </li>
 </ul>
 </li>
