@@ -1844,6 +1844,15 @@ Zones Allocator</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"/>
+<p>完善分区 RAID 自动映射逻辑</p>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+从命令行配置：如果访问到非映射区域则添加哪一种类型的 RAID 分区</li>
+<li><input disabled="" type="checkbox"/>
+持久化分区存储配置</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"/>
 <p>添加 <code>io_uring</code> 等异步优化</p>
 <ul>
 <li><input disabled="" type="checkbox" checked=""/>
@@ -1885,9 +1894,9 @@ Zones Allocator</li>
 <li><input disabled="" type="checkbox"/>
 需求分析与调研
 <ul>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 需求分析</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 往年队伍实现的分析</li>
 <li><input disabled="" type="checkbox"/>
 国内外其他研究</li>
