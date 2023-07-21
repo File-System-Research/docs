@@ -22,8 +22,8 @@ git clone https://github.com/RethinkFS/rocksdb -b aquafs --recursive
 从命令行构建：
 
 ```shell
-# 需要额外设置参数 ZENFS_STANDALONE=0；需要额外加载 libsnappy 作为压缩库
-cmake -B build -S . -DROCKSDB_PLUGINS="aquafs zenfs" -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1
+# 注意 Configurate 时候需要的参数
+cmake -B build -S . -DROCKSDB_PLUGINS="AquaFS zenfs" -DWITH_SNAPPY=1 -DAQUAFS_EXPORT_PROMETHEUS=1 -DWITH_LIBURING=OFF
 # 构建
 cmake --build build
 ```
@@ -37,7 +37,7 @@ cmake --build build
 ```shell
 # 命令行构建，需要额外设置参数 DEBUG_LEVEL=0 以及 数据收集用 prometheus
 cmake -B build -S . \
-    -DROCKSDB_PLUGINS="aquafs zenfs" -DAQUAFS_STANDALONE=0 -DWITH_SNAPPY=1 -DAQUAFS_EXPORT_PROMETHEUS=1
+    -DROCKSDB_PLUGINS="AquaFS zenfs" -DWITH_SNAPPY=1 -DAQUAFS_EXPORT_PROMETHEUS=1 -DWITH_LIBURING=OFF
 # 构建
 cmake --build build
 # 创建两个 nullblk 设备：nullb0 nullb1
