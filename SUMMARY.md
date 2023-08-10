@@ -6,7 +6,7 @@
   * [nullblk](zns设备模拟/nullblk.md)
 * [调研](调研/README.md)
   * [Flash](调研/flash.md)
-  * [Flash 嵌入式文件系统](<调研/Flash 嵌入式文件系统.md>)
+  * [Flash 嵌入式文件系统](调研/Flash 嵌入式文件系统.md)
   * [F2FS](调研/f2fs.md)
   * [ZNS](调研/zns.md)
   * [zone分配策略](调研/zone分配策略.md)
@@ -29,3 +29,4 @@
 * [研究目标](研究目标.md)
 * [使用文档](使用文档/README.md)
   * [Get Started](使用文档/GetStarted.md)
+  * [Build](使用文档/Build.md)

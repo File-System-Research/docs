@@ -8,6 +8,11 @@
 
 *目前暂时不可用于读写性能测试*。
 
+*Fixme:*
+
+- [ ] Zone close failed
+- [ ] CURRENT file content error when using simple raid0
+
 #### Plugin Mode
 
 原 ZenFS 项目构建方式。
@@ -67,7 +72,6 @@ sudo ./db_bench --fs_uri=aquafs://raida:dev:nullb0,dev:nullb1 \
 > 1. `--fs_uri=aquafs://raida:dev:nullb0,dev:nullb1`
 >
 >    用于指定测试中的存储文件系统。`aquafs://` 则为使用我们修改后的文件系统，`zenfs://` 则为原文件系统。
->
 > 2. `--benchmarks=fillrandom`
 >
 >    选择需要运行的测试。可用的测试：
@@ -124,11 +128,13 @@ sudo ./db_bench --fs_uri=aquafs://raida:dev:nullb0,dev:nullb1 \
 >        "backup,"
 >        "restore"
 >    ```
->
 > 3. `--use_direct_io_for_flush_and_compaction`
 >
 >    当使用 DirectIO 的时候，数据请求将不会经过 Kernel，而是直接访问设备，能够有效降低访问延迟，提高带宽。
->
 > 4. `--use_stderr_info_logger`
 >
 >    将 `stderr` 作为 `logger` 的输出。
+
+### Source
+
+项目组织方式为多层 git submodule，当编辑内层 submodule 内容时如果需要同步 submodule 状态需要逐层向上提交。
